@@ -74,18 +74,24 @@ app.post('/compose', function(req, res) {
 	const heading = req.body.head;
 	const newNote = new Note({
 		id      : k,
-		heading : heading,
+		heading : _.kebabCase(heading),
 		content : composed
 	});
 	k++;
-	newNote.save();
-	res.redirect('/compose');
+	newNote.save(function(err) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.redirect('/compose');
+		}
+	});
 });
 
 //:postID
 app.get('/:postsID', function(req, res) {
 	const postID = _.lowerCase(req.params.postsID);
-	Note.findOne({ heading: postID }, function(err, doc) {
+	const kID = _.kebabCase(req.params.postsID);
+	Note.findOne({ heading: kID }, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
