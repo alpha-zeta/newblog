@@ -104,7 +104,6 @@ app.get('/:postsID', function(req, res) {
 });
 
 //listening
-app.listen(3000, function() {
-	console.log('Server started on port 3000');
+app.listen(process.env.PORT || 3000, function() {
+	console.log('Server started on');
 });
-//mongodb+srv://Admin-Anish:13ANN%23MAJ13@mycluster0-tyf2i.mongodb.net/todolistDB
