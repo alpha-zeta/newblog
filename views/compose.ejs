@@ -1,0 +1,12 @@
+<%- include('partials/header'); -%>
+    <h1>Compose</h1>
+    <form action="/compose" method="POST">
+        <div class="form-group">
+            <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
+            <input type="text" name="head" class="form-control form-control-lg" id="head" placeholder="Put your heading here..." autocomplete="off">    
+            <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
+            <textarea name="cmp" class="form-control form-control-sm" id="exampleFormControlTextarea1" placeholder="Compose here my freind..." rows="7"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary"name="btn">Submit</button>
+    </form>
+<%- include('partials/footer'); -%>

@@ -1,0 +1,14 @@
+<%- include('partials/header'); -%>
+    <h1>Home</h1>
+    <p><%= content %></p>
+   <% let j=150; %>
+   <% for(var i=0; i<array.length; i++){ %>
+        <div class="container">
+            <h2><a class="nav-link head-link" href="/<%= array[i].heading %>"><%=array[i].heading%></a></h2>
+            <p><%=array[i].content.substring(0,j)%>
+            <% if(j<array[i].content.length){ %>
+                ...</p>
+            <% } %>
+        </div>
+        <% }; %>
+<%- include('partials/footer'); -%>
