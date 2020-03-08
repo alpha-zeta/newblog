@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const _ = require('lodash');
+const he = require('he');
 let k = 1;
 
 //mongoose setup
@@ -74,7 +75,7 @@ app.post('/compose', function(req, res) {
 	const heading = req.body.head;
 	const newNote = new Note({
 		id      : k,
-		heading : _.kebabCase(heading),
+		heading : heading,
 		content : composed
 	});
 	k++;
@@ -89,9 +90,9 @@ app.post('/compose', function(req, res) {
 
 //:postID
 app.get('/:postsID', function(req, res) {
-	const postID = _.lowerCase(req.params.postsID);
-	const kID = _.kebabCase(req.params.postsID);
-	Note.findOne({ heading: kID }, function(err, doc) {
+	const postID = he.decode(req.params.postsID);
+	console.log(postID);
+	Note.findOne({ heading: postID }, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
@@ -102,7 +103,7 @@ app.get('/:postsID', function(req, res) {
 		} else {
 			console.log(doc);
 			res.render('post', {
-				postHead    : doc.heading,
+				postHead    : postID,
 				postContent : doc.content
 			});
 		}
