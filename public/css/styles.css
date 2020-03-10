@@ -160,8 +160,8 @@ textarea {
 	.nav-link {
 		font-size: 1.5rem;
 	}
-	.container {
-		margin-right: 10rem;
-		margin-left: 10rem;
+	.mobile {
+		margin-right: 3rem;
+		margin-left: 3rem;
 	}
 }
