@@ -1,6 +1,7 @@
 html,
 body {
 	height: 100%;
+	font-family: 'Baloo Chettan 2', cursive;
 }
 * {
 	margin: 0;
@@ -78,9 +79,67 @@ hr {
 	height: 11.25rem;
 	width: 19rem;
 }
-.fullcontent {
+textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
+.send {
+	border: none;
+}
+.send:hover {
+	color: #baf1a1;
+}
+.fa-paper-plane {
+	font-size: 3rem;
+}
+#comment {
+	display: inline;
+	width: 90%;
+	border-radius: 10px;
+	resize: none;
+}
+.newComm {
+	margin-bottom: 1.5rem;
+}
+.form-control {
+	border-radius: 10px;
+}
+.commentLabel {
+	display: block;
+}
+.navbar-brand {
+	font-family: 'Acme', sans-serif;
+}
+.com {
+	margin: 2rem;
+	padding: 2rem;
+	background-color: #d1cebd;
+	border-radius: 30px;
+}
+.fullcontent {
+	text-align: justify;
+}
+.commNew {
+	font-size: 2rem;
+}
+.like {
+	font-size: 2rem;
+	border: none;
+	background-color: #d1cebd;
+}
+.like:hover {
+	color: #323edd;
+}
+.reply {
+	float: right;
+	font-size: 2rem;
+	border: none;
+	background-color: #d1cebd;
+}
+.reply:hover {
+	color: #323edd;
+}
+
+/*mobile phone*/
 @media (max-width: 1080px) {
 	.image {
 		height: 20vh;
@@ -95,9 +154,9 @@ hr {
 		font-size: 3rem;
 	}
 	.navbar-brand {
-		font-size: 3rem;
+		font-size: 2.5rem;
 	}
 	.nav-link {
-		font-size: 2rem;
+		font-size: 1.5rem;
 	}
 }

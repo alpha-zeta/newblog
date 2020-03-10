@@ -1,9 +1,39 @@
 <%- include('partials/header'); -%>
-
 <div class="content">
-<div class="container">
-    <img class="image" src="<%= imgL %>" alt="">
-    <h1><%= postHead %></h1>
-    <p class="fullcontent"><%= postContent %></p>
+    <div class="container">
+        <img class="image" src="<%= imgL %>" alt="">
+        <h1><%= postHead %></h1>
+        <div class="d-t">
+            <span><%= date %> </span>
+            <span><%= time %></span>
+        </div>
+        <hr>
+        <p class="fullcontent"><%= postContent %></p>
+        <hr>
+        <form action="/comments" method="POST">
+            <input type="hidden" name="ID" value="<%= id %>">
+            <input type="hidden" name="titleID" value="<%= postHead %>">
+            <label for="exampleFormControlTextarea1"><strong>Name</strong></label>
+            <input class="form-control form-control-lg" id="head"name="commentator" autocomplete="off" placeholder="Enter your name here..." type="text">
+            <div class="newComm">
+                <label class="commentLabel" for="exampleFormControlTextarea1"><strong>Comment</strong></label>
+                <textarea name="comment" id="comment"class="form-control form-control-sm" id="exampleFormControlTextarea1" placeholder="Comment here..." cols="2" rows="4"></textarea>
+                <button type="submit" class="send"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </form>
+        <hr>
+        <% for(var i=0; i<array.length; i++){ %>
+            <div class="com">
+                <h3><%= array[i].commentator %></h3>
+                <div class="d-t">
+                    <span><%= array[i].comDate %>, </span>
+                    <span><%= array[i].comTime %></span>
+                </div>
+                <hr>
+                <p class="commNew"><%= array[i].comment %></p>
+                <button class="like"><i class="fab fa-the-red-yeti"></i></button>
+                <button class="reply"><i class="fas fa-reply"></i></button>
+            </div>
+        <% } %>
     </div>
 <%- include('partials/footer'); -%>

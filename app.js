@@ -35,15 +35,29 @@ const aboutContent =
 const contactContent =
 	'Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.';
 
+//comments collection creation
+const commentsSchema = new mongoose.Schema({
+	id          : Number,
+	commentator : String,
+	comment     : String,
+	reply       : {
+		replier : String,
+		reply   : String
+	},
+	comDate     : String,
+	comTime     : String
+});
+const Comment = new mongoose.model('Comment', commentsSchema);
+
 //notes collection creation
 const notesSchema = new mongoose.Schema({
-	id            : Number,
 	heading       : String,
 	content       : String,
 	date          : String,
 	time          : String,
 	thumbnailLink : String,
-	imageLinks    : String
+	imageLinks    : String,
+	comments      : Array
 });
 const Note = new mongoose.model('Note', notesSchema);
 
@@ -118,7 +132,11 @@ app.get('/:postsID', function(req, res) {
 			res.render('post', {
 				postHead    : postID,
 				postContent : doc.content,
-				imgL        : doc.thumbnailLink
+				imgL        : doc.thumbnailLink,
+				date        : doc.date,
+				time        : doc.time,
+				id          : doc._id,
+				array       : doc.comments
 			});
 		}
 	});
@@ -132,6 +150,35 @@ app.post('/delete', function(req, res) {
 	});
 });
 
+//comments
+app.post('/comments', function(req, res) {
+	const postId = req.param.postsId;
+	let commentator = req.body.commentator;
+	if (commentator === '') {
+		commentator = 'Anonymous';
+	}
+	const comment = req.body.comment;
+	const title = req.body.titleID;
+	const id = req.body.ID;
+	const newComment = new Comment({
+		commentator : commentator,
+		comment     : comment,
+		comDate     : date(),
+		comTime     : time()
+	});
+	newComment.save();
+	Note.findOneAndUpdate({ _id: id }, { $push: { comments: newComment } }, function(err, doc) {
+		if (err) {
+			console.log(err);
+		} else if (!doc) {
+			res.redirect('/' + title);
+			alert('404 file not found');
+		} else {
+			console.log('success');
+			res.redirect('/' + title);
+		}
+	});
+});
 //listening
 app.listen(process.env.PORT || 3000, function() {
 	console.log('Server started on');
