@@ -75,4 +75,19 @@ hr {
 	.image {
 		height: 20vh;
 	}
+	p {
+		font-size: 2rem;
+	}
+	h1 {
+		font-size: 5rem;
+	}
+	h2 {
+		font-size: 3rem;
+	}
+	.navbar-brand {
+		font-size: 6rem;
+	}
+	.nav-link {
+		font-size: 3rem;
+	}
 }
