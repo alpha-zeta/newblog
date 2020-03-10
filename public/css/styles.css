@@ -71,7 +71,7 @@ hr {
 .fullcontent {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
-@media screen and (device-width: 360px) and (device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+@media (max-width: 1080px) {
 	.image {
 		height: 20vh;
 	}
