@@ -84,6 +84,7 @@ textarea {
 }
 .send {
 	border: none;
+	background-color: #fff;
 }
 .send:hover {
 	color: #baf1a1;
@@ -158,5 +159,9 @@ textarea {
 	}
 	.nav-link {
 		font-size: 1.5rem;
+	}
+	.container {
+		margin-right: 10rem;
+		margin-left: 10rem;
 	}
 }
