@@ -1,6 +1,5 @@
-.container-fluid {
-	padding-top: 70px;
-	padding-bottom: 70px;
+.content {
+	margin-top: 0.5rem;
 }
 .navbar {
 	padding-top: 15px;
@@ -29,6 +28,7 @@
 }
 .head-link:hover {
 	color: #1abc9c !important;
+	text-decoration: none;
 }
 .footer {
 	text-align: center;
@@ -45,4 +45,30 @@
 }
 .content {
 	min-height: 800px;
+}
+h2 {
+	display: block;
+}
+.d-t {
+	display: block;
+}
+.head {
+	vertical-align: top;
+}
+.image {
+	height: 50vh;
+	/*min-width: 1903px;*/
+	width: 100%;
+}
+hr {
+	border: 1px solid #a6b1e1 !important;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+.item {
+	height: 11.25rem;
+	width: 19rem;
+}
+.fullcontent {
+	white-space: pre-wrap; /* //all whitespace preserved */
 }

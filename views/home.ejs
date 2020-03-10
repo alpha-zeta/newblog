@@ -1,14 +1,35 @@
 <%- include('partials/header'); -%>
-    <h1>Home</h1>
-    <p><%= content %></p>
-   <% let j=150; %>
-   <% for(var i=0; i<array.length; i++){ %>
-        <div class="container">
-            <h2><a class="nav-link head-link" href="/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
-            <p><%=array[i].content.substring(0,j)%>
-            <% if(j<array[i].content.length){ %>
-                ...</p>
-            <% } %>
-        </div>
-        <% }; %>
+<img class="image" src="https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png" alt="">
+  <div class="content">
+    <div class="container">
+        <h1>Home</h1>
+        <p><%= content %></p>
+        <% let j=30; %>
+            <div class="container">
+                <div class="row">
+                        <% for(var i=0; i<array.length; i++){ %>
+                                <div class="card mb-3 col-lg-4"style="width:18rem;">
+                                    <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
+                                    <div class="card-body">
+                                        <form action="/delete" method="POST">
+                                            <h2 class="card-title"><a class="head-link" href="/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
+                                            <div class="d-t">
+                                                <span><%= array[i].date %> </span>
+                                                <span><%= array[i].time %></span>
+                                            </div>
+                                            <hr>
+                                            <p class="card-text"><%=array[i].content.substring(0,j)%>
+                                            <% if(j<array[i].content.length){ %>
+                                                ...</p>
+                                                <% } ;%>
+                                                <input type="hidden" name="headings" value="<%= array[i]._id %>">
+                                                <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                        <% }; %>
+                </div>
+            </div>
+    </div>
+
 <%- include('partials/footer'); -%>

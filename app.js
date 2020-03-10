@@ -6,14 +6,20 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const _ = require('lodash');
 const he = require('he');
+const time = require(__dirname + '/time.js');
+const date = require(__dirname + '/date.js');
 let k = 1;
-
 //mongoose setup
 mongoose.connect('mongodb+srv://Admin-Anish:13ANN%23MAJ13@mycluster0-tyf2i.mongodb.net/blogDB', {
 	useFindAndModify   : false,
 	useUnifiedTopology : true,
 	useNewUrlParser    : true
 });
+// mongoose.connect('mongodb://localhost:27017/blogDB', {
+// 	useFindAndModify   : false,
+// 	useUnifiedTopology : true,
+// 	useNewUrlParser    : true
+// });
 
 //app setup
 const app = express();
@@ -31,9 +37,13 @@ const contactContent =
 
 //notes collection creation
 const notesSchema = new mongoose.Schema({
-	id      : Number,
-	heading : String,
-	content : String
+	id            : Number,
+	heading       : String,
+	content       : String,
+	date          : String,
+	time          : String,
+	thumbnailLink : String,
+	imageLinks    : String
 });
 const Note = new mongoose.model('Note', notesSchema);
 
@@ -43,7 +53,6 @@ app.get('/', function(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			console.log(doc);
 			res.render('home', {
 				content : homeStartingContent,
 				array   : doc
@@ -71,12 +80,18 @@ app.get('/compose', function(req, res) {
 	res.render('compose');
 });
 app.post('/compose', function(req, res) {
-	const composed = req.body.cmp;
+	const composed = he.decode(req.body.cmp);
 	const heading = req.body.head;
+	const thumb = req.body.thumb;
+	const imgL = req.body.imgL;
 	const newNote = new Note({
-		id      : k,
-		heading : heading,
-		content : composed
+		id            : k,
+		heading       : heading,
+		content       : composed,
+		date          : date(),
+		time          : time(),
+		thumbnailLink : thumb,
+		imageLinks    : imgL
 	});
 	k++;
 	newNote.save(function(err) {
@@ -87,26 +102,33 @@ app.post('/compose', function(req, res) {
 		}
 	});
 });
-
 //:postID
 app.get('/:postsID', function(req, res) {
 	const postID = he.decode(req.params.postsID);
-	console.log(postID);
 	Note.findOne({ heading: postID }, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
 			res.render('post', {
 				postHead    : 'Page not found',
-				postContent : 'writting'
+				postContent : 'Go back to the home page!',
+				imgL        : 'https://i.redd.it/t0rlgz5c1uf31.png'
 			});
 		} else {
-			console.log(doc);
 			res.render('post', {
 				postHead    : postID,
-				postContent : doc.content
+				postContent : doc.content,
+				imgL        : doc.thumbnailLink
 			});
 		}
+	});
+});
+
+//delete
+app.post('/delete', function(req, res) {
+	const title = req.body.headings;
+	Note.findOneAndRemove({ _id: title }, function(err, doc) {
+		res.redirect('/');
 	});
 });
 
