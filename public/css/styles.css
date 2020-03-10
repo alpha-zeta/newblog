@@ -57,7 +57,6 @@ h2 {
 }
 .image {
 	height: 50vh;
-	/*min-width: 1903px;*/
 	width: 100%;
 }
 hr {
@@ -71,4 +70,9 @@ hr {
 }
 .fullcontent {
 	white-space: pre-wrap; /* //all whitespace preserved */
+}
+@media screen and (max-device-width: 360px) and (max-device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+	.image {
+		height: 20vh;
+	}
 }
