@@ -45,7 +45,9 @@
                 <% for(var j=0;j<a.length;j++){ %>
                      <div class="container replyShow">
                         <h4><strong><%= a[j].replier %></strong></h4>
-                        <p><%= a[j].reply %></p>
+                        <span class="repTime"><%= a[j].comDate %>, <%= a[j].comTime %></span>
+                        <hr>
+                        <p class="repNew"><%= a[j].reply %></p>
                      </div>
                      <hr>
                 <% } %>

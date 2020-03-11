@@ -168,7 +168,18 @@ textarea {
 	position: relative;
 	left: 70%;
 }
-
+.repNew {
+	font-size: 1rem;
+}
+.repTime {
+	opacity: 50%;
+	font-size: 0.8rem;
+	float: right;
+}
+h4 {
+	margin-bottom: 0;
+	display: inline;
+}
 /*mobile phone*/
 @media (max-width: 1080px) {
 	.image {
