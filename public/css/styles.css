@@ -78,6 +78,10 @@ hr {
 	height: 11.25rem;
 	width: 19rem;
 }
+.card {
+	margin: 0;
+	padding: 0;
+}
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
