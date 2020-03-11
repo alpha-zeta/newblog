@@ -76,10 +76,10 @@ hr {
 }
 .item {
 	height: 11.25rem;
-	width: 19rem;
+	width: 100%;
 }
 .card {
-	margin: 0;
+	margin: 20px;
 	padding: 0;
 }
 textarea {
