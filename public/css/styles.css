@@ -296,6 +296,7 @@ h4 {
 		font-size: 0.8rem;
 	}
 	.card {
-		width: 10rem;
+		width: 5rem;
+		height: 5rem;
 	}
 }
