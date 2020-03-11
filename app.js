@@ -8,6 +8,8 @@ const _ = require('lodash');
 const he = require('he');
 const time = require(__dirname + '/time.js');
 const date = require(__dirname + '/date.js');
+const https = require('https');
+const request = require('request');
 let k = 1;
 //mongoose setup
 mongoose.connect('mongodb+srv://Admin-Anish:13ANN%23MAJ13@mycluster0-tyf2i.mongodb.net/blogDB', {
@@ -118,28 +120,32 @@ app.post('/compose', function(req, res) {
 //:postID
 app.get('/:postsID', function(req, res) {
 	const postID = he.decode(req.params.postsID);
-	Note.findOne({ heading: postID }, function(err, doc) {
-		if (err) {
-			console.log(err);
-		} else if (!doc) {
-			res.render('post', {
-				postHead    : 'Page not found',
-				postContent : 'Go back to the home page!',
-				imgL        : 'https://i.redd.it/t0rlgz5c1uf31.png'
-			});
-		} else {
-			res.render('post', {
-				postHead    : postID,
-				postContent : doc.content,
-				imgL        : doc.thumbnailLink,
-				date        : doc.date,
-				time        : doc.time,
-				id          : doc._id,
-				array       : doc.comments,
-				objID       : doc._id
-			});
-		}
-	});
+	if (postID === 'newsLetter') {
+		res.render('page');
+	} else {
+		Note.findOne({ heading: postID }, function(err, doc) {
+			if (err) {
+				console.log(err);
+			} else if (!doc) {
+				res.render('post', {
+					postHead    : 'Page not found',
+					postContent : 'Go back to the home page!',
+					imgL        : 'https://i.redd.it/t0rlgz5c1uf31.png'
+				});
+			} else {
+				res.render('post', {
+					postHead    : postID,
+					postContent : doc.content,
+					imgL        : doc.thumbnailLink,
+					date        : doc.date,
+					time        : doc.time,
+					id          : doc._id,
+					array       : doc.comments,
+					objID       : doc._id
+				});
+			}
+		});
+	}
 });
 
 //delete
@@ -226,6 +232,42 @@ app.post('/reply', function(req, res) {
 			});
 		}
 	});
+});
+//Newsletter
+app.post('/newsLetter', function(req, res) {
+	const email = req.body.email;
+	const Fname = req.body.Fname;
+	const Lname = req.body.Lname;
+
+	const data = {
+		members : [
+			{
+				email_address : email,
+				status        : 'subscribed',
+				merge_fields  : {
+					FNAME : Fname,
+					LNAME : Lname
+				}
+			}
+		]
+	};
+	const JSONdata = JSON.stringify(data);
+
+	const url = 'https://us4.api.mailchimp.com/3.0/lists/5272ed54ff';
+	const options = {
+		method : 'POST',
+		auth   : 'Anish1:e0feddbea6c937ed04fd83301a6dedec-us4'
+	};
+
+	const request = https.request(url, options, function(response) {
+		if (response.statusCode === 200) {
+			res.render('success', { name: Fname, title: 'Success!' });
+		} else {
+			res.render('fail', { name2: Fname, title: 'fail!' });
+		}
+	});
+	request.write(JSONdata);
+	request.end();
 });
 //listening
 app.listen(process.env.PORT || 3000, function() {

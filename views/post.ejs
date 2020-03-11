@@ -23,14 +23,18 @@
         <hr>
         <% for(var i=0; i<array.length; i++){ %>
             <div class="com">
-                <h3><%= array[i].commentator %></h3>
-                <div class="d-t">
+                <h2><strong> <%= array[i].commentator %></strong></h2>
+                <div class="d-t Time">
                     <span><%= array[i].comDate %>, </span>
                     <span><%= array[i].comTime %></span>
                 </div>
-                <hr>
+                <hr><br>
+                <div class="row">
+                 <div class="col-lg-6 col-sm-12"style="width:18rem;">
                 <p class="commNew"><%= array[i].comment %></p>
                 <button class="like"><i class="fab fa-the-red-yeti"></i></button>
+                 </div>
+                </div>
                 <form action="/reply" method="POST">
                     <input type="hidden" name="objID" value="<%= objID %>">
                     <input type="hidden" name="title" value="<%= postHead %>">
@@ -45,7 +49,7 @@
                 <% for(var j=0;j<a.length;j++){ %>
                      <div class="container replyShow">
                         <h4><strong><%= a[j].replier %></strong></h4>
-                        <span class="repTime"><%= a[j].comDate %>, <%= a[j].comTime %></span>
+                        <span class="Time"><%= a[j].comDate %>, <%= a[j].comTime %></span>
                         <hr>
                         <p class="repNew"><%= a[j].reply %></p>
                      </div>

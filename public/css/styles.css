@@ -3,6 +3,9 @@ body {
 	height: 100%;
 	font-family: 'Baloo Chettan 2', cursive;
 }
+button:focus {
+	outline: none;
+}
 * {
 	margin: 0;
 }
@@ -44,7 +47,6 @@ body {
 	color: #1abc9c !important;
 	text-decoration: none;
 }
-
 .footer p {
 	font-size: 12px;
 	color: #fff;
@@ -171,15 +173,82 @@ textarea {
 .repNew {
 	font-size: 1rem;
 }
-.repTime {
+.Time {
 	opacity: 50%;
 	font-size: 0.8rem;
 	float: right;
 }
 h4 {
+	font-size: 1.2rem;
 	margin-bottom: 0;
 	display: inline;
 }
+.contact {
+	background-color: #d1cebd;
+}
+.cover {
+	margin-bottom: 2rem;
+}
+.composePage {
+	margin-bottom: 1rem;
+}
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.fa-glass-cheers {
+	font-size: 5rem;
+	color: #df7861;
+}
+.jumbotron {
+	text-align: center;
+}
+.body {
+	height: 100%;
+	padding-top: 0;
+	padding-bottom: 40px;
+}
+.form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+}
+.form-signin .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 10px;
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.mid {
+	border-radius: 0;
+	margin-bottom: -1px;
+}
+.bottom {
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
+}
+.column {
+	text-align: center;
+}
+#succ {
+	margin: 0;
+	z-index: 1;
+}
+
 /*mobile phone*/
 @media (max-width: 1080px) {
 	.image {
@@ -213,5 +282,12 @@ h4 {
 	}
 	.replyShow {
 		position: initial;
+		width: 40%;
+	}
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+	.text-muted {
+		font-size: 0.8rem;
 	}
 }
