@@ -81,7 +81,7 @@ hr {
 .card {
 	margin: 5px;
 	padding: 0;
-	width: 40%;
+	width: 18rem;
 }
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
@@ -294,5 +294,8 @@ h4 {
 	}
 	.text-muted {
 		font-size: 0.8rem;
+	}
+	.card {
+		width: 10rem;
 	}
 }

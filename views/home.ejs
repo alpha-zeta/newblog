@@ -4,10 +4,10 @@
         <h1>Home</h1>
         <p class="fullcontent"><%= content %></p>
         <% let j=30; %>
-            <div class="cards">
+            <div>
                 <div class="row">
                         <% for(var i=0; i<array.length; i++){ %>
-                                <div class="card mb-3 col-lg-4 col-sm-6"style="width:18rem;">
+                                <div class="card mb-3 col-lg-4 col-sm-6">
                                     <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
                                     <div class="card-body">
                                         <form action="/delete" method="POST">
