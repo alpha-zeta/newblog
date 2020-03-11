@@ -79,7 +79,7 @@ hr {
 	width: 100%;
 }
 .card {
-	margin: 20px;
+	margin: 5px;
 	padding: 0;
 }
 textarea {
@@ -274,8 +274,6 @@ h4 {
 		font-size: 1.5rem;
 	}
 	.mobile {
-		margin-left: 3rem;
-		margin-right: 3rem;
 		max-width: fit-content;
 	}
 	#comment {
