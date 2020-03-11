@@ -15,12 +15,6 @@ mongoose.connect('mongodb+srv://Admin-Anish:13ANN%23MAJ13@mycluster0-tyf2i.mongo
 	useUnifiedTopology : true,
 	useNewUrlParser    : true
 });
-// mongoose.connect('mongodb://localhost:27017/blogDB', {
-// 	useFindAndModify   : false,
-// 	useUnifiedTopology : true,
-// 	useNewUrlParser    : true
-// });
-
 //app setup
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,16 +28,21 @@ const aboutContent =
 	'Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.';
 const contactContent =
 	'Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.';
-
+//reply schema
+const repliesSchema = new mongoose.Schema({
+	id      : Number,
+	replier : String,
+	reply   : String,
+	comDate : String,
+	comTime : String
+});
+const Reply = new mongoose.model('Reply', repliesSchema);
 //comments collection creation
 const commentsSchema = new mongoose.Schema({
 	id          : Number,
 	commentator : String,
 	comment     : String,
-	reply       : {
-		replier : String,
-		reply   : String
-	},
+	reply       : Array,
 	comDate     : String,
 	comTime     : String
 });
@@ -136,7 +135,8 @@ app.get('/:postsID', function(req, res) {
 				date        : doc.date,
 				time        : doc.time,
 				id          : doc._id,
-				array       : doc.comments
+				array       : doc.comments,
+				objID       : doc._id
 			});
 		}
 	});
@@ -174,8 +174,56 @@ app.post('/comments', function(req, res) {
 			res.redirect('/' + title);
 			alert('404 file not found');
 		} else {
-			console.log('success');
 			res.redirect('/' + title);
+		}
+	});
+});
+
+//replies
+app.post('/reply', function(req, res) {
+	const title = req.body.title;
+	const comID = req.body.replyBtn;
+	const replier = req.body.replier;
+	const reply = req.body.reply;
+	const objID = req.body.objID;
+	const newReply = new Reply({
+		replier : replier,
+		reply   : reply,
+		comDate : date(),
+		comTime : time()
+	});
+	newReply.save();
+	Comment.findOneAndUpdate(
+		{ _id: comID },
+		{
+			$push : { reply: newReply }
+		},
+		function(err, doc) {
+			if (err) {
+				console.log(err);
+			} else if (!doc) {
+				console.log('page not found 404');
+				res.redirect('/' + title);
+			}
+		}
+	);
+	Comment.find({}, function(err, docu) {
+		if (err) {
+			console.log(err);
+		} else if (!docu) {
+			console.log('page not found 404');
+			res.redirect('/' + title);
+		} else {
+			Note.findOneAndUpdate({ _id: objID }, { comments: docu }, function(err, docs) {
+				if (err) {
+					console.log(err);
+				} else if (!docs) {
+					console.log('page not found 404');
+					res.redirect('/' + title);
+				} else {
+					res.redirect('/' + title);
+				}
+			});
 		}
 	});
 });

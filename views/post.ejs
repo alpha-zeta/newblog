@@ -13,7 +13,7 @@
             <input type="hidden" name="ID" value="<%= id %>">
             <input type="hidden" name="titleID" value="<%= postHead %>">
             <label for="exampleFormControlTextarea1"><strong>Name</strong></label>
-            <input class="form-control form-control-lg" id="head"name="commentator" autocomplete="off" placeholder="Enter your name here..." type="text">
+            <input class="form-control form-control-lg comName"name="commentator" autocomplete="off" placeholder="Enter your name here..." type="text">
             <div class="newComm">
                 <label class="commentLabel" for="exampleFormControlTextarea1"><strong>Comment</strong></label>
                 <textarea name="comment" id="comment"class="form-control form-control-sm" id="exampleFormControlTextarea1" placeholder="Comment here..." cols="2" rows="4"></textarea>
@@ -31,7 +31,24 @@
                 <hr>
                 <p class="commNew"><%= array[i].comment %></p>
                 <button class="like"><i class="fab fa-the-red-yeti"></i></button>
-                <button class="reply"><i class="fas fa-reply"></i></button>
+                <form action="/reply" method="POST">
+                    <input type="hidden" name="objID" value="<%= objID %>">
+                    <input type="hidden" name="title" value="<%= postHead %>">
+                    <input class="form-control form-control-sm replyName" name="replier" autocomplete="off" placeholder="Enter your name here..." type="text">
+                    <div class="replyBlock">
+                        <textarea name="reply" id="reply"class="form-control" id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
+                        <button type="submit" name="replyBtn" class="reply" value="<%= array[i]._id %>"><i class="fas fa-reply"></i></button>
+                    </div>
+                </form>
+                <hr>
+                  <% const a=array[i].reply %>
+                <% for(var j=0;j<a.length;j++){ %>
+                     <div class="container replyShow">
+                        <h4><strong><%= a[j].replier %></strong></h4>
+                        <p><%= a[j].reply %></p>
+                     </div>
+                     <hr>
+                <% } %>
             </div>
         <% } %>
     </div>

@@ -94,6 +94,10 @@ textarea {
 	width: 90%;
 	border-radius: 10px;
 	resize: none;
+	background-color: #d1cebd;
+}
+.comName {
+	background-color: #d1cebd;
 }
 .newComm {
 	margin-bottom: 1.5rem;
@@ -112,17 +116,19 @@ textarea {
 	padding: 2rem;
 	background-color: #d1cebd;
 	border-radius: 30px;
+	display: block;
 }
 .fullcontent {
 	text-align: justify;
 }
 .commNew {
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 .like {
-	font-size: 2rem;
+	font-size: 2.5rem;
 	border: none;
 	background-color: #d1cebd;
+	margin-bottom: 1rem;
 }
 .like:hover {
 	color: #323edd;
@@ -135,6 +141,32 @@ textarea {
 }
 .reply:hover {
 	color: #323edd;
+}
+#replyL {
+	float: right;
+}
+#reply {
+	display: inline;
+	width: 90%;
+	resize: none;
+}
+.replyBlock {
+	display: inline;
+
+	width: 80%;
+}
+.replyName {
+	width: 30%;
+	margin-bottom: 0.3rem;
+}
+.replyShow {
+	margin: 0.2rem;
+	padding: 0.4rem;
+	background-color: #f5cab3;
+	border-radius: 10px;
+	width: 30%;
+	position: relative;
+	left: 70%;
 }
 
 /*mobile phone*/
@@ -161,5 +193,14 @@ textarea {
 		margin-left: 3rem;
 		margin-right: 3rem;
 		max-width: fit-content;
+	}
+	#comment {
+		font-size: 1.5rem;
+	}
+	.com {
+		max-width: 100%;
+	}
+	.replyShow {
+		position: initial;
 	}
 }
