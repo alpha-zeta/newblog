@@ -88,6 +88,12 @@ hr {
 	width: fit-content;
 	border: 15px solid transparent;
 }
+.btn-danger {
+	display: block;
+}
+.card-text {
+	margin-bottom: 1rem;
+}
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
