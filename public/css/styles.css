@@ -83,10 +83,9 @@ hr {
 	height: 11.25rem;
 	width: 100%;
 }
-/* .card {
-	margin: 5px;
+.card {
 	padding: 0;
-} */
+}
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
