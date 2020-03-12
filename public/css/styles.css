@@ -301,4 +301,7 @@ h4 {
 	.card {
 		max-width: 22rem;
 	}
+	.row {
+		align-content: center;
+	}
 }
