@@ -64,6 +64,7 @@ const Note = new mongoose.model('Note', notesSchema);
 
 //home
 app.get('/', function(req, res) {
+	const c = '${mainScreen.width}';
 	Note.find({}, function(err, doc) {
 		if (err) {
 			console.log(err);
