@@ -3,6 +3,24 @@ body {
 	height: 100%;
 	font-family: 'Baloo Chettan 2', cursive;
 }
+/* navbar */
+.navbar {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border: 0;
+	border-radius: 0;
+	margin-bottom: 0;
+	font-size: 12px;
+	letter-spacing: 5px;
+	background-color: #dcedc1;
+}
+.navbar-nav li a:hover {
+	color: #1abc9c !important;
+}
+.navbar-brand {
+	font-family: 'Acme', sans-serif;
+}
+/*focus*/
 button:focus {
 	outline: none;
 }
@@ -23,19 +41,6 @@ button:focus {
 }
 .push {
 	height: 50px;
-}
-.navbar {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	border: 0;
-	border-radius: 0;
-	margin-bottom: 0;
-	font-size: 12px;
-	letter-spacing: 5px;
-	background-color: #dcedc1;
-}
-.navbar-nav li a:hover {
-	color: #1abc9c !important;
 }
 .headL {
 	margin-top: 2rem;
@@ -78,11 +83,10 @@ hr {
 	height: 11.25rem;
 	width: 100%;
 }
-.card {
+/* .card {
 	margin: 5px;
 	padding: 0;
-	max-width: 18rem;
-}
+} */
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
