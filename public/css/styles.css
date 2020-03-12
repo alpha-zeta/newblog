@@ -85,6 +85,8 @@ hr {
 }
 .card {
 	padding: 0;
+	width: fit-content;
+	border: 15px solid transparent;
 }
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
