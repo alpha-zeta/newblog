@@ -302,6 +302,6 @@ h4 {
 		max-width: 22rem;
 	}
 	.row {
-		align-content: center;
+		text-align: center;
 	}
 }
