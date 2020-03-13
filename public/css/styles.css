@@ -99,6 +99,9 @@ hr {
 textarea {
 	white-space: pre-wrap; /* //all whitespace preserved */
 }
+/* .form-control-lg {
+	font-size: 1.5rem;
+} */
 .send {
 	border: none;
 	background-color: #fff;
@@ -304,5 +307,8 @@ h4 {
 	}
 	.text-muted {
 		font-size: 0.8rem;
+	}
+	.text {
+		font-size: 1.6rem;
 	}
 }
