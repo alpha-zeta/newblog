@@ -1,0 +1,105 @@
+If accidentaly deleted the whole database to start it without any bugs you need to perform some operations before running app.js
+1>turn off nodemon or any other program that automatically runs app.js after a save.
+
+2>find this part in app.js
+
+    const link = Link({
+        link : 1
+    });
+    // link.save();
+
+
+3> change it to
+
+    const link = new Link({
+        link : 1
+    });
+    link.save();
+
+4>find this part in app.js
+    //compose
+    app.get('/compose', function(req, res) {
+        Link.find({}, function(err, doc) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('compose', { linkID: doc[0].link });
+            }
+        });
+    });
+
+5>change it to
+    //compose
+    app.get('/compose', function(req, res) {
+        Link.find({}, function(err, doc) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('compose');
+            }
+        });
+    });
+
+6>save app.js
+
+7>find this part in compose.ejs
+    <div class="form-group">
+            <input type="hidden" name="linkID" value="<%= linkID %>">
+
+8>delete the input part
+    <div class="form-group">
+
+
+9>save compose.ejs
+
+10>run app.js for once using node app.js or nodemon. 
+   It should not run more than once. 
+   Check in the mongo shell if db.identities.find() returns only one object with link value 1 or not if yes procees further otherwise repeat last steps carefully. 
+
+11>now shut down nodemon if it is running and in app.js find 
+     const link = new Link({
+        link : 1
+    });
+    link.save();
+
+12>change it to
+    const link = Link({
+        link : 1
+    });
+    // link.save();
+
+13>find this part in app.js
+    //compose
+    app.get('/compose', function(req, res) {
+        Link.find({}, function(err, doc) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('compose');
+            }
+        });
+    });
+
+14>change it to
+     //compose
+    app.get('/compose', function(req, res) {
+        Link.find({}, function(err, doc) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('compose', { linkID: doc[0].link });
+            }
+        });
+    });
+
+15>save app.js
+
+16>find in compose.ejs
+    <div class="form-group">
+
+17>add this input part beneath this part
+    <input type="hidden" name="linkID" value="<%= linkID %>">
+
+18>save compose.ejs
+
+19>app is ready use it as you did previously

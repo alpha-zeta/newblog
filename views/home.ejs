@@ -3,11 +3,15 @@
     <div class="container mobile">
         <h1>Home</h1>
         <p class="fullcontent"><%= content %></p>
-        <% let j=30; %>
+        <% let j=100; %>
             <div>
                 <div class="row">
                         <% for(var i=0; i<array.length; i++){ %>
+                            <% if((i+1)%2===0){ %>
+                                <div class="card col-6" style="text-align: right;">
+                            <% }else{ %>
                                 <div class="card col-6">
+                            <% } %>
                                     <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
                                     <div class="card-body">
                                         <form action="/delete" method="POST">
@@ -26,7 +30,12 @@
                                                 <input type="hidden" name="noteID" value="<%= array[i].linkID %>">
                                                 <input type="hidden" name="ID" value="<%= array[i]._id %>">
                                                 <input type="hidden" name="comID" value="<%= array[i].comments._id%>">
-                                                <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                                 <% if((i+1)%2===0){ %>
+                                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                                <% }else{ %>
+                                                    <button type="submit" class="btn btn-danger" style="right: 1.25rem;"><i class="far fa-trash-alt"></i></button>
+                                                <% } %>
+
                                         </form>
                                     </div>
                                 </div>

@@ -35,10 +35,13 @@ const linksSchema = new mongoose.Schema({
 	link : Number
 });
 const Link = new mongoose.model('Identity', linksSchema);
-const link = new Link({
+//uncomment link.save() after dropping the DB to initialise indentities collection
+
+const link = Link({
 	link : 1
 });
-link.save();
+// link.save();
+
 //reply schema
 const repliesSchema = new mongoose.Schema({
 	linkID  : Number,
@@ -74,7 +77,6 @@ const Note = new mongoose.model('Note', notesSchema);
 
 //home
 app.get('/', function(req, res) {
-	const c = '${mainScreen.width}';
 	Note.find({}, function(err, doc) {
 		if (err) {
 			console.log(err);
@@ -265,7 +267,6 @@ app.post('/reply', function(req, res) {
 			console.log('page not found 404');
 			res.redirect('/' + title);
 		} else {
-			console.log(docu);
 			Note.findOneAndUpdate({ _id: objID }, { comments: docu }, function(err, docs) {
 				if (err) {
 					console.log(err);
