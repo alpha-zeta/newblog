@@ -42,33 +42,23 @@ If accidentaly deleted the whole database to start it without any bugs you need 
 
 6>save app.js
 
-7>find this part in compose.ejs
-    <div class="form-group">
-            <input type="hidden" name="linkID" value="<%= linkID %>">
-
-8>delete the input part
-    <div class="form-group">
-
-
-9>save compose.ejs
-
-10>run app.js for once using node app.js or nodemon. 
+7>run app.js for once using node app.js or nodemon. But do not open the compose page or best if do not open the site itself for now.
    It should not run more than once. 
    Check in the mongo shell if db.identities.find() returns only one object with link value 1 or not if yes procees further otherwise repeat last steps carefully. 
 
-11>now shut down nodemon if it is running and in app.js find 
+8>now shut down nodemon if it is running and in app.js find 
      const link = new Link({
         link : 1
     });
     link.save();
 
-12>change it to
+9>change it to
     const link = Link({
         link : 1
     });
     // link.save();
 
-13>find this part in app.js
+10>find this part in app.js
     //compose
     app.get('/compose', function(req, res) {
         Link.find({}, function(err, doc) {
@@ -80,7 +70,7 @@ If accidentaly deleted the whole database to start it without any bugs you need 
         });
     });
 
-14>change it to
+11>change it to
      //compose
     app.get('/compose', function(req, res) {
         Link.find({}, function(err, doc) {
@@ -92,14 +82,6 @@ If accidentaly deleted the whole database to start it without any bugs you need 
         });
     });
 
-15>save app.js
+12>save app.js
 
-16>find in compose.ejs
-    <div class="form-group">
-
-17>add this input part beneath this part
-    <input type="hidden" name="linkID" value="<%= linkID %>">
-
-18>save compose.ejs
-
-19>app is ready use it as you did previously
+13>app is ready use it as you did previously
