@@ -128,7 +128,7 @@ app.post('/compose', function(req, res) {
 		thumbnailLink : thumb,
 		imageLinks    : imgL
 	});
-	Link.findOneAndUpdate({ link: link.link }, { link: link.link + 1 }, function(err, doc) {
+	Link.findOneAndUpdate({ link: parseInt(linkID) }, { link: parseInt(linkID) + 1 }, function(err, doc) {
 		if (err) {
 			console.log(err);
 		}
