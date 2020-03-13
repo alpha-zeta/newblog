@@ -266,6 +266,13 @@ h4 {
 	margin: 0;
 	z-index: 1;
 }
+.voila {
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 1140px;
+}
 
 /*mobile phone*/
 @media (max-width: 1080px) {
@@ -290,7 +297,7 @@ h4 {
 	.mobile {
 		margin-left: 3rem;
 		margin-right: 3rem;
-		width: auto;
+		max-width: fit-content;
 	}
 	#comment {
 		font-size: 1.5rem;
