@@ -266,14 +266,6 @@ h4 {
 	margin: 0;
 	z-index: 1;
 }
-/* .voila {
-	padding-right: 3rem;
-	padding-left: 3rem;
-	margin-right: auto;
-	margin-left: auto;
-	max-width: 1140px;
-} */
-
 /*mobile phone*/
 @media (max-width: 1080px) {
 	.image {
@@ -293,11 +285,6 @@ h4 {
 	}
 	.nav-link {
 		font-size: 1.5rem;
-	}
-	.mobile {
-		margin-left: 3rem;
-		margin-right: 3rem;
-		max-width: 1140px;
 	}
 	#comment {
 		font-size: 1.5rem;
