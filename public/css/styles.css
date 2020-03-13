@@ -290,6 +290,7 @@ h4 {
 	.mobile {
 		margin-left: 3rem;
 		margin-right: 3rem;
+		width: auto;
 	}
 	#comment {
 		font-size: 1.5rem;
