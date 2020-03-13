@@ -271,6 +271,9 @@ h4 {
 	.image {
 		height: 20vh;
 	}
+	.container {
+		max-width: 720px;
+	}
 	p {
 		font-size: 2rem;
 	}
