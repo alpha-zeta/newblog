@@ -11,6 +11,7 @@
         <hr>
         <form action="/comments" method="POST">
             <input type="hidden" name="ID" value="<%= id %>">
+            <input type="hidden" name="noteID" value="<%= noteID %>">
             <input type="hidden" name="titleID" value="<%= postHead %>">
             <label for="exampleFormControlTextarea1"><strong>Name</strong></label>
             <input class="form-control form-control-lg comName"name="commentator" autocomplete="off" placeholder="Enter your name here..." type="text">
@@ -36,6 +37,7 @@
                  </div>
                 </div>
                 <form action="/reply" method="POST">
+                    <input type="hidden" name="commentID" value="<%= array[i].linkID %>">
                     <input type="hidden" name="objID" value="<%= objID %>">
                     <input type="hidden" name="title" value="<%= postHead %>">
                     <input class="form-control form-control-sm replyName" name="replier" autocomplete="off" placeholder="Enter your name here..." type="text">

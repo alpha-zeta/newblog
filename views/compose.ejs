@@ -4,6 +4,7 @@
     <h1>Compose</h1>
     <form action="/compose" method="POST">
         <div class="form-group">
+            <input type="hidden" name="linkID" value="<%= linkID %>">
             <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
             <input type="text" name="head" class="form-control form-control-lg" id="head" placeholder="Put your heading here..." autocomplete="off">    
             <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>

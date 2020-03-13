@@ -30,9 +30,18 @@ const aboutContent =
 	'Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.';
 const contactContent =
 	'Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.';
+//id schema
+const linksSchema = new mongoose.Schema({
+	link : Number
+});
+const Link = new mongoose.model('Identity', linksSchema);
+const link = new Link({
+	link : 1
+});
+link.save();
 //reply schema
 const repliesSchema = new mongoose.Schema({
-	id      : Number,
+	linkID  : Number,
 	replier : String,
 	reply   : String,
 	comDate : String,
@@ -41,7 +50,7 @@ const repliesSchema = new mongoose.Schema({
 const Reply = new mongoose.model('Reply', repliesSchema);
 //comments collection creation
 const commentsSchema = new mongoose.Schema({
-	id          : Number,
+	linkID      : Number,
 	commentator : String,
 	comment     : String,
 	reply       : Array,
@@ -52,6 +61,7 @@ const Comment = new mongoose.model('Comment', commentsSchema);
 
 //notes collection creation
 const notesSchema = new mongoose.Schema({
+	linkID        : Number,
 	heading       : String,
 	content       : String,
 	date          : String,
@@ -93,15 +103,22 @@ app.get('/contact', function(req, res) {
 
 //compose
 app.get('/compose', function(req, res) {
-	res.render('compose');
+	Link.find({}, function(err, doc) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.render('compose', { linkID: doc[0].link });
+		}
+	});
 });
 app.post('/compose', function(req, res) {
 	const composed = he.decode(req.body.cmp);
 	const heading = req.body.head;
 	const thumb = req.body.thumb;
 	const imgL = req.body.imgL;
+	const linkID = req.body.linkID;
 	const newNote = new Note({
-		id            : k,
+		linkID        : linkID,
 		heading       : heading,
 		content       : composed,
 		date          : date(),
@@ -109,7 +126,11 @@ app.post('/compose', function(req, res) {
 		thumbnailLink : thumb,
 		imageLinks    : imgL
 	});
-	k++;
+	Link.findOneAndUpdate({ link: link.link }, { link: link.link + 1 }, function(err, doc) {
+		if (err) {
+			console.log(err);
+		}
+	});
 	newNote.save(function(err) {
 		if (err) {
 			console.log(err);
@@ -142,7 +163,8 @@ app.get('/:postsID', function(req, res) {
 					time        : doc.time,
 					id          : doc._id,
 					array       : doc.comments,
-					objID       : doc._id
+					objID       : doc._id,
+					noteID      : doc.linkID
 				});
 			}
 		});
@@ -151,30 +173,50 @@ app.get('/:postsID', function(req, res) {
 
 //delete
 app.post('/delete', function(req, res) {
-	const title = req.body.headings;
-	Note.findOneAndRemove({ _id: title }, function(err, doc) {
-		res.redirect('/');
+	const ID = req.body.ID;
+	const comID = req.body.comID;
+	const linkID = req.body.noteID;
+	Note.findOneAndRemove({ _id: ID }, function(err, doc) {
+		if (err) {
+			console.log(err);
+		} else {
+			Comment.deleteMany({ linkID: linkID }, function(err) {
+				if (err) {
+					console.log(err);
+				} else {
+					Reply.deleteMany({ linkID: linkID }, function(err) {
+						if (err) {
+							console.log(err);
+						} else {
+							res.redirect('/');
+						}
+					});
+				}
+			});
+		}
 	});
 });
 
 //comments
 app.post('/comments', function(req, res) {
 	const postId = req.param.postsId;
+	const noteID = req.body.noteID;
 	let commentator = req.body.commentator;
 	if (commentator === '') {
 		commentator = 'Anonymous';
 	}
 	const comment = req.body.comment;
 	const title = req.body.titleID;
-	const id = req.body.ID;
+	const comID = req.body.ID;
 	const newComment = new Comment({
+		linkID      : noteID,
 		commentator : commentator,
 		comment     : comment,
 		comDate     : date(),
 		comTime     : time()
 	});
 	newComment.save();
-	Note.findOneAndUpdate({ _id: id }, { $push: { comments: newComment } }, function(err, doc) {
+	Note.findOneAndUpdate({ _id: comID }, { $push: { comments: newComment } }, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
@@ -193,7 +235,9 @@ app.post('/reply', function(req, res) {
 	const replier = req.body.replier;
 	const reply = req.body.reply;
 	const objID = req.body.objID;
+	const commentID = req.body.commentID;
 	const newReply = new Reply({
+		linkID  : commentID,
 		replier : replier,
 		reply   : reply,
 		comDate : date(),
@@ -214,13 +258,14 @@ app.post('/reply', function(req, res) {
 			}
 		}
 	);
-	Comment.find({}, function(err, docu) {
+	Comment.find({ linkID: commentID }, function(err, docu) {
 		if (err) {
 			console.log(err);
 		} else if (!docu) {
 			console.log('page not found 404');
 			res.redirect('/' + title);
 		} else {
+			console.log(docu);
 			Note.findOneAndUpdate({ _id: objID }, { comments: docu }, function(err, docs) {
 				if (err) {
 					console.log(err);
