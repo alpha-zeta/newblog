@@ -301,4 +301,7 @@ button:focus {
 	.head-link {
 		font-size: 1.5rem;
 	}
+	.item {
+		height: 8rem;
+	}
 }
