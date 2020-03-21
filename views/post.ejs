@@ -7,9 +7,12 @@
             <span><%= time %></span>
         </div>
         <hr>
-        <p class="fullcontent"><%= postContent %></p>
+        <div id="imp" type="hidden" style="display: none;">
+            <%= postContent %>
+        </div>
+        <div type="text/html" id="newContent" class="newText">
+        </div>
         <hr>
-   
         <form action="/comments" method="POST">
             <input type="hidden" name="ID" value="<%= id %>">
             <input type="hidden" name="noteID" value="<%= noteID %>">
@@ -61,4 +64,8 @@
             </div>
         <% } %>
     </div>
+    <script>
+        var test = document.getElementById('imp').innerText;
+        document.getElementById("newContent").innerHTML= test;
+    </script>
 <%- include('partials/footer'); -%>

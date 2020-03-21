@@ -70,7 +70,7 @@ const notesSchema = new mongoose.Schema({
 	date          : String,
 	time          : String,
 	thumbnailLink : String,
-	imageLinks    : String,
+	about         : String,
 	comments      : Array
 });
 const Note = new mongoose.model('Note', notesSchema);
@@ -109,35 +109,42 @@ app.get('/compose', function(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-			res.render('compose', { linkID: doc[0].link });
+			res.render('compose');
 		}
 	});
 });
 app.post('/compose', function(req, res) {
-	const composed = he.decode(req.body.cmp);
+	const composed = req.body.cmp;
 	const heading = req.body.head;
 	const thumb = req.body.thumb;
-	const imgL = req.body.imgL;
-	const linkID = req.body.linkID;
-	const newNote = new Note({
-		linkID        : linkID,
-		heading       : heading,
-		content       : composed,
-		date          : date(),
-		time          : time(),
-		thumbnailLink : thumb,
-		imageLinks    : imgL
-	});
-	Link.findOneAndUpdate({ link: parseInt(linkID) }, { link: parseInt(linkID) + 1 }, function(err, doc) {
-		if (err) {
-			console.log(err);
-		}
-	});
-	newNote.save(function(err) {
+	const abt = req.body.abt;
+
+	Link.find({}, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else {
-			res.redirect('/compose');
+			const linkID = doc[0].link;
+			const newNote = new Note({
+				linkID        : linkID,
+				heading       : heading,
+				content       : composed,
+				date          : date(),
+				time          : time(),
+				thumbnailLink : thumb,
+				about         : abt
+			});
+			Link.findOneAndUpdate({ link: parseInt(linkID) }, { link: parseInt(linkID) + 1 }, function(err, doc) {
+				if (err) {
+					console.log(err);
+				}
+			});
+			newNote.save(function(err) {
+				if (err) {
+					console.log(err);
+				} else {
+					res.redirect('/compose');
+				}
+			});
 		}
 	});
 });

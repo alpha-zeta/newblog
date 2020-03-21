@@ -21,11 +21,11 @@
                                                 <span><%= array[i].time %></span>
                                             </div>
                                             <hr>
-                                                <% if(array[i].content.length>=j){ %>
-                                                    <p class="card-text"><%=array[i].content.substring(0,j)%>...</p> 
+                                                <% if(array[i].about.length>=j){ %>
+                                                    <p class="card-text"><%=array[i].about.substring(0,j)%>...</p> 
                                                 <% } %>
-                                                <% if(array[i].content.length<j){ %>
-                                                    <p class="card-text"><%=array[i].content%></p>
+                                                <% if(array[i].about.length<j){ %>
+                                                    <p class="card-text"><%=array[i].about %></p>
                                                 <% } %> 
                                                 <input type="hidden" name="noteID" value="<%= array[i].linkID %>">
                                                 <input type="hidden" name="ID" value="<%= array[i]._id %>">
