@@ -278,6 +278,15 @@ button:focus {
 	.card {
 		border: 10px solid transparent;
 	}
+	.card-body {
+		padding: 0.5rem;
+	}
+	.card-title {
+		margin-bottom: 0.25rem;
+	}
+	h2 {
+		font-size: 1.2rem;
+	}
 	.replyShow {
 		left: 0;
 		width: 100%;
@@ -299,9 +308,16 @@ button:focus {
 		width: 50%;
 	}
 	.head-link {
-		font-size: 1.5rem;
+		font-size: 1.2rem;
 	}
 	.item {
 		height: 8rem;
+	}
+	.cronos {
+		font-size: 0.7rem;
+	}
+	.card-body hr {
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem;
 	}
 }
