@@ -1,7 +1,36 @@
+/* predefined attributes */
 html,
 body {
 	height: 100%;
 	font-family: 'Baloo Chettan 2', cursive;
+}
+* {
+	margin: 0;
+}
+h2 {
+	display: block;
+}
+h4 {
+	font-size: 1.2rem;
+	margin-bottom: 0;
+	display: inline;
+}
+hr {
+	border: 1px solid #a6b1e1 !important;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+/*focus*/
+button:focus {
+	outline: none;
+}
+/*//////////////////////////////////////////////// header /////////////////////////////////////////////////// */
+.contents {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -50px;
 }
 /* navbar */
 .navbar {
@@ -14,41 +43,18 @@ body {
 	letter-spacing: 5px;
 	background-color: #dcedc1;
 }
-.navbar-nav li a:hover {
-	color: #1abc9c !important;
-}
 .navbar-brand {
 	font-family: 'Acme', sans-serif;
 }
-/*focus*/
-button:focus {
-	outline: none;
+.navbar-nav li a:hover {
+	color: #1abc9c !important;
 }
-* {
-	margin: 0;
-}
-.contents {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -50px;
-}
+/*//////////////////////////////////////////////// footer /////////////////////////////////////////////////// */
 .footer {
 	height: 50px;
 	text-align: center;
 	background-color: #1abc9c;
 	display: block;
-}
-.push {
-	height: 50px;
-}
-
-.head-link {
-	color: black;
-}
-.head-link:hover {
-	color: #1abc9c !important;
-	text-decoration: none;
 }
 .footer p {
 	font-size: 12px;
@@ -56,43 +62,76 @@ button:focus {
 	position: relative;
 	top: 12%;
 }
-.content {
-	min-height: 800px;
+.push {
+	height: 50px;
 }
-h2 {
-	display: block;
-}
-.d-t {
-	display: block;
-}
-.head {
-	vertical-align: top;
-}
+/*//////////////////////////////////////////////// home /////////////////////////////////////////////////// */
 .image {
 	height: 50vh;
 	width: 100%;
 }
-hr {
-	border: 1px solid #a6b1e1 !important;
-	margin-top: 0.5rem;
-	margin-bottom: 0.5rem;
+.cover {
+	margin-bottom: 2rem;
 }
-.item {
-	height: 11.25rem;
-	width: 100%;
+.fullcontent {
+	text-align: justify;
 }
 .card {
 	padding: 0;
 	width: fit-content;
 	border: 15px solid transparent;
 }
+.item {
+	height: 11.25rem;
+	width: 100%;
+}
+.head-link {
+	color: black;
+}
+.head-link:hover {
+	color: #1abc9c !important;
+	text-decoration: none;
+}
+.d-t {
+	display: block;
+}
+.card-text {
+	border-bottom: 1rem solid transparent;
+}
 .btn-danger {
 	display: block;
 	position: absolute;
 	bottom: 0;
 }
-.card-text {
-	border-bottom: 1rem solid transparent;
+/*//////////////////////////////////////////////// about /////////////////////////////////////////////////// */
+
+/*//////////////////////////////////////////////// contacts /////////////////////////////////////////////////// */
+.contact {
+	background-color: #d1cebd;
+}
+/*//////////////////////////////////////////////// post /////////////////////////////////////////////////// */
+#imp {
+	display: none;
+}
+/* adding comment */
+.form-control {
+	border-radius: 10px;
+}
+.comName {
+	background-color: #d1cebd;
+}
+.newComm {
+	margin-bottom: 1.5rem;
+}
+.commentLabel {
+	display: block;
+}
+#comment {
+	display: inline;
+	width: 90%;
+	border-radius: 10px;
+	resize: none;
+	background-color: #d1cebd;
 }
 .send {
 	border: none;
@@ -104,28 +143,7 @@ hr {
 .fa-paper-plane {
 	font-size: 3rem;
 }
-#comment {
-	display: inline;
-	width: 90%;
-	border-radius: 10px;
-	resize: none;
-	background-color: #d1cebd;
-}
-.comName {
-	background-color: #d1cebd;
-}
-.newComm {
-	margin-bottom: 1.5rem;
-}
-.form-control {
-	border-radius: 10px;
-}
-.commentLabel {
-	display: block;
-}
-.navbar-brand {
-	font-family: 'Acme', sans-serif;
-}
+/* show comments */
 .com {
 	margin: 2rem;
 	padding: 1.5rem;
@@ -133,8 +151,13 @@ hr {
 	border-radius: 30px;
 	display: block;
 }
-.fullcontent {
-	text-align: justify;
+.Time {
+	opacity: 50%;
+	font-size: 0.8rem;
+	float: right;
+}
+.com.row.colComm {
+	width: 18rem;
 }
 .commNew {
 	font-size: 1.5rem;
@@ -148,31 +171,30 @@ hr {
 .like:hover {
 	color: #323edd;
 }
-.reply {
-	float: right;
-	font-size: 2rem;
-	border: none;
-	background-color: #d1cebd;
+/* add replies */
+.replyName {
+	width: 30%;
+	margin-bottom: 0.3rem;
 }
-.reply:hover {
-	color: #323edd;
-}
-#replyL {
-	float: right;
+.replyBlock {
+	display: inline;
+	width: 80%;
 }
 #reply {
 	display: inline;
 	width: 90%;
 	resize: none;
 }
-.replyBlock {
-	display: inline;
-	width: 80%;
+.replyBtn {
+	float: right;
+	font-size: 2rem;
+	border: none;
+	background-color: #d1cebd;
 }
-.replyName {
-	width: 30%;
-	margin-bottom: 0.3rem;
+.replyBtn:hover {
+	color: #323edd;
 }
+/* show replies */
 .replyShow {
 	margin: 0.2rem;
 	padding: 0.4rem;
@@ -185,41 +207,16 @@ hr {
 .repNew {
 	font-size: 1rem;
 }
-.Time {
-	opacity: 50%;
-	font-size: 0.8rem;
-	float: right;
-}
-h4 {
-	font-size: 1.2rem;
-	margin-bottom: 0;
-	display: inline;
-}
-.contact {
-	background-color: #d1cebd;
-}
-.cover {
-	margin-bottom: 2rem;
-}
+/*//////////////////////////////////////////////// compose /////////////////////////////////////////////////// */
 .composePage {
 	margin-bottom: 1rem;
 }
-.bd-placeholder-img {
-	font-size: 1.125rem;
-	text-anchor: middle;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+.inputs {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
-.fa-glass-cheers {
-	font-size: 5rem;
-	color: #df7861;
-}
-.jumbotron {
-	text-align: center;
-}
-.body {
+/*//////////////////////////////////////////////// newsletter /////////////////////////////////////////////////// */
+.newsBody {
 	height: 100%;
 	padding-top: 0;
 	padding-bottom: 40px;
@@ -245,6 +242,14 @@ h4 {
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 }
+.column {
+	text-align: center;
+	width: 72px;
+	height: 72px;
+}
+.buttonSubs {
+	margin-top: 1rem;
+}
 .mid {
 	border-radius: 0;
 	margin-bottom: -1px;
@@ -253,24 +258,25 @@ h4 {
 	border-top-right-radius: 0;
 	border-top-left-radius: 0;
 }
-.column {
-	text-align: center;
+/* success page */
+.fa-glass-cheers {
+	font-size: 5rem;
+	color: #df7861;
 }
 #succ {
 	margin: 0;
 	z-index: 1;
+	text-align: center;
 }
-.buttonSubs {
-	margin-top: 1rem;
-}
-.inputs {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
+/* failure page */
+/*//////////////////////////////////////////////// mobile /////////////////////////////////////////////////// */
 /*mobile phone*/
 @media (max-width: 1080px) {
 	.image {
 		height: 20vh;
+	}
+	.card {
+		border: 10px solid transparent;
 	}
 	.replyShow {
 		left: 0;
@@ -280,12 +286,19 @@ h4 {
 		float: none;
 	}
 	#comment {
-		width: 85%;
+		width: 80%;
+	}
+	.com {
+		margin: 0;
+		margin-bottom: 1rem;
 	}
 	#reply {
 		width: 85%;
 	}
 	.replyName {
 		width: 50%;
+	}
+	.head-link {
+		font-size: 1.5rem;
 	}
 }

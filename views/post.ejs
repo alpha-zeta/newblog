@@ -7,7 +7,7 @@
             <span><%= time %></span>
         </div>
         <hr>
-        <div id="imp" type="hidden" style="display: none;">
+        <div id="imp" type="hidden">
             <%= postContent %>
         </div>
         <div type="text/html" id="newContent" class="newText">
@@ -35,9 +35,9 @@
                 </div>
                 <hr><br>
                 <div class="row">
-                 <div class="col-lg-6 col-sm-12"style="width:18rem;">
-                <p class="commNew"><%= array[i].comment %></p>
-                <button class="like"><i class="fab fa-the-red-yeti"></i></button>
+                 <div class="col-lg-6 col-sm-12 colComm">
+                    <p class="commNew"><%= array[i].comment %></p>
+                    <button class="like"><i class="fab fa-the-red-yeti"></i></button>
                  </div>
                 </div>
                 <form action="/reply" method="POST">
@@ -47,17 +47,16 @@
                     <input class="form-control form-control-sm replyName" name="replier" autocomplete="off" placeholder="Enter your name here..." type="text">
                     <div class="replyBlock">
                         <textarea name="reply" id="reply"class="form-control" id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
-                        <button type="submit" name="replyBtn" class="reply" value="<%= array[i]._id %>"><i class="fas fa-reply"></i></button>
+                        <button type="submit" name="replyBtn" class="replyBtn" value="<%= array[i]._id %>"><i class="fas fa-reply"></i></button>
                     </div>
                 </form>
                 <hr>
-                  <% const a=array[i].reply %>
-                <% for(var j=0;j<a.length;j++){ %>
+                <% for(var j=0;j<array[i].reply.length;j++){ %>
                      <div class="container replyShow">
-                        <h4><strong><%= a[j].replier %></strong></h4>
-                        <span class="Time"><%= a[j].comDate %>, <%= a[j].comTime %></span>
+                        <h4><strong><%= array[i].reply[j].replier %></strong></h4>
+                        <span class="Time"><%= array[i].reply[j].comDate %>, <%= array[i].reply[j].comTime %></span>
                         <hr>
-                        <p class="repNew"><%= a[j].reply %></p>
+                        <p class="repNew"><%= array[i].reply[j].reply %></p>
                      </div>
                      <hr>
                 <% } %>

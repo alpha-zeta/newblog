@@ -280,7 +280,7 @@ app.post('/reply', function(req, res) {
 				} else if (!docs) {
 					console.log('page not found 404');
 					res.redirect('/' + title);
-				} else {
+				} else if (docs) {
 					res.redirect('/' + title);
 				}
 			});
