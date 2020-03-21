@@ -42,9 +42,7 @@ button:focus {
 .push {
 	height: 50px;
 }
-.headL {
-	margin-top: 2rem;
-}
+
 .head-link {
 	color: black;
 }
@@ -263,46 +261,16 @@ h4 {
 	margin: 0;
 	z-index: 1;
 }
+.buttonSubs {
+	margin-top: 1rem;
+}
+.inputs {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
 /*mobile phone*/
 @media (max-width: 1080px) {
 	.image {
 		height: 20vh;
 	}
-	/* .container {
-		max-width: 900px;
-	}
-	p {
-		font-size: 2rem;
-	}
-	h1 {
-		font-size: 5rem;
-	}
-	h2 {
-		font-size: 3rem;
-	}
-	.navbar-brand {
-		font-size: 2.5rem;
-	}
-	.nav-link {
-		font-size: 1.5rem;
-	}
-	#comment {
-		font-size: 1.5rem;
-	}
-	.com {
-		max-width: 100%;
-	}
-	.replyShow {
-		position: initial;
-		width: 40%;
-	}
-	.bd-placeholder-img-lg {
-		font-size: 3.5rem;
-	}
-	.text-muted {
-		font-size: 0.8rem;
-	}
-	.text {
-		font-size: 1.6rem;
-	} */
 }

@@ -5,14 +5,22 @@
     <h1>Compose</h1>
     <form action="/compose" method="POST">
         <div class="form-group">
-            <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
-            <input type="text" name="head" class="form-control form-control-lg" id="head" placeholder="Put your heading here..." autocomplete="off">
-            <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
-            <input type="text" name="abt" class="form-control form-control-lg" id="head" placeholder="Put a short description here..." autocomplete="off">    
-            <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>
-            <input type="text" name="thumb" class="form-control form-control-lg" id="head" placeholder="Put your link here..." autocomplete="off">    
-            <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
-            <textarea name="cmp" class="form-control form-control-lg text" id="cmp" placeholder="Compose here my freinds..." rows="10"></textarea>
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
+                <input type="text" name="head" class="form-control" id="head" placeholder="Put your heading here..." autocomplete="off">
+            </div>
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
+                <input type="text" name="abt" class="form-control" id="head" placeholder="Put a short description here..." autocomplete="off">    
+            </div>
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>
+                <input type="text" name="thumb" class="form-control" id="head" placeholder="Put your link here..." autocomplete="off">    
+            </div>
+            <div class="inputs">
+                <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
+                <textarea name="cmp" class="form-control form-control-lg text" id="cmp" placeholder="Compose here my freinds..." rows="10"></textarea>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block"name="btn">Submit</button>
     </form>
