@@ -49,10 +49,9 @@
     </div>
     <script>
         var x=parseInt(screen.width);
-        console.log(x);
+        var y=document.getElementsByClassName('card');
         if(x<=1080){
-             document.getElementsByClassName('card').classList.remove("col-6");
-            document.getElementsByClassName('card').classList.add("col-12");
+            y.forEach(element => element.classList.remove("col-6"));
         }
     </script>
 <%- include('partials/footer'); -%>
