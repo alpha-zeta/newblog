@@ -277,6 +277,7 @@ button:focus {
 	}
 	.card {
 		border: 10px solid transparent;
+		width: 100%;
 	}
 	.card-body {
 		padding: 0.5rem;
@@ -311,7 +312,8 @@ button:focus {
 		font-size: 1.2rem;
 	}
 	.item {
-		height: 8rem;
+		height: 12rem;
+		width: 100%;
 	}
 	.cronos {
 		font-size: 0.7rem;
