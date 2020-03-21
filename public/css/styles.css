@@ -128,7 +128,7 @@ hr {
 }
 .com {
 	margin: 2rem;
-	padding: 2rem;
+	padding: 1.5rem;
 	background-color: #d1cebd;
 	border-radius: 30px;
 	display: block;
@@ -167,7 +167,6 @@ hr {
 }
 .replyBlock {
 	display: inline;
-
 	width: 80%;
 }
 .replyName {
@@ -272,5 +271,21 @@ h4 {
 @media (max-width: 1080px) {
 	.image {
 		height: 20vh;
+	}
+	.replyShow {
+		left: 0;
+		width: 100%;
+	}
+	.reply {
+		float: none;
+	}
+	#comment {
+		width: 85%;
+	}
+	#reply {
+		width: 85%;
+	}
+	.replyName {
+		width: 50%;
 	}
 }
