@@ -7,11 +7,11 @@
             <div>
                 <div class="row">
                         <% for(var i=0; i<array.length; i++){ %>
-                            <% if((i+1)%2===0){ %>
-                                <div class="card col-6" style="text-align: right;">
-                            <% }else{ %>
-                                <div class="card col-6">
-                            <% } %>
+                                <% if((i+1)%2===0){ %>
+                                    <div class="card col-6" style="text-align: right;">
+                                <% }else{ %>
+                                    <div class="card col-6">
+                                <% } %>
                                     <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
                                     <div class="card-body">
                                         <form action="/delete" method="POST">
@@ -47,5 +47,12 @@
                  </div>
             </div>
     </div>
-
+    <script>
+        var x=parseInt(screen.width);
+        console.log(x);
+        if(x<=1080){
+             document.getElementsByClassName('card').classList.remove("col-6");
+            document.getElementsByClassName('card').classList.add("col-12");
+        }
+    </script>
 <%- include('partials/footer'); -%>
