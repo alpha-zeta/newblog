@@ -268,7 +268,7 @@ h4 {
 	.image {
 		height: 20vh;
 	}
-	.container {
+	/* .container {
 		max-width: 900px;
 	}
 	p {
@@ -304,5 +304,5 @@ h4 {
 	}
 	.text {
 		font-size: 1.6rem;
-	}
+	} */
 }
