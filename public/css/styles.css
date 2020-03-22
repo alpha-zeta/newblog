@@ -239,7 +239,6 @@ h1,
 }
 .replyBlock {
 	display: inline;
-	width: 80%;
 }
 #reply {
 	display: inline;
@@ -364,7 +363,7 @@ h1,
 		margin-bottom: 1rem;
 	}
 	#reply {
-		width: 85%;
+		width: 81%;
 	}
 	.replyName {
 		width: 50%;
@@ -409,22 +408,5 @@ h1,
 	}
 	.slide p {
 		font-size: 1.1rem;
-	}
-}
-@media (max-width: 1700px, min-width:1081px) {
-	.home {
-		width: 10rem;
-		height: 10rem;
-		text-align: center;
-		margin: auto;
-		box-shadow: 2.5px 5px #84a9ac;
-	}
-	.fa-home {
-		font-size: 5rem;
-		position: relative;
-		top: 35%;
-	}
-	.out {
-		border-top-left-radius: 50%;
 	}
 }
