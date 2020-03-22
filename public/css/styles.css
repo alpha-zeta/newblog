@@ -361,8 +361,7 @@ h1,
 		width: 6rem;
 		height: 6rem;
 		text-align: center;
-		left: 2rem;
-		top: 10rem;
+		margin: -130px;
 		box-shadow: 2.5px 5px #84a9ac;
 	}
 	.fa-home {
@@ -379,8 +378,7 @@ h1,
 		width: 10rem;
 		height: 10rem;
 		text-align: center;
-		left: 2rem;
-		top: 25rem;
+		margin: auto;
 		box-shadow: 2.5px 5px #84a9ac;
 	}
 	.fa-home {
