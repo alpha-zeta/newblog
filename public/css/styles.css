@@ -49,6 +49,9 @@ button:focus {
 .navbar-nav li a:hover {
 	color: #1abc9c !important;
 }
+.navbar-toggler {
+	border-color: transparent;
+}
 /*//////////////////////////////////////////////// footer /////////////////////////////////////////////////// */
 .footer {
 	height: 50px;
@@ -70,8 +73,32 @@ button:focus {
 	height: 50vh;
 	width: 100%;
 }
+.home {
+	display: inline-block;
+	background-color: lavender;
+	width: 15rem;
+	height: 15rem;
+	text-align: center;
+	border-radius: 100%;
+	margin: -500px;
+	box-shadow: 5px 10px #84a9ac;
+}
+.fa-home {
+	font-size: 5rem;
+	position: relative;
+	top: 35%;
+}
 .cover {
 	margin-bottom: 2rem;
+	border-bottom-right-radius: 50%;
+}
+.out {
+	height: 10rem;
+	background-color: #fff;
+	border-top-left-radius: 70%;
+}
+.mask1 {
+	background-color: #639a67;
 }
 .fullcontent {
 	text-align: justify;
@@ -329,5 +356,39 @@ h1,
 	.card-body hr {
 		margin-top: 0.25rem;
 		margin-bottom: 0.25rem;
+	}
+	.home {
+		width: 6rem;
+		height: 6rem;
+		text-align: center;
+		left: 2rem;
+		top: 10rem;
+		box-shadow: 2.5px 5px #84a9ac;
+	}
+	.fa-home {
+		font-size: 2rem;
+		position: relative;
+		top: 35%;
+	}
+	.out {
+		border-top-left-radius: 50%;
+	}
+}
+@media (max-width: 1700px, min-width:1081px) {
+	.home {
+		width: 10rem;
+		height: 10rem;
+		text-align: center;
+		left: 2rem;
+		top: 25rem;
+		box-shadow: 2.5px 5px #84a9ac;
+	}
+	.fa-home {
+		font-size: 5rem;
+		position: relative;
+		top: 35%;
+	}
+	.out {
+		border-top-left-radius: 50%;
 	}
 }

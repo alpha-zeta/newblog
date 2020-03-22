@@ -1,12 +1,22 @@
 <%- include('partials/header'); -%>
-<img class="image cover" src="https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png" alt="">
+<div class="mask1">
+    <img class="image cover" src="https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png" alt="">
+    <div class="home"><i class="fas fa-home"></i></div>  
     <div class="container">
-        <h1>Home</h1>
-        <p class="fullcontent"><%= content %></p>
+     
+            <h1 style="text-align: right;">Home</h1>
+            <p class="fullcontent"><strong><%= content %></strong>></p>
+        </div>
+        <div class="out">
+                
+            </div>
+</div>
+<div class="container">
         <% let j=100; %>
             <div>
                 <div class="row">
                         <% for(var i=0; i<array.length; i++){ %>
+                            <a href="/<%= array[i].heading %>">
                                 <% if((i+1)%2===0){ %>
                                     <div class="card col-6" style="text-align: right;">
                                 <% }else{ %>
@@ -39,6 +49,7 @@
                                         </form>
                                     </div>
                                 </div>
+                            </a>
                                <% if((i+1)%2===0 && i!=0){ %>                                
                                 </div>
                                 <div class="row">
@@ -49,10 +60,7 @@
     </div>
     <script>
         var x=parseInt(window.innerWidth);
-        console.log(x);
         var y=document.getElementsByClassName('card');
-        console.log(y.length);
-        console.log(document.getElementsByClassName('card')[0].classList);
         if(x<=1080){
             for(var i=0;i<y.length;i++){
                 y[i].classList.remove("col-6");
