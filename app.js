@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 
 //default content creation for home, about, contact
 const homeStartingContent =
-	'Bored AF? PUBG servers are down? Binge watched everything? Even beaching starting to get boring?\r\nWell, you  are not depressed, you are just facing mankinds greatest fear BOREDOM. So, why not try our site Youcite.com, it is free to use, can write about almost anything, easy to compose. \r\nIs it better than those(PUBG, Netflix, beaching)?Well, do you care? Writting seems to be boring but at times it is the one thing that keeps you away from frying your balls(cosco) in a sausepan because human mind cant bear boredom.';
+	'Bored AF? PUBG servers are down? Binge watched everything? Even beaching starting to get boring?\nWell, you  are not depressed, you are just facing mankinds greatest fear BOREDOM. So, why not try our site Youcite.com, it is free to use, can write about almost anything, easy to compose.\nIs it better than those(PUBG, Netflix, beaching)?Well, do you care? Writting seems to be boring but at times it is the one thing that keeps you away from frying your balls(cosco) in a sausepan because human mind cant bear boredom.';
 const aboutContent =
 	'Hac habitasse platea dictumst vestibulum rhoncus est pellentesque. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper. Non diam phasellus vestibulum lorem sed. Platea dictumst quisque sagittis purus sit. Egestas sed sed risus pretium quam vulputate dignissim suspendisse. Mauris in aliquam sem fringilla. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Amet massa vitae tortor condimentum lacinia quis vel eros. Enim ut tellus elementum sagittis vitae. Mauris ultrices eros in cursus turpis massa tincidunt dui.';
 const contactContent =
@@ -82,7 +82,7 @@ app.get('/', function(req, res) {
 			console.log(err);
 		} else {
 			res.render('home', {
-				content : homeStartingContent,
+				content : he.decode(homeStartingContent),
 				array   : doc
 			});
 		}
