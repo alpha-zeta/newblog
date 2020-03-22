@@ -103,8 +103,14 @@ button:focus {
 	padding-bottom: 0.1rem;
 	margin-bottom: 0;
 }
+.slide {
+	min-height: 10rem;
+	text-align: center;
+}
+.slide p {
+	font-size: 1.5rem;
+}
 .out hr {
-	/* background: linear-gradient(to right, red, yellow); */
 	background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQHCVPuOiSyJyMWD0nJygEGLx7joGfweKU7WeqoGwG4PPcrp_jK');
 	height: 2px;
 	border: none;
@@ -118,6 +124,9 @@ button:focus {
 	background-color: #ffbf99;
 }
 .fullcontent {
+	text-align: justify;
+}
+.homeCon {
 	text-align: justify;
 }
 .card {
@@ -397,6 +406,9 @@ h1,
 	}
 	.out .container {
 		top: 1.5rem;
+	}
+	.slide p {
+		font-size: 1.2rem;
 	}
 }
 @media (max-width: 1700px, min-width:1081px) {
