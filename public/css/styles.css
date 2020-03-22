@@ -80,7 +80,7 @@ button:focus {
 	height: 15rem;
 	text-align: center;
 	border-radius: 100%;
-	margin: -500px;
+	margin: -300px -300px;
 	box-shadow: 5px 10px #84a9ac;
 }
 .fa-home {
