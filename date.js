@@ -1,12 +1,11 @@
 module.exports = getDate;
-function getDate() {
-	var date = new Date();
-	var options = {
-		day   : 'numeric',
-		month : 'short',
-		year  : 'numeric'
-	};
+function getDate(x) {
+	let date = new Date();
 
-	var day = date.toLocaleDateString('en-US', options);
-	return day;
+	let intlDateObj = new Intl.DateTimeFormat('en-GB', {
+		timeZone : x
+	});
+
+	let localTime = intlDateObj.format(date);
+	return localTime;
 }

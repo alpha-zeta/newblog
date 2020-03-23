@@ -126,6 +126,15 @@ button:focus {
 .fullcontent {
 	text-align: justify;
 }
+.carousel-indicators li {
+	width: 8px;
+	height: 8px;
+	border-radius: 100%;
+	margin: 10px;
+}
+.carousel-indicators .active {
+	background-color: #b3ad09;
+}
 .homeCon {
 	text-align: justify;
 }

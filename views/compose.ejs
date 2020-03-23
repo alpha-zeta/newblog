@@ -20,6 +20,7 @@
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
                 <input type="text" name="head" class="form-control" id="head" placeholder="Put your heading here..." autocomplete="off">
             </div>
+            <input type="hidden" id="timeZone" name="timeZone">
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
                 <input type="text" name="abt" class="form-control" id="head" placeholder="Put a short description here..." autocomplete="off">    
@@ -32,8 +33,16 @@
                 <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
                 <textarea name="cmp" class="form-control form-control-lg text" id="cmp" placeholder="Compose here my freinds..." rows="10"></textarea>
             </div>
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Author</strong></label>
+                <input type="text" name="author" class="form-control" id="head" placeholder="Put author name here..." autocomplete="off">
+            </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block"name="btn">Submit</button>
+        <script>
+            var x=Intl.DateTimeFormat().resolvedOptions().timeZone;
+            document.getElementById('timeZone').value=x;
+        </script>
     </form>
 </div>
 <%- include('partials/footer'); -%>

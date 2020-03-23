@@ -115,6 +115,7 @@ app.post('/compose', function(req, res) {
 	const heading = req.body.head;
 	const thumb = req.body.thumb;
 	const abt = req.body.abt;
+	const timeZone = req.body.timeZone;
 
 	Link.find({}, function(err, doc) {
 		if (err) {
@@ -125,8 +126,8 @@ app.post('/compose', function(req, res) {
 				linkID        : linkID,
 				heading       : heading,
 				content       : composed,
-				date          : date(),
-				time          : time(),
+				date          : date(timeZone),
+				time          : time(timeZone),
 				thumbnailLink : thumb,
 				about         : abt
 			});
