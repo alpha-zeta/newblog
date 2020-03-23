@@ -28,10 +28,12 @@
             </div>
         </div>
         <div class="out">
+            <% if(array.length!=0){ %>
             <div class="container">
                 <p>Recent uploads.....</p>
                 <hr>
             </div>
+             <% } %>
         </div>
 </div>
 <div class="container">
@@ -45,7 +47,9 @@
                                 <% }else{ %>
                                     <div class="card col-6">
                                 <% } %>
-                                    <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
+                                    <div class="img">
+                                        <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
+                                    </div>
                                     <div class="card-body">
                                         <form action="/delete" method="POST">
                                             <h2 class="card-title"><a class="head-link" href="/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
