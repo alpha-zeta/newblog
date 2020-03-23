@@ -63,12 +63,14 @@ const Comment = new mongoose.model('Comment', commentsSchema);
 //notes collection creation
 const notesSchema = new mongoose.Schema({
 	linkID        : Number,
+	type          : String,
 	heading       : String,
 	content       : String,
 	date          : String,
 	time          : String,
 	thumbnailLink : String,
 	about         : String,
+	author        : String,
 	comments      : Array
 });
 const Note = new mongoose.model('Note', notesSchema);
@@ -115,6 +117,8 @@ app.post('/compose', function(req, res) {
 	const heading = req.body.head;
 	const thumb = req.body.thumb;
 	const abt = req.body.abt;
+	const type = req.body.type;
+	const author = req.body.author;
 	const timeZone = req.body.timeZone;
 
 	Link.find({}, function(err, doc) {
@@ -129,7 +133,9 @@ app.post('/compose', function(req, res) {
 				date          : date(timeZone),
 				time          : time(timeZone),
 				thumbnailLink : thumb,
-				about         : abt
+				about         : abt,
+				type          : type,
+				author        : author
 			});
 			Link.findOneAndUpdate({ link: parseInt(linkID) }, { link: parseInt(linkID) + 1 }, function(err, doc) {
 				if (err) {

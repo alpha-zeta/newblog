@@ -102,6 +102,7 @@ button:focus {
 	font-size: 3rem;
 	padding-bottom: 0.1rem;
 	margin-bottom: 0;
+	display: inline;
 }
 .slide {
 	min-height: 10rem;
@@ -109,6 +110,10 @@ button:focus {
 }
 .slide p {
 	font-size: 1.5rem;
+}
+.sorting {
+	display: inline;
+	float: right;
 }
 .out hr {
 	background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQHCVPuOiSyJyMWD0nJygEGLx7joGfweKU7WeqoGwG4PPcrp_jK');

@@ -31,6 +31,15 @@
             <% if(array.length!=0){ %>
             <div class="container">
                 <p>Recent uploads.....</p>
+                <div class="sorting">
+                    <div class="form-group">
+                        <select name="type" class="form-control" id="sel1">
+                          <option>Tech</option>
+                          <option>Art</option>
+                          <option>Social</option>
+                        </select>
+                    </div>
+                </div>
                 <hr>
             </div>
              <% } %>
@@ -40,9 +49,10 @@
         <% let j=100; %>
             <div>
                 <div class="row">
-                        <% for(var i=0; i<array.length; i++){ %>
+                    <% let p=0; %>
+                        <% for(var i=array.length-1; i>=0; i--){ %>
                             <a href="/<%= array[i].heading %>">
-                                <% if((i+1)%2===0){ %>
+                                <% if((p+1)%2===0){ %>
                                     <div class="card col-6" style="text-align: right;">
                                 <% }else{ %>
                                     <div class="card col-6">
@@ -67,7 +77,7 @@
                                                 <input type="hidden" name="noteID" value="<%= array[i].linkID %>">
                                                 <input type="hidden" name="ID" value="<%= array[i]._id %>">
                                                 <input type="hidden" name="comID" value="<%= array[i].comments._id%>">
-                                                 <% if((i+1)%2===0){ %>
+                                                 <% if((p+1)%2===0){ %>
                                                     <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                                 <% }else{ %>
                                                     <button type="submit" class="btn btn-danger" style="right: 1.25rem;"><i class="far fa-trash-alt"></i></button>
@@ -77,10 +87,11 @@
                                     </div>
                                 </div>
                             </a>
-                               <% if((i+1)%2===0 && i!=0){ %>                                
+                               <% if((p+1)%2===0){ %>                                
                                 </div>
                                 <div class="row">
                               <%  }; %>
+                              <% p++; %>
                         <% }; %>
                  </div>
             </div>
