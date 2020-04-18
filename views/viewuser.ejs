@@ -1,0 +1,71 @@
+<%- include('partials/header'); -%>
+<div class="container userDiv">
+    <div class="row dashboard">
+        <div class="col-lg-3 col-sm-12 picture">
+            <% if(!author.profilePicLink){ %>
+                <i class="fas fa-user"></i>
+            <% } else{ %>
+                <img class="userpic" src="<%= author.profilePicLink %>" alt="profile_pic">
+            <% } %>
+        </div>
+        <div class="col-lg-9 col-sm-12 details">
+            <h1><%= author.name %></h1>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6">
+            <p><strong>Email: </strong><%= author.email %></p>
+            </div>
+            <div class="col-lg-6">
+            <p><strong>Gender: </strong><%= author.gender %></p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <p><strong>Age: </strong><%= author.age %></p>
+                </div>
+                <div class="col-lg-6">
+                    <p><strong>About author: </strong></p>
+                </div>
+            </div>
+            <textarea type="text" name="info" class="form-control about" readonly="readonly" rows="3" style="resize: none;"><%= author.info %></textarea>
+        </div>
+    </div>
+    <hr>
+    <h2>Authors creations</h2>
+    <hr>
+    <div class="creation">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                 <th width="40%">Header</th>
+                <th width="10%">Type</th>
+                <th width="15%">Time</th>
+                <th width="10%">Views</th>
+                <th width="10%">Like/Dislike</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% array.forEach(function(obj){ %>
+              <tr>
+                <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
+                <td><%= obj.type %></td>
+                <td>
+                    <span class="cronos"><%= obj.date %> </span>
+                </td>
+                <td>
+                    <%= obj.views_ip.length+obj.views_signed.length-1 %>
+                </td>
+                <td>
+                    <%= obj.likes.length %>/<%= obj.dislikes.length %>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+         </table>
+         <% if(array.length===0){ %>
+                <p>This author hasn't created anything yet.</p>
+         <% }else{ %>
+            <hr>
+         <% } %>
+    </div>
+<%- include('partials/footer'); -%>

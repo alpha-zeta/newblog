@@ -1,0 +1,113 @@
+<%- include('partials/header'); -%>
+<div class="container userDiv">
+    <div class="row dashboard">
+        <div class="col-lg-3 col-sm-12 picture">
+            <% if(!user.profilePicLink){ %>
+                <i class="fas fa-user"></i>
+            <% } else{ %>
+                <img class="userpic" src="<%= user.profilePicLink %>" alt="profile_pic">
+            <% } %>
+        </div>
+        <div class="col-lg-9 col-sm-12 details">
+            <h1><%= user.name %></h1>
+            <hr>
+            <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <p><strong>Email: </strong><%= user.email %></p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <p><strong>Gender: </strong><%= user.gender %></p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <p><strong>Age: </strong><%= user.age %></p>
+                </div>
+                <div class="col-6">
+                    <p><strong>About you: </strong></p>
+                </div>
+            </div>
+            <textarea type="text" name="info" class="form-control about" readonly="readonly" rows="3" style="resize: none;"><%= user.info %></textarea>
+            <a class="edit" href="/userinfo/about"><i class="fas fa-user-edit"> edit your about-info</i></a>
+            <button class="btn btn-primary"><a href="/compose"><i class="fas fa-feather-alt"></i> Compose</a></button>
+            <button class="btn btn-warning"><a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a></button>
+        </div>
+    </div>
+    <hr>
+    <h2>Your creations</h2>
+    <hr>
+    <div class="creation">
+        <table class="table table-hover mobileTab">
+            <thead>
+              <tr>
+                <th width="50%">Header</th>
+                <th width="10%">Views</th>
+                <th width="40%">Edit/Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% array.forEach(function(obj){ %>
+              <tr>
+                <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
+                <td>
+                    <%= obj.views_ip.length+obj.views_signed.length-1 %>
+                </td>
+                <td>
+                    <form action="/delete" method="POST">
+                        <input type="hidden" name="noteID" value="<%= obj.linkID %>">
+                        <input type="hidden" name="ID" value="<%= obj._id %>">
+                        <input type="hidden" name="comID" value="<%= obj.comments._id%>">
+                        <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                    </form>
+                    <a href="/edit/<%= obj._id %>"><button type="submit" class="btn btn-success"><i class="fas fa-edit"></i></button></a>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+         </table>
+         <table class="table table-hover pcTab">
+            <thead>
+              <tr>
+                <th width="40%">Header</th>
+                <th width="10%">Type</th>
+                <th width="12.5%">Time</th>
+                <th width="7.5%">Views</th>
+                <th width="10%">Like/Dislike</th>
+                <th width="20%">Edit/Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% array.forEach(function(obj){ %>
+              <tr>
+                <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
+                <td><%= obj.type %></td>
+                <td>
+                    <span class="cronos"><%= obj.date %> </span>
+                    <span class="cronos"><%= obj.time %></span>
+                </td>
+                <td>
+                    <%= obj.views_ip.length+obj.views_signed.length-1 %>
+                </td>
+                <td>
+                    <%= obj.likes.length %>/<%= obj.dislikes.length %>
+                </td>
+                <td>
+                    <form action="/delete" method="POST">
+                        <input type="hidden" name="noteID" value="<%= obj.linkID %>">
+                        <input type="hidden" name="ID" value="<%= obj._id %>">
+                        <input type="hidden" name="comID" value="<%= obj.comments._id%>">
+                        <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                    </form>
+                    <a href="/edit/<%= obj._id %>"><button type="submit" class="btn btn-success"><i class="fas fa-edit"></i></button></a>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+         </table>
+         <% if(array.length===0){ %>
+                <p>You haven't created anything yet. Move on to compose section to create new articles.</p>
+         <% }else{ %>
+            <hr>
+         <% } %>
+    </div>
+<%- include('partials/footer'); -%>

@@ -1,0 +1,102 @@
+<%- include('partials/header'); -%>
+<div class="bod">
+    <div class="row">
+        <div class="col-lg-4 col-sm-12 mobileErr">
+            <% error.forEach(function(obj){ %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong><%= obj.msg %></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% }); %>
+        </div>
+        <div class="col-lg-8 col-sm-12">
+            <div class="container socio">
+                <div class="design">
+                    <h1>Get registered now ;)</h1>
+                    <div class="row">
+                    <div class="col-lg-6 social contents">
+                        <a class="btn btn-large btn-block fb btn-fb">Register with <i class="fab fa-facebook"></i></a>
+                        <a class="btn btn-large btn-block g btn-gplus" href="/auth/google">Register with <i class="fab fa-google"></i></a>
+                        <a class="btn btn-large btn-block tw btn-tw">Register with <i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-lg-6 reg">
+                    <h2>Register with your email</h2>
+                    <form id="register" action="/register" method="POST">
+                       <input type="hidden" name="passStat" id="passStat">
+                       <label class="Email" for="exampleFormControlTextarea1"><strong>Email</strong></label>
+                       <input type="email" required="required" name="username" class="form-control" id="email" placeholder="put your email here" autocomplete="off">
+                       <label class="Password" for="exampleFormControlTextarea1"><strong>Password</strong></label><span id="result"></span>
+                       <input type="password" required="required" name="password" class="form-control" id="password" placeholder="enter the password" autocomplete="off">
+                       <label class="Password" for="exampleFormControlTextarea1"><strong>Verify password</strong></label>
+                       <input type="password" required="required" name="password2" class="form-control" id="password2" placeholder="verify the previous password" autocomplete="off">
+                       <button type="submit" class="btn btn-block btn-success">Register</button>
+                    </form>
+                    <div class="link">
+                        <a class="loginLink" href="/login">Have an existing account? Log in my freind</a>
+                    </div>
+                </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-12 pcErr">
+            <% error.forEach(function(obj){ %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong><%= obj.msg %></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
+<script>
+$(document).ready(function() {
+    $('#password').keyup(function() {
+        $('#result').html(checkStrength($('#password').val()));
+        $('#passStat').val(checkStrength($('#password').val()));
+    });
+    function checkStrength(password) {
+        var strength = 0
+        if (password.length < 8) {
+        $('#result').removeClass()
+        $('#result').addClass('short')
+        return 'Too short'
+        }
+        if (password.length > 12) strength += 1
+        // If password contains both lower and uppercase characters, increase strength value.
+        if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) strength += 1
+        // If it has numbers and characters, increase strength value.
+        if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) strength += 1
+        // If it has one special character, increase strength value.
+        if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+        // If it has two special characters, increase strength value.
+        if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) strength += 1
+        // Calculated strength value, we can return messages
+        // If value is less than 2
+        if (strength < 2) {
+        $('#result').removeClass()
+        $('#result').addClass('weak')
+        return 'Weak'
+        } else if (strength == 2) {
+        $('#result').removeClass()
+        $('#result').addClass('good')
+        return 'Good'
+        } else {
+        $('#result').removeClass()
+        $('#result').addClass('strong')
+        return 'Strong'
+        }
+    }
+});
+</script>
+
+<%- include('partials/footer'); -%>

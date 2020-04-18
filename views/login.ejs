@@ -1,0 +1,29 @@
+<%- include('partials/header'); -%>
+<div class="bod login">
+<div class="container socio">
+    <div class="design">
+    <h1>Welcome back pal :)</h1>
+    <div class="row">
+    <div class="col-lg-6 col-sm-12 social contents">
+        <a class="btn btn-large btn-block fb">Login with <i class="fab fa-facebook"></i></a>
+        <a class="btn btn-large btn-block g" href="/auth/google">Login with <i class="fab fa-google"></i></a>
+        <a class="btn btn-large btn-block tw">Login with <i class="fab fa-twitter"></i></a>
+    </div>
+    <div class="col-lg-6 col-sm-12 reg">
+        <h2>Login with your email</h2>
+        <form action="/login" method="POST">
+           <label class="Email" for="exampleFormControlTextarea1"><strong>Email</strong></label>
+           <input type="email" name="username" required="required" class="form-control" id="email" autocomplete="email" placeholder="put your email here" autocomplete="off">
+           <label class="Password" for="exampleFormControlTextarea1"><strong>Password</strong></label>
+           <input type="password" required="required" name="password" class="form-control" placeholder="enter the password" id="password" autocomplete="off">
+           <button type="submit" class="btn btn-block btn-success">Log in</button>
+        </form>
+        <div class="link">
+            <a class="loginLink" href="/register">Don't have an account? Hurry! register now.</a>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+<%- include('partials/footer'); -%>

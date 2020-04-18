@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 <div class="mask1">
-    <img class="image cover" src="https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png" alt="">
-    <div class="home"><i class="fas fa-home"></i></div>  
+  <div class="home"><i class="fas fa-home"></i></div> 
+    <img class="image cover" src="https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png" alt=""> 
     <div class="container">
             <h1 style="text-align: center;">Home</h1>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true" data-wrap="true" data-keyboard="true">
@@ -31,15 +31,6 @@
             <% if(array.length!=0){ %>
             <div class="container">
                 <p>Recent uploads.....</p>
-                <div class="sorting">
-                    <div class="form-group">
-                        <select name="type" class="form-control" id="sel1">
-                          <option>Tech</option>
-                          <option>Art</option>
-                          <option>Social</option>
-                        </select>
-                    </div>
-                </div>
                 <hr>
             </div>
              <% } %>
@@ -48,21 +39,16 @@
 <div class="container">
         <% let j=100; %>
             <div>
-                <div class="row">
-                    <% let p=0; %>
                         <% for(var i=array.length-1; i>=0; i--){ %>
-                            <a href="/<%= array[i].heading %>">
-                                <% if((p+1)%2===0){ %>
-                                    <div class="card col-6" style="text-align: right;">
-                                <% }else{ %>
-                                    <div class="card col-6">
-                                <% } %>
+                          <div class="row tab">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="img">
-                                        <img class="card-img-top item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
+                                        <img class="item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
                                     </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="card-body">
-                                        <form action="/delete" method="POST">
-                                            <h2 class="card-title"><a class="head-link" href="/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
+                                            <h2 class="card-title"><a class="head-link" href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
                                             <div class="d-t">
                                                 <span class="cronos"><%= array[i].date %> </span>
                                                 <span class="cronos"><%= array[i].time %></span>
@@ -74,24 +60,9 @@
                                                 <% if(array[i].about.length<j){ %>
                                                     <p class="card-text"><%=array[i].about %></p>
                                                 <% } %> 
-                                                <input type="hidden" name="noteID" value="<%= array[i].linkID %>">
-                                                <input type="hidden" name="ID" value="<%= array[i]._id %>">
-                                                <input type="hidden" name="comID" value="<%= array[i].comments._id%>">
-                                                 <% if((p+1)%2===0){ %>
-                                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                                                <% }else{ %>
-                                                    <button type="submit" class="btn btn-danger" style="right: 1.25rem;"><i class="far fa-trash-alt"></i></button>
-                                                <% } %>
-
-                                        </form>
                                     </div>
-                                </div>
-                            </a>
-                               <% if((p+1)%2===0){ %>                                
-                                </div>
-                                <div class="row">
-                              <%  }; %>
-                              <% p++; %>
+                                </div>   
+                          </div>                         
                         <% }; %>
                  </div>
             </div>

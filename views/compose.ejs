@@ -5,11 +5,13 @@
 <div class="container composePage">
     <h1>Compose</h1>
     <form action="/compose" method="POST">
+        <input type="hidden" value="" name="check">
         <div class="form-group">
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Type</strong></label>
                 <div class="form-group">
-                  <select name="type" class="form-control" id="sel1">
+                  <select required="required" name="type" class="form-control" id="sel1">
+                    <option value="" selected disabled hidden>Choose here</option>
                     <option>Tech</option>
                     <option>Art</option>
                     <option>Social</option>
@@ -18,12 +20,12 @@
             </div>
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
-                <input type="text" name="head" class="form-control" id="head" placeholder="Put your heading here..." autocomplete="off">
+                <input type="text" required="required" name="head" class="form-control" id="head" placeholder="Put your heading here..." autocomplete="off">
             </div>
             <input type="hidden" id="timeZone" name="timeZone">
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
-                <input type="text" name="abt" class="form-control" id="head" placeholder="Put a short description here..." autocomplete="off">    
+                <input type="text" required="required"  name="abt" class="form-control" id="head" placeholder="Put a short description here..." autocomplete="off">    
             </div>
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>
@@ -34,11 +36,11 @@
                 <textarea name="cmp" class="form-control form-control-lg text" id="cmp" placeholder="Compose here my freinds..." rows="10"></textarea>
             </div>
             <div class="inputs">
-                <label class="headL" for="exampleFormControlTextarea1"><strong>Author</strong></label>
-                <input type="text" name="author" class="form-control" id="head" placeholder="Put author name here..." autocomplete="off">
+                <label for="exampleFormControlTextarea1"><strong>Tags</strong></label>
+                <input type="text" data-role="tagsinput" name="tags" id="tags">
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block"name="btn">Submit</button>
+        <button type="submit" class="btn btn-primary btn-block" name="btn">Submit</button>
         <script>
             var x=Intl.DateTimeFormat().resolvedOptions().timeZone;
             document.getElementById('timeZone').value=x;

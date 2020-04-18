@@ -1,0 +1,52 @@
+<%- include('partials/header'); -%>
+<div class="container margin">
+    <h1>Your personal information:</h1>
+    <hr>
+<form action="/userinfo/about" method="POST">
+    <div class="inputs">
+        <label class="headL" for="exampleFormControlTextarea1"><strong>Name</strong></label>
+        <input required="required" type="text" name="name" class="form-control" id="name" value="<%= user.name %>" autocomplete="off">
+    </div>
+    <div class="row">
+    <div class="inputs col-lg-6 col-sm-12">
+        <label class="headL" for="exampleFormControlTextarea1"><strong>Gender</strong></label>
+        <div class="form-group">
+            <select required="required" name="gender" class="form-control" id="gender">
+              <% if(!user.gender){ %>
+                <option value="" selected disabled hidden>Choose here</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Others</option>
+              <% }else{ %>
+                <% if(user.gender==='Male'){ %>
+                    <option selected="selected">Male</option>
+                <% }else{ %>
+                    <option>Male</option>
+               <% } %>
+                <% if(user.gender==='Female'){ %>
+                    <option selected="selected">Female</option>
+                <% }else{ %>
+                    <option>Female</option>
+                <% } %>
+                <% if(user.gender==='Others'){ %>
+                    <option selected="selected">Others</option>
+                <% }else{ %>
+                    <option>Others</option>
+                <% } %>
+            <% } %>
+            </select>
+        </div>
+    </div>
+    <div class="inputs col-lg-6 col-sm-12">
+        <label class="headL" for="exampleFormControlTextarea1"><strong>Age</strong></label>
+        <input type="number" required="required" name="age" pattern="[0-9]{10}" class="form-control" value=<%= user.age %> id="age" autocomplete="off">
+    </div>
+    </div>
+    <div class="inputs">
+        <label class="headL" for="exampleFormControlTextarea1"><strong>About you</strong> (This information will be shown on the article page.)</label>
+        <textarea type="text" required="required" name="info" class="form-control" id="info" maxlength="500" rows='4' autocomplete="off" style="resize:none;"><%= user.info %></textarea>
+    </div>
+    <button class="btn btn-block btn-primary">Submit</button>
+</form>
+</div>
+<%- include('partials/footer'); -%>

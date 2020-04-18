@@ -1,0 +1,58 @@
+<%- include('partials/header'); -%>
+    <div class="container composePage">
+        <h1 class="artEd">Edit article:</h1>
+        <hr>
+        <form action="/compose" method="POST">
+            <input type="hidden" value="<%= id %>" name="check">
+            <div class="form-group">
+                <div class="inputs">
+                    <label class="headL" for="exampleFormControlTextarea1"><strong>Type</strong></label>
+                    <div class="form-group">
+                      <select required="required" name="type" class="form-control" id="sel1">
+                        <% if(artCol.type==="Tech"){ %>
+                            <option selected="selected">Tech</option>
+                        <% }else{ %>
+                            <option>Tech</option>
+                        <% } %>
+                        <% if(artCol.type==="Art"){ %>
+                            <option selected="selected">Art</option>
+                        <% }else{ %>
+                            <option>Art</option>
+                        <% }if(artCol.type==="Social"){ %>
+                            <option selected="selected">Social</option>
+                        <% }else{ %>
+                            <option>Social</option>
+                        <% } %>
+                      </select>
+                    </div>
+                </div>
+                <div class="inputs">
+                    <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
+                    <input type="text" required="required" name="head" class="form-control" id="head" value="<%= artCol.heading %>" autocomplete="off">
+                </div>
+                <input type="hidden" id="timeZone" name="timeZone">
+                <div class="inputs">
+                    <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
+                    <input type="text" required="required" name="abt" class="form-control" id="head" value="<%= artCol.about %>" autocomplete="off">    
+                </div>
+                <div class="inputs">
+                    <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>
+                    <input type="text" name="thumb" class="form-control" id="head" value="<%= artCol.thumbnailLink %>" autocomplete="off">    
+                </div>
+                <div class="inputs">
+                    <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
+                    <textarea name="cmp" class="form-control form-control-lg text" id="cmp" rows="10"><%= artCol.content %></textarea>
+                </div>
+                <div class="inputs">
+                    <label for="exampleFormControlTextarea1"><strong>Tags</strong></label>
+                    <input type="text" data-role="tagsinput" value="<%= artCol.tags %>" name="tags" id="tags">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"name="btn">Submit</button>
+            <script>
+                var x=Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.getElementById('timeZone').value=x;
+            </script>
+        </form>
+    </div>
+<%- include('partials/footer'); -%>

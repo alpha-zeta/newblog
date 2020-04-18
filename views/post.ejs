@@ -3,7 +3,7 @@
         <img class="image" src="<%= imgL %>" alt="">
         <h1><%= postHead %></h1>
         <div class="d-t">
-            <span><%= date %> </span>
+            <span><%= date %></span>
             <span><%= time %></span>
         </div>
         <hr>
@@ -12,23 +12,57 @@
         </div>
         <div type="text/html" id="newContent" class="newText">
         </div>
+        <div class="authorInfo">
+            <h2>Author:</h2>
+            <div class="row">
+                <div class="col-1">
+                    <img src="<%= pic %>" alt="profilepic">
+                </div>
+                <div class="col-11">
+                    <h3><a href="/viewuser/<%= authorID %>"><%= author %></a></h3>
+                </div>
+            </div>
+            <hr>
+            <p><%= info %></p>
+        </div>
+        <% if(user){ %>
+            <hr>
+            <form class="interaction" action="/like/<%= id %>" method="POST">
+                <div class="liked">
+                    <button type="submit" name="like" class="like" value="0" style="color: <%= likeCol %>;"><i class="fas fa-thumbs-up"></i></button><h3><%= likeArr.length %></h3>
+                </div>
+            </form>
+            <form  class="interaction" action="/dislike/<%= id %>" method="POST">
+                <div class="disliked">
+                    <button type="submit" name="dislike" value="0" class="like" style="color: <%= dislikeCol %>;"><i class="fas fa-thumbs-down"></i></button><h3><%= dislikeArr.length %></h3>
+                </div>
+            </form>
+        <% } %>
         <hr>
+        <% if(user){ %>
         <form action="/comments" method="POST">
             <input type="hidden" name="ID" value="<%= id %>">
             <input type="hidden" name="noteID" value="<%= noteID %>">
             <input type="hidden" name="titleID" value="<%= postHead %>">
-            <label for="exampleFormControlTextarea1"><strong>Name</strong></label>
-            <input class="form-control form-control-lg comName"name="commentator" autocomplete="off" placeholder="Enter your name here..." type="text">
+            <input type="hidden" name="authID" value="<%= user._id %>">
             <div class="newComm">
                 <label class="commentLabel" for="exampleFormControlTextarea1"><strong>Comment</strong></label>
                 <textarea name="comment" id="comment"class="form-control form-control-sm" id="exampleFormControlTextarea1" placeholder="Comment here..." cols="2" rows="4"></textarea>
                 <button type="submit" class="send"><i class="fas fa-paper-plane"></i></button>
             </div>
         </form>
+        <% } else{ %>
+            <p>Sign in to comment and reply or to interact using like and dislike.</p>
+            <% } %>
         <hr>
+        <h2 class="com">Comments and replies</h2>
         <% for(var i=0; i<array.length; i++){ %>
             <div class="com">
-                <h2><strong> <%= array[i].commentator %></strong></h2>
+                <% if(array[i].commentatorID==authorID){ %>
+                   <h2 class="adminColor"><strong> <%= array[i].commentator %></strong></h2>
+                <% } else{ %>
+                   <h2><strong> <%= array[i].commentator %></strong></h2>  
+                <% } %>
                 <div class="d-t Time">
                     <span><%= array[i].comDate %>, </span>
                     <span><%= array[i].comTime %></span>
@@ -36,22 +70,26 @@
                 <hr>
                  <div class="colComm">
                     <p class="commNew"><%= array[i].comment %></p>
-                    <button class="like"><i class="fab fa-the-red-yeti"></i></button>
                  </div>
+                 <% if(user){ %>
                 <form action="/reply" method="POST">
                     <input type="hidden" name="commentID" value="<%= array[i].linkID %>">
                     <input type="hidden" name="objID" value="<%= objID %>">
                     <input type="hidden" name="title" value="<%= postHead %>">
-                    <input class="form-control form-control-sm replyName" name="replier" autocomplete="off" placeholder="Enter your name here..." type="text">
                     <div class="replyBlock">
-                        <textarea name="reply" id="reply"class="form-control" id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
+                        <textarea name="reply" id="reply"class="form-control form-control-sm" id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
                         <button type="submit" name="replyBtn" class="replyBtn" value="<%= array[i]._id %>"><i class="fas fa-reply"></i></button>
                     </div>
                 </form>
+                <% } %>
                 <hr>
-                <% for(var j=0;j<array[i].reply.length;j++){ %>
+                <% for(var j=0;j<array[i].reply.length; j++){ %>
                      <div class="container replyShow">
-                        <h4><strong><%= array[i].reply[j].replier %></strong></h4>
+                         <% if(array[i].commentatorID==authorID){ %>
+                        <h4 class="adminColor"><strong><%= array[i].reply[j].replier %></strong></h4>
+                         <% }else{ %>
+                            <h4><strong><%= array[i].reply[j].replier %></strong></h4>
+                         <% } %>
                         <span class="Time"><%= array[i].reply[j].comDate %>, <%= array[i].reply[j].comTime %></span>
                         <hr>
                         <p class="repNew"><%= array[i].reply[j].reply %></p>
