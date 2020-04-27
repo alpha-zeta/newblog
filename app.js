@@ -225,7 +225,7 @@ passport.use(
 					}
 					user.save();
 				}
-				if (profilepic != profile.photos[0].value) {
+				if (user.profilePicLink != profile.photos[0].value) {
 					user.profilePicLink = profile.photos[0].value;
 					user.save();
 				}
