@@ -454,7 +454,6 @@ app.get(
 app.get(
 	'/auth/twitter/about',
 	passport.authenticate('twitter', {
-		successRedirect : '/',
 		failureRedirect : '/login'
 	}),
 	function(req, res) {
