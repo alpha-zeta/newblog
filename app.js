@@ -201,7 +201,7 @@ passport.use(
 			consumerSecret : process.env.TW_SECRET,
 			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/twitter/about'
 		},
-		function(token, tokenSecret, profile, cb) {
+		function(token, tokenSecret, profile, done) {
 			User.findOrCreate({ twitterId: profile.id }, function(err, user) {
 				if (err) {
 					return done(err);
@@ -211,7 +211,7 @@ passport.use(
 					user.profilePicLink = profile.photos[0].value;
 					user.status = process.env.USER;
 					user.block = false;
-					user.facebookId = profile.id;
+					user.twitterId = profile.id;
 					if (!profile._json.email) {
 						user.username = profile._json.last_name + '@youcite.com';
 					} else {
