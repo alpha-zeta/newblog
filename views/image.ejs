@@ -1,0 +1,17 @@
+<%- include('partials/header'); -%>
+<div class="container my-auto">
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+  <div class="custom-file">
+    <input name="file" type="file" class="custom-file-input" id="customFile">
+    <label class="custom-file-label" for="customFile">Choose file</label>
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  </div>
+</form>
+</div>
+<script>
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
+<%- include('partials/footer'); -%>

@@ -4,6 +4,13 @@
 <head>
   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
   <title>YouCite</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
    <script src="https://kit.fontawesome.com/3be6e54e38.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon"/>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -18,13 +25,14 @@
     <div class="container mob">
       <a class="navbar-brand" href="#">yOUCITe</a>
       <div class="dropdown pull-left profileMob">
-        <% if(user===undefined){ %>
+        <% if(!user&status!=1){ %>
                   <i class="fas fa-user profilePic dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/login">Log in</a>
                     <a class="dropdown-item" href="/register">Register</a>
+                    <a class="dropdown-item" href="/admin/login">Admin-log in</a>
                   </div>
-                <% } else{ %>
+                <% } else if(user&&status!=1){ %>
                   <%if(!user.profilePicLink){ %>
                       <i class="profilePic profilePicSocial dropdown-toggle far fa-user-circle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                     <% } else{ %>
@@ -33,6 +41,17 @@
                       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <h4 class="dropdown-item"><%= user.name %></h4>
                     <a class="dropdown-item" href="/users/<%= user._id %>">Profile</a>
+                    <a class="dropdown-item" href="/logout">Log out</a>
+                </div>
+              <% }else if(user&&status==1){ %>
+                  <%if(!user.profilePicLink){ %>
+                      <i class="profilePic profilePicSocial dropdown-toggle far fa-user-circle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                    <% } else{ %>
+                      <img class="profilePicSocial dropdown-toggle" src=<%= user.profilePicLink %> type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <% } %>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <h4 class="dropdown-item"><%= user.name %></h4>
+                    <a class="dropdown-item" href="/admin/<%= user._id %>">Profile</a>
                     <a class="dropdown-item" href="/logout">Log out</a>
                 </div>
               <% } %>
@@ -62,13 +81,14 @@
         </ul>
         </div>
         <div class="dropdown pull-left profilePC">
-        <% if(user===undefined){ %>
+        <% if(!user&status!=1){ %>
                   <i class="fas fa-user profilePic dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="/login">Log in</a>
                     <a class="dropdown-item" href="/register">Register</a>
+                    <a class="dropdown-item" href="/admin/login">Admin-log in</a>
                   </div>
-                <% } else{ %>
+                <% } else if(user&&status!=1){ %>
                   <%if(!user.profilePicLink){ %>
                       <i class="profilePic profilePicSocial dropdown-toggle far fa-user-circle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                     <% } else{ %>
@@ -77,6 +97,17 @@
                       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <h4 class="dropdown-item"><%= user.name %></h4>
                     <a class="dropdown-item" href="/users/<%= user._id %>">Profile</a>
+                    <a class="dropdown-item" href="/logout">Log out</a>
+                </div>
+              <% }else if(user&&status==1){ %>
+                  <%if(!user.profilePicLink){ %>
+                      <i class="profilePic profilePicSocial dropdown-toggle far fa-user-circle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                    <% } else{ %>
+                      <img class="profilePicSocial dropdown-toggle" src=<%= user.profilePicLink %> type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <% } %>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <h4 class="dropdown-item"><%= user.name %></h4>
+                    <a class="dropdown-item" href="/admin/<%= user._id %>">Profile</a>
                     <a class="dropdown-item" href="/logout">Log out</a>
                 </div>
               <% } %>

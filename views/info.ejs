@@ -42,6 +42,7 @@
         <input type="number" required="required" name="age" pattern="[0-9]{10}" class="form-control" value=<%= user.age %> id="age" autocomplete="off">
     </div>
     </div>
+     
     <div class="inputs">
         <label class="headL" for="exampleFormControlTextarea1"><strong>About you</strong> (This information will be shown on the article page.)</label>
         <textarea type="text" required="required" name="info" class="form-control" id="info" maxlength="500" rows='4' autocomplete="off" style="resize:none;"><%= user.info %></textarea>
@@ -49,4 +50,11 @@
     <button class="btn btn-block btn-primary">Submit</button>
 </form>
 </div>
+<script>
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
 <%- include('partials/footer'); -%>

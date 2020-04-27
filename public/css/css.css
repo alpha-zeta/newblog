@@ -3,11 +3,13 @@ html,
 body {
   height: 100%;
   font-family: 'Baloo Chettan 2', cursive;
+  word-wrap: break-word;
 }
 
 * {
   margin: 0;
   -webkit-font-smoothing: antialiased;
+  word-wrap: break-word;
 }
 
 h2 {
@@ -130,6 +132,10 @@ nav {
 
 .card-title {
   word-wrap: break-word;
+}
+
+.cronos {
+  color: #888888;
 }
 
 .home {
@@ -285,8 +291,8 @@ nav {
 }
 
 .disliked {
-  position: relative;
-  left: 87%;
+  position: float;
+  float: right;
 }
 
 h1,
@@ -366,10 +372,14 @@ h1,
 
 #comment {
   display: inline;
-  width: 95%;
+  width: 90%;
   border-radius: 10px;
   resize: none;
   background-color: #dcedc1;
+}
+
+.inter {
+  width: 100%;
 }
 
 .send {
@@ -622,6 +632,14 @@ h1,
   padding-left: 17px;
 }
 
+.norad {
+  border-radius: 0.25rem;
+}
+
+.gap {
+  margin-top: 1rem;
+}
+
 .mobileErr {
   display: none;
 }
@@ -670,7 +688,6 @@ h1,
 }
 
 .btn-success {
-  margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -681,28 +698,24 @@ h1,
 #register .short {
   font-weight: bold;
   color: #ff0000;
-  font-size: larger;
   width: 10%;
 }
 
 #register .weak {
   font-weight: bold;
   color: orange;
-  font-size: larger;
   width: 25%;
 }
 
 #register .good {
   font-weight: bold;
   color: #2d98f3;
-  font-size: larger;
   width: 35%;
 }
 
 #register .strong {
   font-weight: bold;
   color: limegreen;
-  font-size: larger;
   width: 55%;
 }
 
@@ -748,6 +761,11 @@ h1,
   margin-left: 5px;
 }
 
+.details .listBtn {
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
 .details a {
   text-decoration: none;
   color: black;
@@ -774,6 +792,19 @@ h1,
   border-color: #d2c6b2;
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+
+.table .padd {
+  text-align: right;
+}
+
+.table .pad {
+  padding-right: 0.2rem;
+}
+
+.new {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 table .btn {
@@ -846,6 +877,12 @@ table button {
   margin-top: 2rem;
 }
 
+/*//////////////////////////////////////////////// Admin ///////////////////////////////////////////////////*/
+.tab .col-lg-3,
+.tab .col-lg-9 {
+  padding: 0;
+}
+
 /*//////////////////////////////////////////////// mobile ///////////////////////////////////////////////////*/
 /*mobile phone*/
 @media (max-width: 992px) {
@@ -880,6 +917,7 @@ table button {
   .com {
     margin: 0;
     margin-bottom: 1rem;
+    padding: 15px;
   }
   #reply {
     width: 81%;
@@ -1010,9 +1048,11 @@ table button {
   .details .edit,
   .details button {
     margin-left: 15px;
-  }
-  .details button {
     margin-bottom: 1rem;
+  }
+  .details .listBtn {
+    margin-bottom: 1rem;
+    margin-left: 15px;
   }
   .details h1 {
     text-align: center;
@@ -1065,6 +1105,12 @@ table button {
   }
   .design {
     margin: 50px;
+  }
+  .com {
+    padding: 30px;
+  }
+  #comment {
+    width: 90%;
   }
 }
 

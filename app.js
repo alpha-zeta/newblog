@@ -12,15 +12,26 @@ const https = require('https');
 const request = require('request');
 const session = require('express-session');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require('passport-local-mongoose');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
+const path = require('path');
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+const methodOverride = require('method-override');
+const upload = require('express-fileupload');
+const flash = require('express-flash');
 let k = 1;
 let arr = [];
 
 //app setup
 const app = express();
+app.use(upload());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
@@ -43,6 +54,31 @@ mongoose.connect(process.env.DB_LINK, {
 	useNewUrlParser    : true
 });
 mongoose.set('useCreateIndex', true);
+// //change
+// conn.once('open', function() {
+// 	let gfs = Grid(conn.db, mongoose.mongo);
+// 	gfs.collection('uploads');
+// });
+// //storage engine
+// var storage = new GridFsStorage({
+// 	url  : process.env.DB_LINK,
+// 	file : (req, file) => {
+// 		return new Promise((resolve, reject) => {
+// 			crypto.randomBytes(16, (err, buf) => {
+// 				if (err) {
+// 					return reject(err);
+// 				}
+// 				const filename = buf.toString('hex') + path.extname(file.originalname);
+// 				const fileInfo = {
+// 					filename   : filename,
+// 					bucketName : 'uploads'
+// 				};
+// 				resolve(fileInfo);
+// 			});
+// 		});
+// 	}
+// });
+// const uploads = multer({ storage });
 
 //Users schema
 const usersSchema = new mongoose.Schema({
@@ -53,13 +89,31 @@ const usersSchema = new mongoose.Schema({
 	profilePicLink : String,
 	info           : String,
 	gender         : String,
-	age            : Number
+	age            : Number,
+	status         : Number,
+	block          : Boolean
 });
 usersSchema.plugin(passportLocalMongoose); //passport-local-mongoose setup
 usersSchema.plugin(findOrCreate);
 
 const User = new mongoose.model('User', usersSchema);
 
+// passport.use(
+// 	new LocalStrategy(function(username, password, done) {
+// 		User.findOne({ username: username }, function(err, user) {
+// 			if (err) {
+// 				return done(err);
+// 			}
+// 			if (!user) {
+// 				return done(null, false, { message: 'Incorrect username.' });
+// 			}
+// 			if (!user.validPassword(password)) {
+// 				return done(null, false, { message: 'Incorrect password.' });
+// 			}
+// 			return done(null, user);
+// 		});
+// 	})
+// );
 passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, done) {
@@ -71,7 +125,7 @@ passport.deserializeUser(function(id, done) {
 		done(err, user);
 	});
 });
-
+app.use(flash());
 passport.use(
 	new GoogleStrategy(
 		{
@@ -86,6 +140,8 @@ passport.use(
 					user.name = profile.displayName;
 					user.profilePicLink = profile._json.picture;
 					user.email = profile._json.email;
+					user.status = process.env.USER;
+					user.block = false;
 					user.save();
 				}
 				return cb(err, user);
@@ -144,7 +200,8 @@ const notesSchema = new mongoose.Schema({
 	likes         : Array,
 	dislikes      : Array,
 	views_ip      : Array,
-	views_signed  : Array
+	views_signed  : Array,
+	show          : Number
 });
 const Note = new mongoose.model('Note', notesSchema);
 
@@ -153,13 +210,24 @@ const Note = new mongoose.model('Note', notesSchema);
 app
 	.route('/register')
 	.get(function(req, res) {
+		const user = req.user;
+		let v = 0;
+		if (user && user.status == process.env.ADMIN) {
+			v = 1;
+		}
 		res.render('register', {
-			user  : req.user,
-			error : []
+			user   : user,
+			error  : [],
+			status : v
 		});
 	})
 	.post(function(req, res) {
 		let errors = [];
+		const user = req.user;
+		let v = 0;
+		if (user && user.status == process.env.ADMIN) {
+			v = 1;
+		}
 		const email = req.body.username;
 		const pass1 = req.body.password;
 		const pass2 = req.body.password2;
@@ -182,17 +250,21 @@ app
 			if (err) {
 				errors.push({ msg: err.message });
 				res.render('register', {
-					user  : req.user,
-					error : errors
+					user   : req.user,
+					status : v,
+					error  : errors
 				});
 			} else if (errors.length > 0) {
 				res.render('register', {
-					user  : req.user,
-					error : errors
+					user   : req.user,
+					status : v,
+					error  : errors
 				});
 			} else {
 				passport.authenticate('local')(req, res, function() {
 					user.email = req.body.username;
+					user.status = process.env.USER;
+					user.block = false;
 					user.save();
 					res.redirect('/userinfo/about');
 				});
@@ -206,8 +278,14 @@ app.get('/users', function(req, res) {
 app
 	.route('/login')
 	.get(function(req, res) {
+		const user = req.user;
+		let v = 0;
+		if (user && user.status == process.env.ADMIN) {
+			v = 1;
+		}
 		res.render('login', {
-			user : req.user
+			user   : user,
+			status : v
 		});
 	})
 	.post(function(req, res, next) {
@@ -218,19 +296,35 @@ app
 			username : req.body.username,
 			password : req.body.password
 		});
-
-		req.login(user, function(err) {
+		User.findOne({ username: email }, function(err, doc) {
 			if (err) {
 				console.log(err);
-			} else {
-				passport.authenticate('local')(req, res, function(err) {
-					if (err) {
-						console.log(err);
-						res.redirect('/login');
-					} else {
-						res.redirect('/users/' + user._id);
-					}
-				});
+			} else if (doc) {
+				if (doc.status != process.env.ADMIN) {
+					req.login(user, function(err) {
+						if (err) {
+							console.log(err);
+						} else {
+							console.log(res.statusCode);
+							passport.authenticate('local', {
+								failureRedirect : '/login',
+								failureFlash    : true,
+								failureMessage  : 'wrong username or password'
+							})(req, res, function(err) {
+								if (err) {
+									console.log(err);
+									res.redirect('/login');
+								} else {
+									res.redirect('/users/' + user._id);
+								}
+							});
+						}
+					});
+				} else {
+					res.redirect('/login');
+				}
+			} else if (!doc) {
+				res.redirect('/login');
 			}
 		});
 	});
@@ -261,13 +355,19 @@ app.get('/logout', function(req, res) {
 });
 //User profile page
 app.route('/users/:postID').get(function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	Note.find({ userID: req.user._id }, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else {
 			res.render('user', {
-				array : doc,
-				user  : req.user
+				array  : doc,
+				user   : user,
+				status : v
 			});
 		}
 	});
@@ -276,8 +376,14 @@ app.route('/users/:postID').get(function(req, res) {
 app
 	.route('/userinfo/about')
 	.get(function(req, res) {
+		const user = req.user;
+		let v = 0;
+		if (user && user.status == process.env.ADMIN) {
+			v = 1;
+		}
 		res.render('info', {
-			user : req.user
+			user   : user,
+			status : v
 		});
 	})
 	.post(function(req, res) {
@@ -292,12 +398,34 @@ app
 		req.user.save();
 		res.redirect('/users');
 	});
+//profile pic change
+app.get('/upload/images', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	res.render('image', {
+		user   : user,
+		status : v
+	});
+});
+app.post('/upload', function(req, res) {
+	const file = req.files;
+	console.log(req.files);
+	res.json(file);
+});
 //viewuser
 app.get('/viewuser/:postID', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	const id = req.params.postID;
-	if (req.user && id == req.user._id) {
+	if (user && id == user._id) {
 		res.redirect('/users/' + id);
-	} else if (!req.user || id != req.user._id) {
+	} else if (!user || id != user._id) {
 		User.findOne({ _id: id }, function(err, docu) {
 			if (err) {
 				console.log(err);
@@ -308,8 +436,9 @@ app.get('/viewuser/:postID', function(req, res) {
 					} else {
 						res.render('viewuser', {
 							array  : doc,
-							user   : req.user,
-							author : docu
+							user   : user,
+							author : docu,
+							status : v
 						});
 					}
 				});
@@ -317,11 +446,248 @@ app.get('/viewuser/:postID', function(req, res) {
 		});
 	}
 });
+//Admin page
+app.get('/admin/login', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	res.render('Adminlogin', {
+		user   : user,
+		status : v
+	});
+});
+app.post('/admin/login', function(req, res) {
+	const email = req.body.username;
+	const pass1 = req.body.password;
+	let errors = [];
+	let x = '' + he.decode(req.body.key);
+	let y = 0;
+	const user = new User({
+		username : req.body.username,
+		password : req.body.password
+	});
+	User.findOne({ username: email }, function(err, doc) {
+		if (err) {
+			console.log(err);
+		} else if (doc) {
+			y = parseInt(doc.status);
+			if (x === '' + process.env.CHABI && y == process.env.ADMIN) {
+				req.login(user, function(err) {
+					if (err) {
+						console.log(err);
+					} else {
+						passport.authenticate('local')(req, res, function(err) {
+							if (err) {
+								console.log(err);
+								res.redirect('/admin/login');
+							} else {
+								res.redirect('/admin/' + user._id);
+							}
+						});
+					}
+				});
+			} else {
+				res.redirect('/admin/login');
+			}
+		}
+	});
+});
+app.get('/admin/:postID', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	Note.find({ userID: req.user._id }, function(err, doc) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.render('Admin', {
+				array  : doc,
+				user   : req.user,
+				status : v
+			});
+		}
+	});
+});
+app.get('/lists', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (v == 1) {
+		User.find({}, function(err, docs) {
+			if (err) {
+				console.log(err);
+			} else if (docs) {
+				res.render('adminList', {
+					list   : docs,
+					user   : user,
+					status : v
+				});
+			} else if (!docs) {
+				res.redirect('/admin/' + user._id);
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+});
+app.post('/lists', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	const search = req.body.search;
+	res.redirect('/lists/searchresult/' + search);
+});
+app.get('/lists/searchresult/:postID', function(req, res) {
+	const user = req.user;
+	const search = he.decode(req.params.postID);
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (v == 1) {
+		User.find({ name: search }, function(err, doc) {
+			if (err) {
+				console.log(err);
+				res.redirect('/lists');
+			} else if (doc) {
+				res.render('searchResult', {
+					user   : user,
+					status : v,
+					query  : doc
+				});
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
+});
 
+//block/unblock
+app.get('/block/:postID', function(req, res) {
+	const user = req.user;
+	const id = req.params.postID;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (v == 1) {
+		User.findOneAndUpdate({ _id: id }, { block: true }, function(err, doc) {
+			if (err) {
+				console.log(err);
+			} else if (doc) {
+				res.redirect('/lists');
+			} else if (!doc) {
+				console.log('no doc found');
+				res.redirect('/lists');
+			}
+		});
+	}
+});
+app.get('/unblock/:postID', function(req, res) {
+	const user = req.user;
+	const id = req.params.postID;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (v == 1) {
+		User.findOneAndUpdate({ _id: id }, { block: false }, function(err, doc) {
+			if (err) {
+				console.log(err);
+			} else if (doc) {
+				res.redirect('/lists');
+			} else if (!doc) {
+				console.log('no doc found');
+				res.redirect('/lists');
+			}
+		});
+	} else {
+		console.log('you are not an admin');
+		res.redirect('/');
+	}
+});
+app.get('/adminview/:postID', function(req, res) {
+	const id = req.params.postID;
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (v == 1) {
+		if (user && id == user._id) {
+			res.redirect('/admin/' + id);
+		} else if (!user || id != user._id) {
+			User.findOne({ _id: id }, function(err, docu) {
+				if (err) {
+					console.log(err);
+				} else if (docu) {
+					Note.find({ userID: id }, function(err, doc) {
+						if (err) {
+							console.log(err);
+							res.redirect('/lists');
+						} else if (doc) {
+							res.render('adminUser', {
+								array  : doc,
+								user   : user,
+								author : docu,
+								status : v
+							});
+						} else if (!doc) {
+							console.log('no document found');
+							res.redirect('/lists');
+						}
+					});
+				} else if (!docu) {
+					console.log('no document found');
+					res.redirect('/lists');
+				}
+			});
+		}
+	} else {
+		console.log('you are not an admin');
+		res.redirect('/');
+	}
+});
+app.get('/public/:postID', function(req, res) {
+	const x = he.decode(req.params.postID);
+	const arr = x.split('+');
+	const noteID = arr[0];
+	const authID = arr[1];
+	Note.findOne({ _id: noteID }, function(err, doc) {
+		if (err) {
+			console.log(err);
+		} else if (!doc) {
+			console.log('doc not found');
+			res.redirect('/adminview/' + authID);
+		} else if (doc) {
+			if (doc.show == 1 || doc.show == 2) {
+				doc.show = 3;
+				doc.save();
+				res.redirect('/adminview/' + authID);
+			} else {
+				doc.show = 2;
+				doc.save();
+				res.redirect('/adminview/' + authID);
+			}
+		}
+	});
+});
 //edit article
 app.get('/edit/:postID', function(req, res) {
-	const objID = req.params.postID;
 	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	const objID = req.params.postID;
 	Note.findOne({ _id: objID }, function(err, doc) {
 		if (err) {
 			console.log(err);
@@ -332,7 +698,8 @@ app.get('/edit/:postID', function(req, res) {
 			res.render('editArt', {
 				user   : user,
 				id     : objID,
-				artCol : doc
+				artCol : doc,
+				status : v
 			});
 		}
 	});
@@ -340,13 +707,19 @@ app.get('/edit/:postID', function(req, res) {
 
 //home
 app.get('/', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	Note.find({}, function(err, doc) {
 		if (err) {
 			console.log(err);
 		} else {
 			res.render('home', {
-				array : doc,
-				user  : req.user
+				array  : doc,
+				user   : user,
+				status : v
 			});
 		}
 	});
@@ -354,15 +727,27 @@ app.get('/', function(req, res) {
 
 //contact
 app.get('/contact', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	res.render('contact', {
-		user : req.user
+		user   : user,
+		status : v
 	});
 });
 
 //about
 app.get('/about', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	res.render('about', {
-		user : req.user
+		user   : user,
+		status : v
 	});
 });
 
@@ -370,15 +755,26 @@ app.get('/about', function(req, res) {
 app
 	.route('/compose')
 	.get(function(req, res) {
-		if (req.isAuthenticated()) {
+		const user = req.user;
+		let v = 0;
+		if (user && user.status == process.env.ADMIN) {
+			v = 1;
+		}
+		if (req.isAuthenticated() && user.block == false) {
 			Link.find({}, function(err, doc) {
 				if (err) {
 					console.log(err);
 				} else {
 					res.render('compose', {
-						user : req.user
+						user   : user,
+						status : v
 					});
 				}
+			});
+		} else if (req.isAuthenticated() && user.block != false) {
+			res.render('block', {
+				user   : user,
+				status : v
 			});
 		} else {
 			res.redirect('/login');
@@ -393,6 +789,12 @@ app
 		const author = req.user.name;
 		const timeZone = req.body.timeZone;
 		const user = req.user;
+		let view = 0;
+		if (req.body.view === 'Public') {
+			view = 1;
+		} else if (req.body.view === 'Private') {
+			view = 2;
+		}
 		const userView = [];
 		userView.push('' + req.user._id);
 		const tags = req.body.tags;
@@ -420,7 +822,8 @@ app
 						author        : author,
 						userID        : req.user._id,
 						tags          : arr,
-						views_signed  : userView
+						views_signed  : userView,
+						show          : view
 					});
 					Link.findOneAndUpdate({ link: parseInt(linkID) }, { link: parseInt(linkID) + 1 }, function(
 						err,
@@ -455,6 +858,9 @@ app
 					doc.author = author;
 					doc.userID = req.user._id;
 					doc.tags = arr;
+					if (doc.show != 3) {
+						doc.show = view;
+					}
 					doc.save();
 					res.redirect('/users/' + req.user._id);
 				}
@@ -464,6 +870,11 @@ app
 
 //:postID
 app.get('/contents/:postsID', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	const postID = he.decode(req.params.postsID);
 	let x = 'black';
 	let y = 'black';
@@ -481,7 +892,8 @@ app.get('/contents/:postsID', function(req, res) {
 				array       : [],
 				objID       : 0,
 				noteID      : 0,
-				user        : req.user,
+				user        : user,
+				status      : v,
 				author      : 'no author',
 				pic         :
 					'https://img.favpng.com/7/5/8/computer-icons-font-awesome-user-font-png-favpng-YMnbqNubA7zBmfa13MK8WdWs8.jpg',
@@ -530,7 +942,8 @@ app.get('/contents/:postsID', function(req, res) {
 						array       : [],
 						objID       : 0,
 						noteID      : 0,
-						user        : req.user,
+						user        : user,
+						status      : v,
 						author      : 'no author',
 						pic         :
 							'https://img.favpng.com/7/5/8/computer-icons-font-awesome-user-font-png-favpng-YMnbqNubA7zBmfa13MK8WdWs8.jpg',
@@ -552,7 +965,8 @@ app.get('/contents/:postsID', function(req, res) {
 						array       : doc.comments,
 						objID       : doc._id,
 						noteID      : doc.linkID,
-						user        : req.user,
+						user        : user,
+						status      : v,
 						author      : docu.name,
 						pic         : docu.profilePicLink,
 						info        : docu.info,
@@ -765,8 +1179,14 @@ app.get('/reply/:postID', function(req, res) {
 });
 //Newsletter
 app.get('/newsLetter', function(req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
 	res.render('page', {
-		user : req.user
+		user   : user,
+		status : v
 	});
 });
 app.post('/newsLetter', function(req, res) {

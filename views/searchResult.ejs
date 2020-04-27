@@ -1,0 +1,39 @@
+<%- include('partials/header'); -%>
+<div class="container new">
+    <h1>Your search results</h1>
+    <hr>
+    <div class="container">
+        <% if(query.length==0){ %>
+            <h3>No document matched with your query.</h3>
+        <% } %>
+    <% for(var i=query.length-1; i>=0; i--){ %>
+                          <div class="row tab">
+                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="img">
+                                         <% if(!query[i].profilePicLink){ %>
+                                                <img src="https://mongoose-os.com/images/generic_user.png" alt="" class="item">
+                                            <% } else{ %>
+                                                <img class="item" src="<%= query[i].profilePicLink %>" alt="profile_pic">
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <div class="card-body">
+                                            <h2 class="card-title"><a class="head-link" href="/adminview/<%= query[i]._id %>"><%= query[i].name %></a></h2>
+                                            <div class="d-t">
+                                                <span class="cronos"><%= query[i]._id %></span>
+                                            </div>
+                                            <hr>
+                                            <p class="cronos"><%= query[i].email %></p>
+                                            <% if(query[i].block==false){ %>
+                                                <a href="/block/<%= query[i]._id %>"><button class="btn btn-outline-warning btn-sm"><i class="fas fa-lock"></i>  Block</button></a>
+                                            <% }else{ %>
+                                                <a href="/unblock/<%= query[i]._id %>"><buuton class="btn btn-outline-success btn-sm"> <i class="fas fa-unlock"> Unblock</i></buuton></a>
+                                            <% } %>
+                                    </div>
+                                </div>   
+                          </div>                         
+                        <% }; %>
+    </div>
+</div>
+<%- include('partials/footer'); -%>

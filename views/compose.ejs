@@ -19,13 +19,23 @@
                 </div>
             </div>
             <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Show</strong></label>
+                <div class="form-group">
+                  <select required="required" name="view" class="form-control" id="sel1">
+                    <option value="" selected disabled hidden>Choose here</option>
+                    <option>Public</option>
+                    <option>Private</option>
+                  </select>
+                </div>
+            </div>
+            <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
                 <input type="text" required="required" name="head" class="form-control" id="head" placeholder="Put your heading here..." autocomplete="off">
             </div>
             <input type="hidden" id="timeZone" name="timeZone">
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
-                <input type="text" required="required"  name="abt" class="form-control" id="head" placeholder="Put a short description here..." autocomplete="off">    
+                <input type="text" required="required"  name="abt" class="form-control" id="head" maxlength="300" placeholder="Put a short description here..." autocomplete="off">    
             </div>
             <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>

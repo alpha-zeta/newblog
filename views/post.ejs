@@ -15,9 +15,15 @@
         <div class="authorInfo">
             <h2>Author:</h2>
             <div class="row">
+                <% if(pic){ %>
                 <div class="col-1">
                     <img src="<%= pic %>" alt="profilepic">
                 </div>
+            <% }else if(!pic){ %>
+                <div class="col-1">
+                    <img src="https://mongoose-os.com/images/generic_user.png" alt="profilepic">
+                </div>
+            <%  } %>
                 <div class="col-11">
                     <h3><a href="/viewuser/<%= authorID %>"><%= author %></a></h3>
                 </div>
@@ -27,6 +33,7 @@
         </div>
         <% if(user){ %>
             <hr>
+        <div class="inter">
             <form class="interaction" action="/like/<%= id %>" method="POST">
                 <div class="liked">
                     <button type="submit" name="like" class="like" value="0" style="color: <%= likeCol %>;"><i class="fas fa-thumbs-up"></i></button><h3><%= likeArr.length %></h3>
@@ -37,6 +44,7 @@
                     <button type="submit" name="dislike" value="0" class="like" style="color: <%= dislikeCol %>;"><i class="fas fa-thumbs-down"></i></button><h3><%= dislikeArr.length %></h3>
                 </div>
             </form>
+        </div>
         <% } %>
         <hr>
         <% if(user){ %>
@@ -52,7 +60,7 @@
             </div>
         </form>
         <% } else{ %>
-            <p>Sign in to comment and reply or to interact using like and dislike.</p>
+            <p>Sign in to comment and reply or to interact using like and dislike. <a href="/login">Click here to login</a></p>
             <% } %>
         <hr>
         <h2 class="com">Comments and replies</h2>

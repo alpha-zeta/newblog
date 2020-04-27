@@ -29,19 +29,16 @@
                 </div>
             </div>
         </div>
-        <div class="out">
-            <% if(array.length!=0){ %>
-            <div class="container">
-                <p>Recent uploads.....</p>
-                <hr>
-            </div>
-             <% } %>
-        </div>
+        
 </div>
 <div class="container">
-        <% let j=100; %>
             <div>
-                        <% for(var i=array.length-1; i>=0; i--){ %>
+                <div class="out">
+                     <p>Recent uploads.....</p>
+                    <hr>
+                </div>
+               <% for(var i=array.length-1; i>=0; i--){ %>
+                <% if(array[i].show==1){ %>
                           <div class="row tab">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="img">
@@ -53,31 +50,16 @@
                                             <h2 class="card-title"><a class="head-link" href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
                                             <div class="d-t">
                                                 <span class="cronos"><%= array[i].date %> </span>
-                                                <span class="cronos"><%= array[i].time %></span>
+                                                <span class="cronos"><%= array[i].time %> </span>
+                                                <span class="cronos"><i class="fas fa-eye"></i> <%= array[i].views_ip.length+array[i].views_signed.length %></span>
                                             </div>
                                             <hr>
-                                                <% if(array[i].about.length>=j){ %>
-                                                    <p class="card-text"><%=array[i].about.substring(0,j)%>...</p> 
-                                                <% } %>
-                                                <% if(array[i].about.length<j){ %>
-                                                    <p class="card-text"><%=array[i].about %></p>
-                                                <% } %> 
+                                            <p class="card-text"><%= array[i].about %></p> 
                                     </div>
                                 </div>   
                           </div>                         
-                        <% }; %>
+                        <% }} %>
                  </div>
             </div>
     </div>
-    <script>
-        var x=parseInt(window.innerWidth);
-        var y=document.getElementsByClassName('card');
-        if(x<=1080){
-            for(var i=0;i<y.length;i++){
-                y[i].classList.remove("col-6");
-                y[i].style.textAlign="left";
-                document.getElementsByClassName('btn-danger')[i].style.right="1.25rem";
-            }
-        }
-    </script>
 <%- include('partials/footer'); -%>

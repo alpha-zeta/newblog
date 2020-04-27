@@ -27,6 +27,38 @@
                     </div>
                 </div>
                 <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Show</strong></label>
+                <div class="form-group">
+                <% if(artCol.show!=3){ %>
+                  <select required="required" name="view" class="form-control" id="sel1">
+                    <% if(artCol.show==1){ %>
+                            <option selected="selected">Public</option>
+                        <% }else{ %>
+                            <option>Public</option>
+                        <% } %>
+                        <% if(artCol.show==2){ %>
+                            <option selected="selected">Private</option>
+                        <% }else{ %>
+                            <option>Private</option>
+                        <% } %>
+                  </select>
+                <% }else{ %>
+                  <select required="required" name="view" class="form-control" id="sel1" disabled="disabled">
+                    <% if(artCol.show==1){ %>
+                            <option selected="selected">Public</option>
+                        <% }else{ %>
+                            <option>Public</option>
+                        <% } %>
+                        <% if(artCol.show==2){ %>
+                            <option selected="selected">Private</option>
+                        <% }else{ %>
+                            <option>Private</option>
+                        <% } %>
+                  </select>
+                  <% } %>
+                </div>
+            </div>
+                <div class="inputs">
                     <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
                     <input type="text" required="required" name="head" class="form-control" id="head" value="<%= artCol.heading %>" autocomplete="off">
                 </div>

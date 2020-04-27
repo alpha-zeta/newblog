@@ -1,0 +1,26 @@
+<%- include('partials/header'); -%>
+<div class="bod login">
+<div class="container socio">
+    <div class="design">
+    <h1>Hey commander show your ID ^_^</h1>
+    <div class="row">
+    <div class="col-lg-6 col-sm-12 reg">
+        <h2>Login with your email</h2>
+        <form action="/admin/login" method="POST">
+           <label class="Email" for="exampleFormControlTextarea1"><strong>Email</strong></label>
+           <input type="email" name="username" required="required" class="form-control norad" id="email" autocomplete="email" placeholder="put your email here" autocomplete="off">
+           <label class="Password" for="exampleFormControlTextarea1"><strong>Password</strong></label>
+           <input type="password" required="required" name="password" class="form-control norad" placeholder="enter the password" id="password" autocomplete="off">
+           <label class="Key" for="exampleFormControlTextarea1"><strong>Key</strong></label>
+           <input type="password" required="required" name="key" class="form-control norad" placeholder="enter the key" id="key" autocomplete="off">
+           <button type="submit" class="btn btn-block btn-success gap">Log in</button>
+        </form>
+        <div class="link">
+            <a class="loginLink" href="/login">Not Admin get to the login page, click here.</a>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+<%- include('partials/footer'); -%>
