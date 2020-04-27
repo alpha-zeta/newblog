@@ -94,7 +94,8 @@ const usersSchema = new mongoose.Schema({
 	age            : Number,
 	status         : Number,
 	block          : Boolean,
-	facebookId     : String
+	facebookId     : String,
+	twitterId      : String
 });
 usersSchema.plugin(passportLocalMongoose); //passport-local-mongoose setup
 usersSchema.plugin(findOrCreate);
@@ -157,7 +158,7 @@ passport.use(
 		{
 			clientID      : process.env.FB_APP_ID,
 			clientSecret  : process.env.FB_SECRET,
-			callbackURL   : 'http://localhost:3000/auth/facebook/about',
+			callbackURL   : 'https://safe-citadel-21836.herokuapp.com/auth/facebook/about',
 			profileFields : [
 				'email',
 				'name',
