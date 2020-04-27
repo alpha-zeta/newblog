@@ -131,10 +131,7 @@ passport.use(
 		{
 			clientID       : process.env.CLIENT_ID,
 			clientSecret   : process.env.CLIENT_SECRET,
-			callbackURL    : [
-				'http://localhost:3000/auth/google/about',
-				'https://safe-citadel-21836.herokuapp.com/auth/google/about'
-			],
+			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/google/about',
 			userProfileURL : 'https://www.googleapis.com/oauth2/v3/userinfo'
 		},
 		function(accessToken, refreshToken, profile, cb) {
