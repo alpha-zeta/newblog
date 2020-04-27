@@ -15,6 +15,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require('passport-local-mongoose');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 const path = require('path');
 const crypto = require('crypto');
@@ -91,7 +93,8 @@ const usersSchema = new mongoose.Schema({
 	gender         : String,
 	age            : Number,
 	status         : Number,
-	block          : Boolean
+	block          : Boolean,
+	facebookId     : String
 });
 usersSchema.plugin(passportLocalMongoose); //passport-local-mongoose setup
 usersSchema.plugin(findOrCreate);
@@ -149,7 +152,63 @@ passport.use(
 		}
 	)
 );
-
+passport.use(
+	new FacebookStrategy(
+		{
+			clientID      : process.env.FB_APP_ID,
+			clientSecret  : process.env.FB_SECRET,
+			callbackURL   : 'http://localhost:3000/auth/facebook/about',
+			profileFields : [
+				'email',
+				'name',
+				'displayName',
+				'picture'
+			]
+		},
+		function(accessToken, refreshToken, profile, done) {
+			console.log(profile);
+			User.findOrCreate({ facebookId: profile.id }, function(err, user) {
+				if (err) {
+					return done(err);
+				}
+				if (!user.name) {
+					user.name = profile.displayName;
+					user.profilePicLink = profile.photos[0].value;
+					user.status = process.env.USER;
+					user.block = false;
+					user.facebookId = profile.id;
+					if (!profile._json.email) {
+						user.username = profile._json.last_name + '@youcite.com';
+					} else {
+						user.username = profile._json.email;
+					}
+					if (!profile._json.email) {
+						user.email = profile._json.last_name + '@youcite.com';
+					} else {
+						user.email = profile._json.email;
+					}
+					user.save();
+				}
+				done(null, user);
+			});
+		}
+	)
+);
+passport.use(
+	new TwitterStrategy(
+		{
+			consumerKey    : process.env.TW_APP_ID,
+			consumerSecret : process.env.TW_SECRET,
+			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/twitter/about'
+		},
+		function(token, tokenSecret, profile, cb) {
+			console.log(profile);
+			User.findOrCreate({ twitterId: profile.id }, function(err, user) {
+				return cb(err, user);
+			});
+		}
+	)
+);
 //id schema
 const linksSchema = new mongoose.Schema({
 	link : Number
@@ -339,6 +398,16 @@ app.get(
 		]
 	})
 );
+app.get(
+	'/auth/facebook',
+	passport.authenticate('facebook', {
+		scope : [
+			'public_profile',
+			'email'
+		]
+	})
+);
+app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/auth/google/about', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
 	if (!req.user.info) {
@@ -347,6 +416,34 @@ app.get('/auth/google/about', passport.authenticate('google', { failureRedirect:
 		res.redirect('/users/' + req.user._id);
 	}
 });
+
+app.get(
+	'/auth/facebook/about',
+	passport.authenticate('facebook', {
+		failureRedirect : '/login'
+	}),
+	function(req, res) {
+		if (!req.user.info) {
+			res.redirect('/userinfo/about');
+		} else {
+			res.redirect('/users/' + req.user._id);
+		}
+	}
+);
+app.get(
+	'/auth/twitter/about',
+	passport.authenticate('twitter', {
+		successRedirect : '/',
+		failureRedirect : '/login'
+	}),
+	function(req, res) {
+		if (!req.user.info) {
+			res.redirect('/userinfo/about');
+		} else {
+			res.redirect('/users/' + req.user._id);
+		}
+	}
+);
 
 //logout
 app.get('/logout', function(req, res) {
