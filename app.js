@@ -148,6 +148,10 @@ passport.use(
 					user.block = false;
 					user.save();
 				}
+				if (user.profilePicLink != profile._json.picture) {
+					user.profilePicLink = profile._json.picture;
+					user.save();
+				}
 				return cb(err, user);
 			});
 		}
@@ -188,6 +192,10 @@ passport.use(
 					} else {
 						user.email = profile._json.email;
 					}
+					user.save();
+				}
+				if (user.profilePicLink != profile.photos[0].value) {
+					user.profilePicLink = profile.photos[0].value;
 					user.save();
 				}
 				done(null, user);
