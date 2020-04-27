@@ -202,9 +202,29 @@ passport.use(
 			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/twitter/about'
 		},
 		function(token, tokenSecret, profile, cb) {
-			console.log(profile);
 			User.findOrCreate({ twitterId: profile.id }, function(err, user) {
-				return cb(err, user);
+				if (err) {
+					return done(err);
+				}
+				if (!user.name) {
+					user.name = profile.displayName;
+					user.profilePicLink = profile.photos[0].value;
+					user.status = process.env.USER;
+					user.block = false;
+					user.facebookId = profile.id;
+					if (!profile._json.email) {
+						user.username = profile._json.last_name + '@youcite.com';
+					} else {
+						user.username = profile._json.email;
+					}
+					if (!profile._json.email) {
+						user.email = profile._json.last_name + '@youcite.com';
+					} else {
+						user.email = profile._json.email;
+					}
+					user.save();
+				}
+				done(null, user);
 			});
 		}
 	)
