@@ -203,14 +203,13 @@ passport.use(
 			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/twitter/about'
 		},
 		function(token, tokenSecret, profile, done) {
-			console.log(profile);
 			User.findOrCreate({ twitterId: profile.id }, function(err, user) {
 				if (err) {
 					return done(err);
 				}
 				if (!user.name) {
 					user.name = profile.displayName;
-					user.profilePicLink = profile.photos[profile.photos.length - 1].value;
+					user.profilePicLink = profile.photos[0].value;
 					user.status = process.env.USER;
 					user.block = false;
 					user.twitterId = profile.id;
@@ -224,6 +223,10 @@ passport.use(
 					} else {
 						user.email = profile._json.email;
 					}
+					user.save();
+				}
+				if (profilepic != profile.photos[0].value) {
+					user.profilePicLink = profile.photos[0].value;
 					user.save();
 				}
 				done(null, user);
