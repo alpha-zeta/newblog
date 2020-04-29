@@ -924,6 +924,9 @@ table button {
 /*//////////////////////////////////////////////// mobile ///////////////////////////////////////////////////*/
 /*mobile phone*/
 @media (max-width: 992px) {
+  .socio {
+    margin: auto;
+  }
   .profilePC {
     display: none;
   }
@@ -1121,7 +1124,7 @@ table button {
     max-width: 100px;
   }
   .socio .reg {
-    width: unset;
+    width: 100%;
     margin: unset;
     padding-left: unset;
     padding-right: unset;

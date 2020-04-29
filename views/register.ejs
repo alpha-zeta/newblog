@@ -1,6 +1,6 @@
 <%- include('partials/header'); -%>
-<div class="bod">
-    <div class="row">
+<div class="bod login">
+        <div class="row">
         <div class="col-lg-4 col-sm-12 mobileErr">
             <% error.forEach(function(obj){ %>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -22,7 +22,7 @@
                         <a class="btn btn-large btn-block tw btn-tw">Register with <i class="fab fa-twitter"></i></a>
                 </div>
                 <div class="col-lg-6 reg">
-                    <h2>Register with your email</h2>
+                     <h2>Register with your email</h2>
                     <form id="register" action="/register" method="POST">
                        <input type="hidden" name="passStat" id="passStat">
                        <label class="Email" for="exampleFormControlTextarea1"><strong>Email</strong></label>
@@ -52,12 +52,11 @@
             <% }); %>
         </div>
     </div>
+    </div>
+    </div>
+    </div>
 </div>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous">
-</script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function() {
     $('#password').keyup(function() {
@@ -98,5 +97,10 @@ $(document).ready(function() {
     }
 });
 </script>
+
+
+
+
+
 
 <%- include('partials/footer'); -%>
