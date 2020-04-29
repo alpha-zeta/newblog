@@ -106,6 +106,41 @@ nav {
 }
 
 /*//////////////////////////////////////////////// footer /////////////////////////////////////////////////// */
+html.sr .reveal {
+  visibility: hidden;
+}
+
+.bgimg {
+  background-image: url("https://wallpaperaccess.com/full/1508669.jpg");
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Do not repeat the image */
+  background-size: cover;
+}
+
+.bgimg h1 {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  position: relative;
+  top: 20vh;
+  color: #ffbd69;
+  text-shadow: 2px 2px #555;
+  font-size: 50px;
+}
+
+.bgimg p {
+  text-align: center;
+  color: #fddc83;
+  position: relative;
+  top: 20vh;
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
 .footer {
   height: 50px;
   text-align: center;
@@ -150,6 +185,7 @@ nav {
   right: 5%;
   -webkit-box-shadow: 5px 10px #84a9ac;
           box-shadow: 5px 10px #84a9ac;
+  z-index: 1;
 }
 
 .home .fas {
@@ -630,6 +666,8 @@ h1,
 .socio .reg {
   padding-right: 7rem;
   padding-left: 17px;
+  width: 70%;
+  margin: auto;
 }
 
 .norad {
@@ -895,6 +933,18 @@ table button {
   .image {
     height: 200px;
   }
+  .bgimg h1 {
+    text-align: center;
+    position: relative;
+    top: 60px;
+    font-size: 30px;
+    padding: 0.5rem;
+  }
+  .bgimg p {
+    top: 60px;
+    font-size: 15px;
+    padding: 0.5rem;
+  }
   .card-body {
     padding: 0.5rem;
   }
@@ -1070,6 +1120,27 @@ table button {
   .header {
     max-width: 100px;
   }
+  .socio .reg {
+    width: unset;
+    margin: unset;
+    padding-left: unset;
+    padding-right: unset;
+  }
+}
+
+@media (max-width: 992px) and (max-width: 450px) {
+  .bgimg h1 {
+    text-align: center;
+    position: relative;
+    top: 60px;
+    font-size: 22px;
+    padding: 0.5rem;
+  }
+  .bgimg p {
+    top: 60px;
+    font-size: 10px;
+    padding: 0.5rem;
+  }
 }
 
 @media (max-width: 992px) and (min-width: 768px) and (max-width: 992px) {
@@ -1121,6 +1192,50 @@ table button {
   }
   .socio {
     max-width: 1140px;
+  }
+}
+
+/*//////////////////////////////////////////////// animations ///////////////////////////////////////////////////*/
+@media (min-width: 992px) {
+  nav ul li {
+    display: inline-block;
+  }
+  nav ul li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #aaa;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 10px;
+  }
+  nav ul li a,
+  nav ul li a:after,
+  nav ul li a:before {
+    -webkit-transition: all 0.7s;
+    transition: all 0.7s;
+  }
+  nav ul li a:hover {
+    color: #555;
+  }
+  /* stroke */
+  nav.stroke ul li a {
+    position: relative;
+  }
+  nav.stroke ul li a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #1abc9c;
+    height: 2px;
+  }
+  nav.stroke ul li a:hover:after {
+    width: 100%;
   }
 }
 /*# sourceMappingURL=css.css.map */

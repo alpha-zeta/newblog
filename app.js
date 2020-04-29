@@ -479,8 +479,12 @@ app.get(
 
 //logout
 app.get('/logout', function(req, res) {
-	req.logout();
-	res.redirect('/');
+	if (req.isAuthenticated()) {
+		req.logout();
+		res.redirect('/');
+	} else {
+		res.redirect('/');
+	}
 });
 //User profile page
 app.route('/users/:postID').get(function(req, res) {
@@ -607,7 +611,11 @@ app.post('/admin/login', function(req, res) {
 					if (err) {
 						console.log(err);
 					} else {
-						passport.authenticate('local')(req, res, function(err) {
+						passport.authenticate('local', {
+							failureFlash    : true,
+							failureMessage  : 'Incorrect email or password.',
+							failureRedirect : '/admin/login'
+						})(req, res, function(err) {
 							if (err) {
 								console.log(err);
 								res.redirect('/admin/login');
