@@ -50,7 +50,7 @@
         <% if(user){ %>
         <form action="/comments" method="POST">
             <input type="hidden" name="ID" value="<%= id %>">
-            <input type="hidden" name="comTime" class="timezone" value="">
+            <input type="hidden" name="comTime" id="timezone" value="">
             <input type="hidden" name="noteID" value="<%= noteID %>">
             <input type="hidden" name="titleID" value="<%= postHead %>">
             <input type="hidden" name="authID" value="<%= user._id %>">
@@ -84,7 +84,7 @@
                 <form action="/reply" method="POST">
                     <input type="hidden" name="commentID" value="<%= array[i].linkID %>">
                     <input type="hidden" name="objID" value="<%= objID %>">
-                    <input type="hidden" name="repTime" class="timezone" value="">
+                    <input type="hidden" name="repTime" id="timezone1" value="">
                     <input type="hidden" name="title" value="<%= postHead %>">
                     <div class="replyBlock">
                         <textarea name="reply" id="reply"class="form-control form-control-sm" id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
@@ -113,6 +113,7 @@
         var test = document.getElementById('imp').innerText;
         document.getElementById("newContent").innerHTML= test;
         var x=Intl.DateTimeFormat().resolvedOptions().timeZone;
-        document.getElementsByClassName('timezone').value=x;
+        document.getElementsById('timezone').value=x;
+        document.getElementsById('timezone1').value=x;
     </script>
 <%- include('partials/footer'); -%>
