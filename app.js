@@ -1236,6 +1236,7 @@ app.post('/comments', function(req, res) {
 	const postId = req.param.postsId;
 	const noteID = req.body.noteID;
 	const authID = req.body.authID;
+	const timezone = req.body.comTime;
 	let commentator = req.user.name;
 	if (commentator === '') {
 		commentator = 'Anonymous';
@@ -1247,8 +1248,8 @@ app.post('/comments', function(req, res) {
 		linkID        : noteID,
 		commentator   : commentator,
 		comment       : comment,
-		comDate       : date(),
-		comTime       : time(),
+		comDate       : date(timezone),
+		comTime       : time(timezone),
 		commentatorID : authID
 	});
 	newComment.save();
@@ -1270,14 +1271,15 @@ app.post('/reply', function(req, res) {
 	const comID = req.body.replyBtn;
 	const replier = req.user.name;
 	const reply = req.body.reply;
+	const timezone = req.body.repTime;
 	const objID = req.body.objID;
 	const commentID = req.body.commentID;
 	const newReply = new Reply({
 		linkID  : commentID,
 		replier : replier,
 		reply   : reply,
-		comDate : date(),
-		comTime : time()
+		comDate : date(timezone),
+		comTime : time(timezone)
 	});
 	newReply.save();
 	Comment.findOneAndUpdate({ _id: comID }, { $push: { reply: newReply } }, function(err, doc) {

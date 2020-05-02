@@ -345,6 +345,11 @@ h1,
   word-wrap: break-word;
 }
 
+#newContent img {
+  max-width: 100%;
+  height: inherit;
+}
+
 #imp {
   display: none;
 }
