@@ -397,7 +397,6 @@ app
 						if (err) {
 							console.log(err);
 						} else {
-							console.log(res.statusCode);
 							passport.authenticate('local', {
 								failureRedirect : '/login',
 								failureFlash    : true,
