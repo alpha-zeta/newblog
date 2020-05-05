@@ -986,6 +986,10 @@ table button {
 /*//////////////////////////////////////////////// mobile ///////////////////////////////////////////////////*/
 /*mobile phone*/
 @media (max-width: 992px) {
+  .mobpad {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
   .socio {
     margin: auto;
   }

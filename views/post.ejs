@@ -71,6 +71,7 @@
     <hr>
     <h2 class="com">Comments and replies</h2>
     <div class="scrollable">
+        <div class="mobpad">
         <% for(var i=0; i<array.length; i++){ %>
         <div class="com">
             <% if(array[i].commentatorID==authorID){ %>
@@ -116,6 +117,7 @@
             <% } %>
         </div>
         <% } %>
+    </div>
     </div>
 </div>
 <script>
