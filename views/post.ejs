@@ -16,15 +16,15 @@
         <h2>Author:</h2>
         <div class="row">
             <% if(pic){ %>
-            <div class="col-1">
+            <div class="col-2">
                 <img src="<%= pic %>" alt="profilepic">
             </div>
             <% }else if(!pic){ %>
-            <div class="col-1">
+            <div class="col-2">
                 <img src="https://mongoose-os.com/images/generic_user.png" alt="profilepic">
             </div>
             <%  } %>
-            <div class="col-11">
+            <div class="col-10">
                 <h3><a href="/viewuser/<%= authorID %>"><%= author %></a></h3>
             </div>
         </div>

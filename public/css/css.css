@@ -384,13 +384,8 @@ h1,
   display: none;
 }
 
-.col-1 {
-  max-width: 3.3rem;
-}
-
-.col-1 img {
-  width: 2.5rem;
-  height: 2.5rem;
+.col-2 img {
+  max-height: 2.5rem;
   border-radius: 100%;
 }
 
@@ -1266,6 +1261,9 @@ table button {
 
 /*//////////////////////////////////////////////// animations ///////////////////////////////////////////////////*/
 @media (min-width: 992px) {
+  .col-2 {
+    max-width: 3.3rem;
+  }
   nav ul li {
     display: inline-block;
   }
