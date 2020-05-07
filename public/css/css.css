@@ -165,6 +165,10 @@ html.sr .reveal {
   width: 100%;
 }
 
+.node {
+  width: 100%;
+}
+
 .card-title {
   word-wrap: break-word;
 }
@@ -199,7 +203,6 @@ html.sr .reveal {
 }
 
 .out {
-  height: 8rem;
   background-color: #fff;
 }
 
@@ -223,11 +226,6 @@ html.sr .reveal {
 .sorting {
   display: inline;
   float: right;
-}
-
-.out .container {
-  position: relative;
-  top: 2.5rem;
 }
 
 .mask1 {
@@ -307,6 +305,75 @@ html.sr .reveal {
   display: block;
   position: absolute;
   bottom: 0;
+}
+
+/*//////////////////////////////////////////////// searchbar /////////////////////////////////////////////////// */
+.out form {
+  display: inline;
+}
+
+.out form div {
+  display: inline;
+}
+
+.searchbar {
+  height: 60px;
+  background-color: #353b48;
+  border-radius: 30px;
+  padding: 10px;
+}
+
+.search_input {
+  color: white;
+  border: 0;
+  outline: 0;
+  background: none;
+  width: 0;
+  caret-color: transparent;
+  line-height: 40px;
+  -webkit-transition: width 0.4s linear;
+  transition: width 0.4s linear;
+}
+
+.searchbar:hover > .search_input {
+  padding: 0 10px;
+  width: 450px;
+  caret-color: red;
+  -webkit-transition: width 0.4s linear;
+  transition: width 0.4s linear;
+}
+
+.searchbar:hover > .search_icon {
+  background: white;
+  color: #e74c3c;
+}
+
+.out button {
+  background-color: #353b48;
+  border: none;
+}
+
+.search_icon {
+  height: 40px;
+  width: 40px;
+  float: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+}
+
+.d-flex {
+  float: right;
+  margin-top: 0.5rem;
 }
 
 /*//////////////////////////////////////////////// about /////////////////////////////////////////////////// */
@@ -1084,16 +1151,10 @@ table button {
     position: relative;
     top: 35%;
   }
-  .out {
-    height: 5rem;
-  }
   .out p {
     font-size: 1.5rem;
     padding-bottom: 0.1rem;
     margin-bottom: 0;
-  }
-  .out .container {
-    top: 1.5rem;
   }
   .slide p {
     font-size: 1.1rem;
@@ -1189,6 +1250,52 @@ table button {
     margin: unset;
     padding-left: unset;
     padding-right: unset;
+  }
+  .out .container {
+    padding: 0;
+  }
+  .searchbar .search_input {
+    padding: 0 10px;
+    width: 250px;
+    caret-color: red;
+  }
+  .searchbar:hover > .search_input {
+    padding: 0 10px;
+    width: 250px;
+    caret-color: red;
+  }
+  .searchbar .search_icon {
+    background: white;
+    color: #e74c3c;
+  }
+  .searchbar {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+  }
+  .searchbar input {
+    height: 100%;
+  }
+  .searchbar button {
+    height: 100%;
+    width: 30px;
+  }
+  .searchbar button i {
+    font-size: 15px;
+  }
+  .d-flex {
+    float: unset;
+    margin-top: 0;
+  }
+  .out form {
+    display: block;
+  }
+  .out form div {
+    display: block;
+  }
+  .searchbar:hover > .search_icon {
+    background: white;
+    color: #e74c3c;
   }
 }
 

@@ -1,94 +1,102 @@
 <%- include('partials/header'); -%>
-    <div class="container composePage">
-        <h1 class="artEd">Edit article:</h1>
-        <hr>
-        <form action="/compose" method="POST">
-            <input type="hidden" value="<%= id %>" name="check">
-            <div class="form-group">
-                <div class="inputs">
-                    <label class="headL" for="exampleFormControlTextarea1"><strong>Type</strong></label>
-                    <div class="form-group">
-                      <select required="required" name="type" class="form-control" id="sel1">
+<div class="container composePage">
+    <h1 class="artEd">Edit article:</h1>
+    <hr>
+    <form action="/compose" method="POST">
+        <input type="hidden" value="<%= id %>" name="check">
+        <div class="form-group">
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Type</strong></label>
+                <div class="form-group">
+                    <select required="required" name="type" class="form-control" id="sel1">
                         <% if(artCol.type==="Tech"){ %>
-                            <option selected="selected">Tech</option>
+                        <option selected="selected">Tech</option>
                         <% }else{ %>
-                            <option>Tech</option>
+                        <option>Tech</option>
                         <% } %>
                         <% if(artCol.type==="Art"){ %>
-                            <option selected="selected">Art</option>
+                        <option selected="selected">Art</option>
                         <% }else{ %>
-                            <option>Art</option>
+                        <option>Art</option>
                         <% }if(artCol.type==="Social"){ %>
-                            <option selected="selected">Social</option>
+                        <option selected="selected">Social</option>
                         <% }else{ %>
-                            <option>Social</option>
+                        <option>Social</option>
                         <% }if(artCol.type==="Movie review"){ %>
-                            <option selected="selected">Movie review</option>
+                        <option selected="selected">Movie review</option>
                         <% }else{ %>
-                            <option>Movie review</option>
+                        <option>Movie review</option>
                         <% } %>
-                      </select>
-                    </div>
+                    </select>
                 </div>
-                <div class="inputs">
+            </div>
+            <div class="inputs">
                 <label class="headL" for="exampleFormControlTextarea1"><strong>Show</strong></label>
                 <div class="form-group">
-                <% if(artCol.show!=3){ %>
-                  <select required="required" name="view" class="form-control" id="sel1">
-                    <% if(artCol.show==1){ %>
-                            <option selected="selected">Public</option>
+                    <% if(artCol.show!=3){ %>
+                    <select required="required" name="view" class="form-control" id="sel1">
+                        <% if(artCol.show==1){ %>
+                        <option selected="selected">Public</option>
                         <% }else{ %>
-                            <option>Public</option>
+                        <option>Public</option>
                         <% } %>
                         <% if(artCol.show==2){ %>
-                            <option selected="selected">Private</option>
+                        <option selected="selected">Private</option>
                         <% }else{ %>
-                            <option>Private</option>
+                        <option>Private</option>
                         <% } %>
-                  </select>
-                <% }else{ %>
-                  <select required="required" name="view" class="form-control" id="sel1" disabled="disabled">
-                    <% if(artCol.show==1){ %>
-                            <option selected="selected">Public</option>
+                    </select>
+                    <% }else{ %>
+                    <select required="required" name="view" class="form-control" id="sel1" disabled="disabled">
+                        <% if(artCol.show==1){ %>
+                        <option selected="selected">Public</option>
                         <% }else{ %>
-                            <option>Public</option>
+                        <option>Public</option>
                         <% } %>
                         <% if(artCol.show==2){ %>
-                            <option selected="selected">Private</option>
+                        <option selected="selected">Private</option>
                         <% }else{ %>
-                            <option>Private</option>
+                        <option>Private</option>
                         <% } %>
-                  </select>
-                  <% } %>
+                    </select>
+                    <% } %>
                 </div>
             </div>
-                <div class="inputs">
-                    <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
-                    <input type="text" required="required" name="head" class="form-control" id="head" value="<%= artCol.heading %>" autocomplete="off">
-                </div>
-                <input type="hidden" id="timeZone" name="timeZone">
-                <div class="inputs">
-                    <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
-                    <input type="text" required="required" name="abt" class="form-control" id="head" value="<%= artCol.about %>" autocomplete="off">    
-                </div>
-                <div class="inputs">
-                    <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>
-                    <input type="text" name="thumb" class="form-control" id="head" value="<%= artCol.thumbnailLink %>" autocomplete="off">    
-                </div>
-                <div class="inputs">
-                    <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
-                    <textarea name="cmp" class="form-control form-control-lg text" id="cmp" rows="10"><%= artCol.content %></textarea>
-                </div>
-                <div class="inputs">
-                    <label for="exampleFormControlTextarea1"><strong>Tags</strong></label>
-                    <input type="text" data-role="tagsinput" value="<%= artCol.tags %>" name="tags" id="tags">
-                </div>
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Heading</strong></label>
+                <input type="text" required="required" name="head" class="form-control" id="head"
+                    value="<%= artCol.heading %>" autocomplete="off">
             </div>
-            <button type="submit" class="btn btn-primary btn-block"name="btn">Submit</button>
-            <script>
-                var x=Intl.DateTimeFormat().resolvedOptions().timeZone;
-                document.getElementById('timeZone').value=x;
-            </script>
-        </form>
-    </div>
+            <input type="hidden" id="timeZone" name="timeZone">
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>About</strong></label>
+                <input type="text" required="required" name="abt" class="form-control" id="head"
+                    value="<%= artCol.about %>" autocomplete="off">
+            </div>
+            <div class="inputs">
+                <label class="headL" for="exampleFormControlTextarea1"><strong>Thumbnail Image Link</strong></label>
+                <input type="text" name="thumb" class="form-control" id="head" value="<%= artCol.thumbnailLink %>"
+                    autocomplete="off">
+            </div>
+            <div class="inputs">
+                <label for="exampleFormControlTextarea1"><strong>Compose</strong></label>
+                <textarea name="cmp" class="form-control form-control-lg text" id="cmp"
+                    rows="10"><%= artCol.content %></textarea>
+            </div>
+            <div class="inputs">
+                <label for="exampleFormControlTextarea1"><strong>Tags</strong></label>
+                <input type="text" data-role="tagsinput" value="<%= artCol.tags %>" name="tags" id="tags">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" name="btn">Submit</button>
+        <script>
+            var x = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            document.getElementById('timeZone').value = x;
+        </script>
+    </form>
+</div>
+<script>
+    var x = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById('timeZone').value = x;
+</script>
 <%- include('partials/footer'); -%>

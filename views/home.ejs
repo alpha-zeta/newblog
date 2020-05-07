@@ -1,86 +1,108 @@
 <%- include('partials/header'); -%>
 <div class="mask1">
-  <div class="home"><i class="fas fa-home"></i></div> 
+  <div class="home"><i class="fas fa-home"></i></div>
   <!-- https://wallpaperaccess.com/full/400853.jpg -->
   <div class="image cover bgimg">
     <!-- <h1>A stage for your artistic habits...</h1> -->
     <h1>"यथा चित्तं तथा वाचो यथा वाचस्तथा क्रिया"</h1>
     <p>As is the mind, so is the speech; as is the speech so is the action.</p>
   </div>
-    <!-- <img class="image cover" src="https://wallpaperaccess.com/full/1508669.jpg" alt="">  -->
-    <!-- https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png -->
-    <div class="container">
-            <h1 style="text-align: center;">Home</h1>
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true" data-wrap="true" data-keyboard="true">
-                <ol class="carousel-indicators">
-                  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                  <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                </ol>
-                <div class="carousel-inner">
-                  <div class="carousel-item active" data-interval="3000">
-                    <p><strong>Bored AF? PUBG servers are down? Binge watched everything? Even biching starting to get boring?</strong></p>
-                  </div>
-                  <div class="carousel-item" data-interval="7000">
-                    <p><strong>So here we are with this cute little website.<br></strong></p>
-                  </div>
-                  <div class="carousel-item" data-interval="3000">
-                      <p><strong>Is it better than those(PUBG, Netflix, biching)?</strong></p>
-                  </div>
-                  <div class="carousel-item" data-interval="6000">
-                      <p><strong>It depends, but all of the ideas of different people with different mindsets regarding various genres sounds good to me.</strong></p>
-                  </div>
-                </div>
-            </div>
+  <!-- <img class="image cover" src="https://wallpaperaccess.com/full/1508669.jpg" alt="">  -->
+  <!-- https://getflywheel.com/layout/wp-content/uploads/2017/02/make-wordpress-site-mobile-friendly-large-1-1280x356.png -->
+  <div class="container">
+    <h1 style="text-align: center;">Home</h1>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true" data-wrap="true"
+      data-keyboard="true">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-interval="3000">
+          <p><strong>Bored AF? PUBG servers are down? Binge watched everything? Even biching starting to get
+              boring?</strong></p>
         </div>
-        
+        <div class="carousel-item" data-interval="7000">
+          <p><strong>So here we are with this cute little website.<br></strong></p>
+        </div>
+        <div class="carousel-item" data-interval="3000">
+          <p><strong>Is it better than those(PUBG, Netflix, biching)?</strong></p>
+        </div>
+        <div class="carousel-item" data-interval="6000">
+          <p><strong>It depends, but all of the ideas of different people with different mindsets regarding various
+              genres sounds good to me.</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 <div class="container">
-            <div>
-                <div class="out">
-                     <p>Recent uploads.....</p>
-                    <hr>
-                </div>
-               <% for(var i=array.length-1; i>=0; i--){ %>
-                <% if(array[i].show==1){ %>
-                          <div class="row tab reveal load-hidden">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="img">
-                                        <img class="item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="card-body">
-                                            <h2 class="card-title"><a class="head-link" href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
-                                            <div class="d-t">
-                                                <span class="cronos"><%= array[i].date %> </span>
-                                                <span class="cronos"><%= array[i].time %> | </span>
-                                                <span class="cronos">Type: <%= array[i].type %> | </span>
-                                                <span class="cronos"><i class="fas fa-eye"></i> <%= array[i].views_ip.length+array[i].views_signed.length-1 %></span>
-                                            </div>
-                                            <hr>
-                                            <p class="card-text"><%= array[i].about %></p> 
-                                    </div>
-                                </div>   
-                          </div>                         
-                        <% }} %>
-                 </div>
+  <div>
+    <div class="out">
+      <p>Recent uploads.....</p>
+      <form class="form-horizontal" role="form" action="/search" method="POST">
+        <div class="container">
+          <div class="d-flex">
+            <div class="searchbar">
+              <input class="search_input" type="text" name="query" placeholder="Search...">
+              <button type="submit" class="search_icon"><i class="fas fa-search"></i></button>
             </div>
+          </div>
+        </div>
+      </form>
     </div>
-    <script>
-      ScrollReveal().reveal('.reveal',{
-        duration:700,
-        origin:"bottom",
-        distance:"50px",
-        opacity:0,
-        scale:0.5,
-        viewFactor:0.2,
-        rotate:{x:0,y:0,z:0},
-        easing:"ease",
-        reset:false,
-        mobile:true,
-        interval:100
-      });
-    </script>
+  </div>
+  <hr>
+  <% for(var i=array.length-1; i>=0; i--){ %>
+  <% if(array[i].show==1){ %>
+  <div class="row tab reveal load-hidden">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="img">
+        <img class="item" src="<%= array[i].thumbnailLink %>" alt="Card image cap">
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card-body">
+        <h2 class="card-title"><a class="head-link" href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a>
+        </h2>
+        <div class="d-t">
+          <span class="cronos"><%= array[i].date %> </span>
+          <span class="cronos"><%= array[i].time %> | </span>
+          <span class="cronos">Type: <%= array[i].type %> | </span>
+          <span class="cronos"><i class="fas fa-eye"></i>
+            <%= array[i].views_ip.length+array[i].views_signed.length-1 %></span>
+        </div>
+        <hr>
+        <p class="card-text"><%= array[i].about %></p>
+      </div>
+    </div>
+  </div>
+
+  <% } %>
+  <% } %>
+</div>
+</div>
+</div>
+<script>
+  ScrollReveal().reveal('.reveal', {
+    duration: 700,
+    origin: "bottom",
+    distance: "50px",
+    opacity: 0,
+    scale: 0.5,
+    viewFactor: 0.2,
+    rotate: {
+      x: 0,
+      y: 0,
+      z: 0
+    },
+    easing: "ease",
+    reset: false,
+    mobile: true,
+    interval: 100
+  });
+</script>
 <%- include('partials/footer'); -%>

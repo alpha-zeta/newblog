@@ -32,7 +32,9 @@ let arr = [];
 //app setup
 const app = express();
 app.use(upload());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -40,9 +42,9 @@ app.set('view engine', 'ejs');
 //setting up express-session
 app.use(
 	session({
-		secret            : process.env.SECRET,
-		resave            : false,
-		saveUninitialized : false
+		secret: process.env.SECRET,
+		resave: false,
+		saveUninitialized: false
 	})
 );
 
@@ -51,9 +53,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 //mongoose setup
 mongoose.connect(process.env.DB_LINK, {
-	useFindAndModify   : false,
-	useUnifiedTopology : true,
-	useNewUrlParser    : true
+	useFindAndModify: false,
+	useUnifiedTopology: true,
+	useNewUrlParser: true
 });
 mongoose.set('useCreateIndex', true);
 // //change
@@ -84,62 +86,46 @@ mongoose.set('useCreateIndex', true);
 
 //Users schema
 const usersSchema = new mongoose.Schema({
-	email          : String,
-	password       : String,
-	googleId       : String,
-	name           : String,
-	profilePicLink : String,
-	info           : String,
-	gender         : String,
-	age            : Number,
-	status         : Number,
-	block          : Boolean,
-	facebookId     : String,
-	twitterId      : String
+	email: String,
+	password: String,
+	googleId: String,
+	name: String,
+	profilePicLink: String,
+	info: String,
+	gender: String,
+	age: Number,
+	status: Number,
+	block: Boolean,
+	facebookId: String,
+	twitterId: String
 });
 usersSchema.plugin(passportLocalMongoose); //passport-local-mongoose setup
 usersSchema.plugin(findOrCreate);
 
 const User = new mongoose.model('User', usersSchema);
-
-// passport.use(
-// 	new LocalStrategy(function(username, password, done) {
-// 		User.findOne({ username: username }, function(err, user) {
-// 			if (err) {
-// 				return done(err);
-// 			}
-// 			if (!user) {
-// 				return done(null, false, { message: 'Incorrect username.' });
-// 			}
-// 			if (!user.validPassword(password)) {
-// 				return done(null, false, { message: 'Incorrect password.' });
-// 			}
-// 			return done(null, user);
-// 		});
-// 	})
-// );
 passport.use(User.createStrategy());
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
 	done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-	User.findById(id, function(err, user) {
+passport.deserializeUser(function (id, done) {
+	User.findById(id, function (err, user) {
 		done(err, user);
 	});
 });
 app.use(flash());
 passport.use(
-	new GoogleStrategy(
-		{
-			clientID       : process.env.CLIENT_ID,
-			clientSecret   : process.env.CLIENT_SECRET,
-			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/google/about',
-			userProfileURL : 'https://www.googleapis.com/oauth2/v3/userinfo'
+	new GoogleStrategy({
+			clientID: process.env.CLIENT_ID,
+			clientSecret: process.env.CLIENT_SECRET,
+			callbackURL: 'https://safe-citadel-21836.herokuapp.com/auth/google/about',
+			userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo'
 		},
-		function(accessToken, refreshToken, profile, cb) {
-			User.findOrCreate({ googleId: profile.id }, function(err, user) {
+		function (accessToken, refreshToken, profile, cb) {
+			User.findOrCreate({
+				googleId: profile.id
+			}, function (err, user) {
 				if (!user.name) {
 					user.name = profile.displayName;
 					user.profilePicLink = profile._json.picture;
@@ -158,21 +144,22 @@ passport.use(
 	)
 );
 passport.use(
-	new FacebookStrategy(
-		{
-			clientID      : process.env.FB_APP_ID,
-			clientSecret  : process.env.FB_SECRET,
-			callbackURL   : 'https://safe-citadel-21836.herokuapp.com/auth/facebook/about',
-			profileFields : [
+	new FacebookStrategy({
+			clientID: process.env.FB_APP_ID,
+			clientSecret: process.env.FB_SECRET,
+			callbackURL: 'https://safe-citadel-21836.herokuapp.com/auth/facebook/about',
+			profileFields: [
 				'email',
 				'name',
 				'displayName',
 				'picture'
 			]
 		},
-		function(accessToken, refreshToken, profile, done) {
+		function (accessToken, refreshToken, profile, done) {
 			console.log(profile);
-			User.findOrCreate({ facebookId: profile.id }, function(err, user) {
+			User.findOrCreate({
+				facebookId: profile.id
+			}, function (err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -204,14 +191,15 @@ passport.use(
 	)
 );
 passport.use(
-	new TwitterStrategy(
-		{
-			consumerKey    : process.env.TW_APP_ID,
-			consumerSecret : process.env.TW_SECRET,
-			callbackURL    : 'https://safe-citadel-21836.herokuapp.com/auth/twitter/about'
+	new TwitterStrategy({
+			consumerKey: process.env.TW_APP_ID,
+			consumerSecret: process.env.TW_SECRET,
+			callbackURL: 'https://safe-citadel-21836.herokuapp.com/auth/twitter/about'
 		},
-		function(token, tokenSecret, profile, done) {
-			User.findOrCreate({ twitterId: profile.id }, function(err, user) {
+		function (token, tokenSecret, profile, done) {
+			User.findOrCreate({
+				twitterId: profile.id
+			}, function (err, user) {
 				if (err) {
 					return done(err);
 				}
@@ -244,56 +232,56 @@ passport.use(
 );
 //id schema
 const linksSchema = new mongoose.Schema({
-	link : Number
+	link: Number
 });
 const Link = new mongoose.model('Identity', linksSchema);
 //uncomment link.save() after dropping the DB to initialise indentities collection
 
 const link = Link({
-	link : 1
+	link: 1
 });
 // link.save();
 
 //reply schema
 const repliesSchema = new mongoose.Schema({
-	linkID  : Number,
-	replier : String,
-	reply   : String,
-	comDate : String,
-	comTime : String
+	linkID: Number,
+	replier: String,
+	reply: String,
+	comDate: String,
+	comTime: String
 });
 const Reply = new mongoose.model('Reply', repliesSchema);
 
 //comments collection creation
 const commentsSchema = new mongoose.Schema({
-	linkID        : Number,
-	commentator   : String,
-	commentatorID : String,
-	comment       : String,
-	reply         : Array,
-	comDate       : String,
-	comTime       : String
+	linkID: Number,
+	commentator: String,
+	commentatorID: String,
+	comment: String,
+	reply: Array,
+	comDate: String,
+	comTime: String
 });
 const Comment = new mongoose.model('Comment', commentsSchema);
 
 //notes collection creation
 const notesSchema = new mongoose.Schema({
-	linkID        : Number,
-	type          : String,
-	heading       : String,
-	content       : String,
-	date          : String,
-	time          : String,
-	thumbnailLink : String,
-	about         : String,
-	comments      : Array,
-	userID        : String,
-	tags          : Array,
-	likes         : Array,
-	dislikes      : Array,
-	views_ip      : Array,
-	views_signed  : Array,
-	show          : Number
+	linkID: Number,
+	type: String,
+	heading: String,
+	content: String,
+	date: String,
+	time: String,
+	thumbnailLink: String,
+	about: String,
+	comments: Array,
+	userID: String,
+	tags: Array,
+	likes: Array,
+	dislikes: Array,
+	views_ip: Array,
+	views_signed: Array,
+	show: Number
 });
 const Note = new mongoose.model('Note', notesSchema);
 
@@ -301,19 +289,19 @@ const Note = new mongoose.model('Note', notesSchema);
 //registration
 app
 	.route('/register')
-	.get(function(req, res) {
+	.get(function (req, res) {
 		const user = req.user;
 		let v = 0;
 		if (user && user.status == process.env.ADMIN) {
 			v = 1;
 		}
 		res.render('register', {
-			user   : user,
-			error  : [],
-			status : v
+			user: user,
+			error: [],
+			status: v
 		});
 	})
-	.post(function(req, res) {
+	.post(function (req, res) {
 		let errors = [];
 		const user = req.user;
 		let v = 0;
@@ -326,34 +314,44 @@ app
 		const passStat = req.body.passStat;
 		if (passStat === 'Weak') {
 			errors.push({
-				msg : 'The password is too weak, try adding special chars, numbers, Upper & lower case chars'
+				msg: 'The password is too weak, try adding special chars, numbers, Upper & lower case chars'
 			});
 		}
 		if (!email || !pass1 || !pass2) {
-			errors.push({ msg: 'Enter all the deatails!' });
+			errors.push({
+				msg: 'Enter all the deatails!'
+			});
 		}
 		if (pass1 != pass2) {
-			errors.push({ msg: "Ohh..the passwords don't match, enter carefully!" });
+			errors.push({
+				msg: "Ohh..the passwords don't match, enter carefully!"
+			});
 		}
 		if (pass1.length < 8) {
-			errors.push({ msg: 'Hey, your password is short put at least 8 characters!' });
+			errors.push({
+				msg: 'Hey, your password is short put at least 8 characters!'
+			});
 		}
-		User.register({ username: req.body.username }, req.body.password, function(err, user) {
+		User.register({
+			username: req.body.username
+		}, req.body.password, function (err, user) {
 			if (err) {
-				errors.push({ msg: err.message });
+				errors.push({
+					msg: err.message
+				});
 				res.render('register', {
-					user   : req.user,
-					status : v,
-					error  : errors
+					user: req.user,
+					status: v,
+					error: errors
 				});
 			} else if (errors.length > 0) {
 				res.render('register', {
-					user   : req.user,
-					status : v,
-					error  : errors
+					user: req.user,
+					status: v,
+					error: errors
 				});
 			} else {
-				passport.authenticate('local')(req, res, function() {
+				passport.authenticate('local')(req, res, function () {
 					user.email = req.body.username;
 					user.status = process.env.USER;
 					user.block = false;
@@ -363,50 +361,52 @@ app
 			}
 		});
 	});
-app.get('/users', function(req, res) {
-	res.redirect('/users/' + req.user._id);
+app.get('/users', function (req, res) {
+	res.redirect('/user');
 });
 //Login
 app
 	.route('/login')
-	.get(function(req, res) {
+	.get(function (req, res) {
 		const user = req.user;
 		let v = 0;
 		if (user && user.status == process.env.ADMIN) {
 			v = 1;
 		}
 		res.render('login', {
-			user   : user,
-			status : v
+			user: user,
+			status: v
 		});
 	})
-	.post(function(req, res, next) {
+	.post(function (req, res, next) {
 		const email = req.body.username;
 		const pass1 = req.body.password;
 		let errors = [];
 		const user = new User({
-			username : req.body.username,
-			password : req.body.password
+			username: req.body.username,
+			password: req.body.password
 		});
-		User.findOne({ username: email }, function(err, doc) {
+		User.findOne({
+			username: email
+		}, function (err, doc) {
 			if (err) {
 				console.log(err);
 			} else if (doc) {
 				if (doc.status != process.env.ADMIN) {
-					req.login(user, function(err) {
+					req.login(user, function (err) {
 						if (err) {
 							console.log(err);
 						} else {
 							passport.authenticate('local', {
-								failureRedirect : '/login',
-								failureFlash    : true,
-								failureMessage  : 'wrong username or password'
-							})(req, res, function(err) {
+								failureRedirect: '/login',
+								failureFlash: true,
+								failureMessage: 'wrong username or password'
+							})(req, res, function (err) {
 								if (err) {
 									console.log(err);
 									res.redirect('/login');
 								} else {
-									res.redirect('/users/' + user._id);
+									res.redirect('/user');
 								}
 							});
 						}
@@ -424,7 +424,7 @@ app
 app.get(
 	'/auth/google',
 	passport.authenticate('google', {
-		scope : [
+		scope: [
 			'profile',
 			'email'
 		]
@@ -433,7 +433,7 @@ app.get(
 app.get(
 	'/auth/facebook',
 	passport.authenticate('facebook', {
-		scope : [
+		scope: [
 			'public_profile',
 			'email'
 		]
@@ -441,43 +441,45 @@ app.get(
 );
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
-app.get('/auth/google/about', passport.authenticate('google', { failureRedirect: '/login' }), function(req, res) {
+app.get('/auth/google/about', passport.authenticate('google', {
+	failureRedirect: '/login'
+}), function (req, res) {
 	if (!req.user.info) {
 		res.redirect('/userinfo/about');
 	} else {
-		res.redirect('/users/' + req.user._id);
+		res.redirect('/user');
 	}
 });
 
 app.get(
 	'/auth/facebook/about',
 	passport.authenticate('facebook', {
-		failureRedirect : '/login'
+		failureRedirect: '/login'
 	}),
-	function(req, res) {
+	function (req, res) {
 		if (!req.user.info) {
 			res.redirect('/userinfo/about');
 		} else {
-			res.redirect('/users/' + req.user._id);
+			res.redirect('/user');
 		}
 	}
 );
 app.get(
 	'/auth/twitter/about',
 	passport.authenticate('twitter', {
-		failureRedirect : '/login'
+		failureRedirect: '/login'
 	}),
-	function(req, res) {
+	function (req, res) {
 		if (!req.user.info) {
 			res.redirect('/userinfo/about');
 		} else {
-			res.redirect('/users/' + req.user._id);
+			res.redirect('/user');
 		}
 	}
 );
 
 //logout
-app.get('/logout', function(req, res) {
+app.get('/logout', function (req, res) {
 	if (req.isAuthenticated()) {
 		req.logout();
 		res.redirect('/');
@@ -486,69 +488,88 @@ app.get('/logout', function(req, res) {
 	}
 });
 //User profile page
-app.route('/users/:postID').get(function(req, res) {
-	const user = req.user;
-	let v = 0;
-	if (user && user.status == process.env.ADMIN) {
-		v = 1;
-	}
-	Note.find({ userID: req.user._id }, function(err, doc) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.render('user', {
-				array  : doc,
-				user   : user,
-				status : v
-			});
-		}
-	});
-});
-//userinfo
-app
-	.route('/userinfo/about')
-	.get(function(req, res) {
+app.route('/user').get(function (req, res) {
+	if (req.isAuthenticated()) {
 		const user = req.user;
 		let v = 0;
 		if (user && user.status == process.env.ADMIN) {
 			v = 1;
 		}
-		res.render('info', {
-			user   : user,
-			status : v
+		Note.find({
+			userID: req.user._id
+		}, function (err, doc) {
+			if (err) {
+				console.log(err);
+			} else {
+				res.render('user', {
+					array: doc,
+					user: user,
+					status: v
+				});
+			}
 		});
+	} else {
+		res.redirect("/login");
+	}
+});
+//userinfo
+app
+	.route('/userinfo/about')
+	.get(function (req, res) {
+		if (req.isAuthenticated()) {
+			const user = req.user;
+			let v = 0;
+			if (user && user.status == process.env.ADMIN) {
+				v = 1;
+			}
+			res.render('info', {
+				user: user,
+				status: v
+			});
+		} else {
+			res.redirect("/login");
+		}
 	})
-	.post(function(req, res) {
+	.post(function (req, res) {
 		const info = req.body.info;
 		const name = req.body.name;
 		const gender = req.body.gender;
 		const age = req.body.age;
-		req.user.gender = gender;
-		req.user.info = info;
-		req.user.name = name;
-		req.user.age = age;
-		req.user.save();
-		res.redirect('/users');
+		const user = req.user;
+		let v = 0;
+		if (user && user.status == process.env.ADMIN) {
+			v = 1;
+		}
+		user.gender = gender;
+		user.info = info;
+		user.name = name;
+		user.age = age;
+		user.save();
+		if (v != 1) {
+			res.redirect('/users');
+		} else if (v == 1) {
+			res.redirect("/admin/" + user._id);
+		}
 	});
 //profile pic change
-app.get('/upload/images', function(req, res) {
+app.get('/upload/images', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	res.render('image', {
-		user   : user,
-		status : v
+		user: user,
+		status: v
 	});
 });
-app.post('/upload', function(req, res) {
+app.post('/upload', function (req, res) {
 	const file = req.files;
 	console.log(req.files);
 	res.json(file);
 });
 //viewuser
-app.get('/viewuser/:postID', function(req, res) {
+app.get('/viewuser/:postID', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
@@ -556,21 +577,25 @@ app.get('/viewuser/:postID', function(req, res) {
 	}
 	const id = req.params.postID;
 	if (user && id == user._id) {
-		res.redirect('/users/' + id);
+		res.redirect('/user');
 	} else if (!user || id != user._id) {
-		User.findOne({ _id: id }, function(err, docu) {
+		User.findOne({
+			_id: id
+		}, function (err, docu) {
 			if (err) {
 				console.log(err);
 			} else {
-				Note.find({ userID: id }, function(err, doc) {
+				Note.find({
+					userID: id
+				}, function (err, doc) {
 					if (err) {
 						console.log(err);
 					} else {
 						res.render('viewuser', {
-							array  : doc,
-							user   : user,
-							author : docu,
-							status : v
+							array: doc,
+							user: user,
+							author: docu,
+							status: v
 						});
 					}
 				});
@@ -579,42 +604,44 @@ app.get('/viewuser/:postID', function(req, res) {
 	}
 });
 //Admin page
-app.get('/admin/login', function(req, res) {
+app.get('/admin/login', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	res.render('Adminlogin', {
-		user   : user,
-		status : v
+		user: user,
+		status: v
 	});
 });
-app.post('/admin/login', function(req, res) {
+app.post('/admin/login', function (req, res) {
 	const email = req.body.username;
 	const pass1 = req.body.password;
 	let errors = [];
 	let x = '' + he.decode(req.body.key);
 	let y = 0;
 	const user = new User({
-		username : req.body.username,
-		password : req.body.password
+		username: req.body.username,
+		password: req.body.password
 	});
-	User.findOne({ username: email }, function(err, doc) {
+	User.findOne({
+		username: email
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (doc) {
 			y = parseInt(doc.status);
 			if (x === '' + process.env.CHABI && y == process.env.ADMIN) {
-				req.login(user, function(err) {
+				req.login(user, function (err) {
 					if (err) {
 						console.log(err);
 					} else {
 						passport.authenticate('local', {
-							failureFlash    : true,
-							failureMessage  : 'Incorrect email or password.',
-							failureRedirect : '/admin/login'
-						})(req, res, function(err) {
+							failureFlash: true,
+							failureMessage: 'Incorrect email or password.',
+							failureRedirect: '/admin/login'
+						})(req, res, function (err) {
 							if (err) {
 								console.log(err);
 								res.redirect('/admin/login');
@@ -630,39 +657,45 @@ app.post('/admin/login', function(req, res) {
 		}
 	});
 });
-app.get('/admin/:postID', function(req, res) {
-	const user = req.user;
-	let v = 0;
-	if (user && user.status == process.env.ADMIN) {
-		v = 1;
-	}
-	Note.find({ userID: req.user._id }, function(err, doc) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.render('Admin', {
-				array  : doc,
-				user   : req.user,
-				status : v
-			});
-		}
-	});
-});
-app.get('/lists', function(req, res) {
+app.get('/admin/:postID', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	if (v == 1) {
-		User.find({}, function(err, docs) {
+		Note.find({
+			userID: req.user._id
+		}, function (err, doc) {
+			if (err) {
+				console.log(err);
+			} else {
+				res.render('Admin', {
+					array: doc,
+					user: req.user,
+					status: v
+				});
+			}
+		});
+	} else {
+		res.redirect("/logout");
+	}
+});
+app.get('/lists', function (req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (v == 1) {
+		User.find({}, function (err, docs) {
 			if (err) {
 				console.log(err);
 			} else if (docs) {
 				res.render('adminList', {
-					list   : docs,
-					user   : user,
-					status : v
+					list: docs,
+					user: user,
+					status: v
 				});
 			} else if (!docs) {
 				res.redirect('/admin/' + user._id);
@@ -672,7 +705,7 @@ app.get('/lists', function(req, res) {
 		res.redirect('/');
 	}
 });
-app.post('/lists', function(req, res) {
+app.post('/lists', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
@@ -681,7 +714,7 @@ app.post('/lists', function(req, res) {
 	const search = req.body.search;
 	res.redirect('/lists/searchresult/' + search);
 });
-app.get('/lists/searchresult/:postID', function(req, res) {
+app.get('/lists/searchresult/:postID', function (req, res) {
 	const user = req.user;
 	const search = he.decode(req.params.postID);
 	let v = 0;
@@ -689,15 +722,17 @@ app.get('/lists/searchresult/:postID', function(req, res) {
 		v = 1;
 	}
 	if (v == 1) {
-		User.find({ name: search }, function(err, doc) {
+		User.find({
+			name: search
+		}, function (err, doc) {
 			if (err) {
 				console.log(err);
 				res.redirect('/lists');
 			} else if (doc) {
 				res.render('searchResult', {
-					user   : user,
-					status : v,
-					query  : doc
+					user: user,
+					status: v,
+					query: doc
 				});
 			}
 		});
@@ -707,7 +742,7 @@ app.get('/lists/searchresult/:postID', function(req, res) {
 });
 
 //block/unblock
-app.get('/block/:postID', function(req, res) {
+app.get('/block/:postID', function (req, res) {
 	const user = req.user;
 	const id = req.params.postID;
 	let v = 0;
@@ -715,7 +750,11 @@ app.get('/block/:postID', function(req, res) {
 		v = 1;
 	}
 	if (v == 1) {
-		User.findOneAndUpdate({ _id: id }, { block: true }, function(err, doc) {
+		User.findOneAndUpdate({
+			_id: id
+		}, {
+			block: true
+		}, function (err, doc) {
 			if (err) {
 				console.log(err);
 			} else if (doc) {
@@ -727,7 +766,7 @@ app.get('/block/:postID', function(req, res) {
 		});
 	}
 });
-app.get('/unblock/:postID', function(req, res) {
+app.get('/unblock/:postID', function (req, res) {
 	const user = req.user;
 	const id = req.params.postID;
 	let v = 0;
@@ -735,7 +774,11 @@ app.get('/unblock/:postID', function(req, res) {
 		v = 1;
 	}
 	if (v == 1) {
-		User.findOneAndUpdate({ _id: id }, { block: false }, function(err, doc) {
+		User.findOneAndUpdate({
+			_id: id
+		}, {
+			block: false
+		}, function (err, doc) {
 			if (err) {
 				console.log(err);
 			} else if (doc) {
@@ -750,7 +793,7 @@ app.get('/unblock/:postID', function(req, res) {
 		res.redirect('/');
 	}
 });
-app.get('/adminview/:postID', function(req, res) {
+app.get('/adminview/:postID', function (req, res) {
 	const id = req.params.postID;
 	const user = req.user;
 	let v = 0;
@@ -761,20 +804,24 @@ app.get('/adminview/:postID', function(req, res) {
 		if (user && id == user._id) {
 			res.redirect('/admin/' + id);
 		} else if (!user || id != user._id) {
-			User.findOne({ _id: id }, function(err, docu) {
+			User.findOne({
+				_id: id
+			}, function (err, docu) {
 				if (err) {
 					console.log(err);
 				} else if (docu) {
-					Note.find({ userID: id }, function(err, doc) {
+					Note.find({
+						userID: id
+					}, function (err, doc) {
 						if (err) {
 							console.log(err);
 							res.redirect('/lists');
 						} else if (doc) {
 							res.render('adminUser', {
-								array  : doc,
-								user   : user,
-								author : docu,
-								status : v
+								array: doc,
+								user: user,
+								author: docu,
+								status: v
 							});
 						} else if (!doc) {
 							console.log('no document found');
@@ -792,12 +839,14 @@ app.get('/adminview/:postID', function(req, res) {
 		res.redirect('/');
 	}
 });
-app.get('/public/:postID', function(req, res) {
+app.get('/public/:postID', function (req, res) {
 	const x = he.decode(req.params.postID);
 	const arr = x.split('+');
 	const noteID = arr[0];
 	const authID = arr[1];
-	Note.findOne({ _id: noteID }, function(err, doc) {
+	Note.findOne({
+		_id: noteID
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
@@ -817,106 +866,181 @@ app.get('/public/:postID', function(req, res) {
 	});
 });
 //edit article
-app.get('/edit/:postID', function(req, res) {
+app.get('/edit/:postID', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	const objID = req.params.postID;
-	Note.findOne({ _id: objID }, function(err, doc) {
-		if (err) {
-			console.log(err);
-			res.redirect('/users/' + user._id);
-		} else if (!doc) {
-			res.send('404 not found');
-		} else if (doc) {
-			res.render('editArt', {
-				user   : user,
-				id     : objID,
-				artCol : doc,
-				status : v
-			});
-		}
-	});
+	if (req.isAuthenticated()) {
+		Note.findOne({
+			_id: objID
+		}, function (err, doc) {
+			if (err) {
+				console.log(err);
+				res.redirect("/");
+			} else if (!doc) {
+				res.redirect("/");
+			} else if (doc) {
+				if (user._id == doc.userID) {
+					res.render('editArt', {
+						user: user,
+						id: objID,
+						artCol: doc,
+						status: v
+					});
+				} else {
+					res.redirect("/");
+				}
+			}
+		});
+	} else {
+		res.redirect("/login");
+	}
 });
 
 //home
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
-	Note.find({}, function(err, doc) {
+	Note.find({}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else {
 			res.render('home', {
-				array  : doc,
-				user   : user,
-				status : v
+				array: doc,
+				user: user,
+				status: v
 			});
 		}
 	});
 });
+//search
+app.post('/search', function (req, res) {
+	const user = req.user;
+	const author = req.body.author;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	const query = req.body.query;
+	if (query) {
+		const arr = query.split(' ');
+		arr.forEach((obj) => {
+			obj = _.lowerCase(obj);
+		});
+		let result = [];
+		Note.find({
+			tags: {
+				$in: arr
+			}
+		}, function (err, docs) {
+			if (err) {
+				console.log(err);
+			} else if (!docs) {
+				Note.find({
+					heading: query
+				}, function (err, doc) {
+					if (err) {
+						console.log(err);
+					} else if (doc) {
+						doc.forEach((obj) => {
+							result.push(obj);
+						});
+					}
+					res.render('Result', {
+						result: result,
+						user: user,
+						status: v
+					});
+				});
+			} else if (docs) {
+				docs.forEach((obj) => {
+					result.push(obj);
+				});
+				Note.find({
+					heading: query
+				}, function (err, doc) {
+					if (err) {
+						console.log(err);
+					} else if (doc) {
+						doc.forEach((obj) => {
+							result.push(obj);
+						});
+					}
+					res.render('Result', {
+						result: result,
+						user: user,
+						status: v
+					});
+				});
+			}
+		});
+	} else {
+		res.redirect("/");
+	}
+});
 
 //contact
-app.get('/contact', function(req, res) {
+app.get('/contact', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	res.render('contact', {
-		user   : user,
-		status : v
+		user: user,
+		status: v
 	});
 });
 
 //about
-app.get('/about', function(req, res) {
+app.get('/about', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	res.render('about', {
-		user   : user,
-		status : v
+		user: user,
+		status: v
 	});
 });
 
 //compose
 app
 	.route('/compose')
-	.get(function(req, res) {
+	.get(function (req, res) {
 		const user = req.user;
 		let v = 0;
 		if (user && user.status == process.env.ADMIN) {
 			v = 1;
 		}
 		if (req.isAuthenticated() && user.block == false) {
-			Link.find({}, function(err, doc) {
+			Link.find({}, function (err, doc) {
 				if (err) {
 					console.log(err);
 				} else {
 					res.render('compose', {
-						user   : user,
-						status : v
+						user: user,
+						status: v
 					});
 				}
 			});
 		} else if (req.isAuthenticated() && user.block != false) {
 			res.render('block', {
-				user   : user,
-				status : v
+				user: user,
+				status: v
 			});
 		} else {
 			res.redirect('/login');
 		}
 	})
-	.post(function(req, res) {
+	.post(function (req, res) {
 		const composed = req.body.cmp;
 		const heading = req.body.head;
 		const thumb = req.body.thumb;
@@ -924,6 +1048,7 @@ app
 		const type = req.body.type;
 		const author = req.user.name;
 		const timeZone = req.body.timeZone;
+		const noteID = req.body.check;
 		const user = req.user;
 		let view = 0;
 		if (req.body.view === 'Public') {
@@ -934,34 +1059,46 @@ app
 		const userView = [];
 		userView.push('' + req.user._id);
 		const tags = req.body.tags;
-		const arr = tags.split(',');
+		let arr = tags.split(',');
+		let H = heading.split(" ");
+		H.forEach((obj) => {
+			if (!arr.includes(obj)) {
+				arr.push(obj);
+			}
+		});
+		arr.forEach((obj) => {
+			obj = _.lowerCase(obj);
+		});
 		for (let i = 0; i < arr.length; i++) {
 			arr[i] = _.lowerCase(arr[i]);
 		}
-		const noteID = req.body.check;
 
 		if (noteID === '') {
-			Link.find({}, function(err, doc) {
+			Link.find({}, function (err, doc) {
 				if (err) {
 					console.log(err);
 				} else {
 					const linkID = doc[0].link;
 					const newNote = new Note({
-						linkID        : linkID,
-						heading       : heading,
-						content       : composed,
-						date          : date(timeZone),
-						time          : time(timeZone),
-						thumbnailLink : thumb,
-						about         : abt,
-						type          : type,
-						author        : author,
-						userID        : req.user._id,
-						tags          : arr,
-						views_signed  : userView,
-						show          : view
+						linkID: linkID,
+						heading: heading,
+						content: composed,
+						date: date(timeZone),
+						time: time(timeZone),
+						thumbnailLink: thumb,
+						about: abt,
+						type: type,
+						author: author,
+						userID: req.user._id,
+						tags: arr,
+						views_signed: userView,
+						show: view
 					});
-					Link.findOneAndUpdate({ link: parseInt(linkID) }, { link: parseInt(linkID) + 1 }, function(
+					Link.findOneAndUpdate({
+						link: parseInt(linkID)
+					}, {
+						link: parseInt(linkID) + 1
+					}, function (
 						err,
 						doc
 					) {
@@ -969,7 +1106,7 @@ app
 							console.log(err);
 						}
 					});
-					newNote.save(function(err) {
+					newNote.save(function (err) {
 						if (err) {
 							console.log(err);
 						} else {
@@ -979,11 +1116,24 @@ app
 				}
 			});
 		} else {
-			Note.findOne({ _id: noteID }, function(err, doc) {
+			Note.findOne({
+				_id: noteID
+			}, function (err, doc) {
 				if (err) {
 					console.log(err);
-					res.redirect('/users/' + req.user._id);
+					res.redirect('/user');
 				} else if (doc) {
+					let s = doc.heading.split(" ");
+					s.forEach((obj) => {
+						if (arr.includes(obj)) {
+							arr.splice(arr.indexOf(obj), 1);
+						}
+					});
+					H.forEach((obj) => {
+						if (!arr.includes(_.lowerCase(obj))) {
+							arr.push(_.lowerCase(obj));
+						}
+					})
 					doc.heading = heading;
 					doc.content = composed;
 					doc.date = date(timeZone);
@@ -998,14 +1148,14 @@ app
 						doc.show = view;
 					}
 					doc.save();
-					res.redirect('/users/' + req.user._id);
+					res.redirect('/user');
 				}
 			});
 		}
 	});
 
 //:postID
-app.get('/contents/:postsID', function(req, res) {
+app.get('/contents/:postsID', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
@@ -1014,31 +1164,32 @@ app.get('/contents/:postsID', function(req, res) {
 	const postID = he.decode(req.params.postsID);
 	let x = 'black';
 	let y = 'black';
-	Note.findOne({ heading: postID }, function(err, doc) {
+	Note.findOne({
+		heading: postID
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
 			res.render('post', {
-				postHead    : 'Page not found',
-				postContent : 'Go back to the home page!',
-				imgL        : 'https://i.redd.it/t0rlgz5c1uf31.png',
-				date        : '0',
-				time        : '0',
-				id          : '0',
-				array       : [],
-				objID       : 0,
-				noteID      : 0,
-				user        : user,
-				status      : v,
-				author      : 'no author',
-				pic         :
-					'https://img.favpng.com/7/5/8/computer-icons-font-awesome-user-font-png-favpng-YMnbqNubA7zBmfa13MK8WdWs8.jpg',
-				info        : 'no info',
-				authorID    : 0,
-				likeArr     : [],
-				dislikeArr  : [],
-				likeCol     : x,
-				dislikeCol  : y
+				postHead: 'Page not found',
+				postContent: 'Go back to the home page!',
+				imgL: 'https://i.redd.it/t0rlgz5c1uf31.png',
+				date: '0',
+				time: '0',
+				id: '0',
+				array: [],
+				objID: 0,
+				noteID: 0,
+				user: user,
+				status: v,
+				author: 'no author',
+				pic: 'https://img.favpng.com/7/5/8/computer-icons-font-awesome-user-font-png-favpng-YMnbqNubA7zBmfa13MK8WdWs8.jpg',
+				info: 'no info',
+				authorID: 0,
+				likeArr: [],
+				dislikeArr: [],
+				likeCol: x,
+				dislikeCol: y
 			});
 		} else {
 			if (
@@ -1064,53 +1215,54 @@ app.get('/contents/:postsID', function(req, res) {
 					y = '#c70039';
 				}
 			}
-			User.findOne({ _id: doc.userID }, function(err, docu) {
+			User.findOne({
+				_id: doc.userID
+			}, function (err, docu) {
 				if (err) {
 					console.log(err);
 				} else if (!docu) {
 					res.render('post', {
-						postHead    : 'Page not found',
-						postContent : 'Go back to the home page!',
-						imgL        : 'https://i.redd.it/t0rlgz5c1uf31.png',
-						date        : '0',
-						time        : '0',
-						id          : '0',
-						array       : [],
-						objID       : 0,
-						noteID      : 0,
-						user        : user,
-						status      : v,
-						author      : 'no author',
-						pic         :
-							'https://img.favpng.com/7/5/8/computer-icons-font-awesome-user-font-png-favpng-YMnbqNubA7zBmfa13MK8WdWs8.jpg',
-						info        : 'no info',
-						authorID    : 0,
-						likeArr     : [],
-						dislikeArr  : [],
-						likeCol     : x,
-						dislikeCol  : y
+						postHead: 'Page not found',
+						postContent: 'Go back to the home page!',
+						imgL: 'https://i.redd.it/t0rlgz5c1uf31.png',
+						date: '0',
+						time: '0',
+						id: '0',
+						array: [],
+						objID: 0,
+						noteID: 0,
+						user: user,
+						status: v,
+						author: 'no author',
+						pic: 'https://img.favpng.com/7/5/8/computer-icons-font-awesome-user-font-png-favpng-YMnbqNubA7zBmfa13MK8WdWs8.jpg',
+						info: 'no info',
+						authorID: 0,
+						likeArr: [],
+						dislikeArr: [],
+						likeCol: x,
+						dislikeCol: y
 					});
 				} else if (docu) {
 					res.render('post', {
-						postHead    : postID,
-						postContent : doc.content,
-						imgL        : doc.thumbnailLink,
-						date        : doc.date,
-						time        : doc.time,
-						id          : doc._id,
-						array       : doc.comments,
-						objID       : doc._id,
-						noteID      : doc.linkID,
-						user        : user,
-						status      : v,
-						author      : docu.name,
-						pic         : docu.profilePicLink,
-						info        : docu.info,
-						authorID    : doc.userID,
-						likeArr     : doc.likes,
-						dislikeArr  : doc.dislikes,
-						likeCol     : x,
-						dislikeCol  : y
+						postHead: postID,
+						postContent: doc.content,
+						imgL: doc.thumbnailLink,
+						date: doc.date,
+						time: doc.time,
+						id: doc._id,
+						array: doc.comments,
+						objID: doc._id,
+						noteID: doc.linkID,
+						user: user,
+						status: v,
+						author: docu.name,
+						pic: docu.profilePicLink,
+						info: docu.info,
+						authorID: doc.userID,
+						likeArr: doc.likes,
+						dislikeArr: doc.dislikes,
+						likeCol: x,
+						dislikeCol: y
 					});
 				}
 			});
@@ -1120,12 +1272,14 @@ app.get('/contents/:postsID', function(req, res) {
 
 //interactions page
 //like
-app.post('/like/:postID', function(req, res) {
+app.post('/like/:postID', function (req, res) {
 	const noteID = req.params.postID;
 	let x = 0;
 	let y = 0;
 	const userID = req.user._id;
-	Note.findOne({ _id: noteID }, function(err, doc) {
+	Note.findOne({
+		_id: noteID
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 			res.redirect('/');
@@ -1162,12 +1316,14 @@ app.post('/like/:postID', function(req, res) {
 });
 
 //dislike
-app.post('/dislike/:postID', function(req, res) {
+app.post('/dislike/:postID', function (req, res) {
 	const noteID = req.params.postID;
 	let x = 0;
 	let y = 0;
 	const userID = req.user._id;
-	Note.findOne({ _id: noteID }, function(err, doc) {
+	Note.findOne({
+		_id: noteID
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 			res.redirect('/');
@@ -1204,24 +1360,30 @@ app.post('/dislike/:postID', function(req, res) {
 });
 
 //delete
-app.post('/delete', function(req, res) {
+app.post('/delete', function (req, res) {
 	const ID = req.body.ID;
 	const comID = req.body.comID;
 	const linkID = req.body.noteID;
 	const name = req.user.name;
-	Note.findOneAndRemove({ _id: ID }, function(err, doc) {
+	Note.findOneAndRemove({
+		_id: ID
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else {
-			Comment.deleteMany({ linkID: linkID }, function(err) {
+			Comment.deleteMany({
+				linkID: linkID
+			}, function (err) {
 				if (err) {
 					console.log(err);
 				} else {
-					Reply.deleteMany({ linkID: linkID }, function(err) {
+					Reply.deleteMany({
+						linkID: linkID
+					}, function (err) {
 						if (err) {
 							console.log(err);
 						} else {
-							res.redirect('/users/' + name);
+							res.redirect('/user');
 						}
 					});
 				}
@@ -1231,7 +1393,7 @@ app.post('/delete', function(req, res) {
 });
 
 //comments
-app.post('/comments', function(req, res) {
+app.post('/comments', function (req, res) {
 	const postId = req.param.postsId;
 	const noteID = req.body.noteID;
 	const authID = req.body.authID;
@@ -1244,15 +1406,21 @@ app.post('/comments', function(req, res) {
 	const title = req.body.titleID;
 	const comID = req.body.ID;
 	const newComment = new Comment({
-		linkID        : noteID,
-		commentator   : commentator,
-		comment       : comment,
-		comDate       : date(timezone),
-		comTime       : time(timezone),
-		commentatorID : authID
+		linkID: noteID,
+		commentator: commentator,
+		comment: comment,
+		comDate: date(timezone),
+		comTime: time(timezone),
+		commentatorID: authID
 	});
 	newComment.save();
-	Note.findOneAndUpdate({ _id: comID }, { $push: { comments: newComment } }, function(err, doc) {
+	Note.findOneAndUpdate({
+		_id: comID
+	}, {
+		$push: {
+			comments: newComment
+		}
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
@@ -1265,7 +1433,7 @@ app.post('/comments', function(req, res) {
 });
 
 //replies
-app.post('/reply', function(req, res) {
+app.post('/reply', function (req, res) {
 	const title = req.body.title;
 	const comID = req.body.replyBtn;
 	const replier = req.user.name;
@@ -1274,14 +1442,20 @@ app.post('/reply', function(req, res) {
 	const objID = req.body.objID;
 	const commentID = req.body.commentID;
 	const newReply = new Reply({
-		linkID  : commentID,
-		replier : replier,
-		reply   : reply,
-		comDate : date(timezone),
-		comTime : time(timezone)
+		linkID: commentID,
+		replier: replier,
+		reply: reply,
+		comDate: date(timezone),
+		comTime: time(timezone)
 	});
 	newReply.save();
-	Comment.findOneAndUpdate({ _id: comID }, { $push: { reply: newReply } }, function(err, doc) {
+	Comment.findOneAndUpdate({
+		_id: comID
+	}, {
+		$push: {
+			reply: newReply
+		}
+	}, function (err, doc) {
 		if (err) {
 			console.log(err);
 		} else if (!doc) {
@@ -1291,17 +1465,23 @@ app.post('/reply', function(req, res) {
 	});
 	res.redirect('/reply/' + commentID + '+' + objID);
 });
-app.get('/reply/:postID', function(req, res) {
+app.get('/reply/:postID', function (req, res) {
 	const postID = he.decode(req.params.postID);
 	const arr = postID.split('+');
 	const commentID = arr[0];
 	const objID = arr[1];
 	let title = 0;
-	Comment.find({ linkID: commentID }, function(err, docs) {
+	Comment.find({
+		linkID: commentID
+	}, function (err, docs) {
 		if (err) {
 			console.log(err);
 		} else if (docs) {
-			Note.findOneAndUpdate({ _id: objID }, { comments: docs }, function(err, doc) {
+			Note.findOneAndUpdate({
+				_id: objID
+			}, {
+				comments: docs
+			}, function (err, doc) {
 				if (err) {
 					console.log(err);
 				} else if (!doc) {
@@ -1316,47 +1496,53 @@ app.get('/reply/:postID', function(req, res) {
 	});
 });
 //Newsletter
-app.get('/newsLetter', function(req, res) {
+app.get('/newsLetter', function (req, res) {
 	const user = req.user;
 	let v = 0;
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
 	res.render('page', {
-		user   : user,
-		status : v
+		user: user,
+		status: v
 	});
 });
-app.post('/newsLetter', function(req, res) {
+app.post('/newsLetter', function (req, res) {
 	const email = req.body.email;
 	const Fname = req.body.Fname;
 	const Lname = req.body.Lname;
 
 	const data = {
-		members : [
-			{
-				email_address : email,
-				status        : 'subscribed',
-				merge_fields  : {
-					FNAME : Fname,
-					LNAME : Lname
-				}
+		members: [{
+			email_address: email,
+			status: 'subscribed',
+			merge_fields: {
+				FNAME: Fname,
+				LNAME: Lname
 			}
-		]
+		}]
 	};
 	const JSONdata = JSON.stringify(data);
 
 	const url = 'https://us4.api.mailchimp.com/3.0/lists/5272ed54ff';
 	const options = {
-		method : 'POST',
-		auth   : 'Anish1:e0feddbea6c937ed04fd83301a6dedec-us4'
+		method: 'POST',
+		auth: 'Anish1:e0feddbea6c937ed04fd83301a6dedec-us4'
 	};
 
-	const request = https.request(url, options, function(response) {
+	const request = https.request(url, options, function (response) {
 		if (response.statusCode === 200) {
-			res.render('success', { name: Fname, title: 'Success!', user: req.user });
+			res.render('success', {
+				name: Fname,
+				title: 'Success!',
+				user: req.user
+			});
 		} else {
-			res.render('fail', { name2: Fname, title: 'fail!', user: req.user });
+			res.render('fail', {
+				name2: Fname,
+				title: 'fail!',
+				user: req.user
+			});
 		}
 	});
 	request.write(JSONdata);
@@ -1364,6 +1550,6 @@ app.post('/newsLetter', function(req, res) {
 });
 
 //listening
-app.listen(process.env.PORT || 3000, function() {
+app.listen(process.env.PORT || 3000, function () {
 	console.log('Server started on');
 });
