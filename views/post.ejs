@@ -1,6 +1,7 @@
 <%- include('partials/header'); -%>
+<img class="image mobileTab" src="<%= imgL %>" alt="">
 <div class="container">
-    <img class="image" src="<%= imgL %>" alt="">
+    <img class="image pcTab" src="<%= imgL %>" alt="">
     <h1><%= postHead %></h1>
     <div class="d-t">
         <span><%= date %></span>
@@ -72,61 +73,61 @@
     <h2 class="com">Comments and replies</h2>
     <div class="scrollable">
         <div class="mobpad">
-        <% for(var i=0; i<array.length; i++){ %>
-        <div class="com">
-            <% if(array[i].commentatorID==authorID){ %>
-            <h2 class="adminColor"><strong> <%= array[i].commentator %></strong></h2>
-            <% } else{ %>
-            <h2><strong> <%= array[i].commentator %></strong></h2>
-            <% } %>
-            <div class="d-t Time">
-                <span><%= array[i].comDate %>, </span>
-                <span><%= array[i].comTime %></span>
-            </div>
-            <hr>
-            <div class="colComm">
-                <p class="commNew"><%= array[i].comment %></p>
-            </div>
-            <% if(user){ %>
-            <form action="/reply" method="POST">
-                <input type="hidden" name="commentID" value="<%= array[i].linkID %>">
-                <input type="hidden" name="objID" value="<%= objID %>">
-                <input type="hidden" name="repTime" class="timezone">
-                <input type="hidden" name="title" value="<%= postHead %>">
-                <div class="replyBlock">
-                    <textarea name="reply" id="reply" class="form-control form-control-sm"
-                        id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
-                    <button type="submit" name="replyBtn" class="replyBtn" value="<%= array[i]._id %>"><i
-                            class="fas fa-reply"></i></button>
-                </div>
-            </form>
-            <% } %>
-            <hr>
-            <% for(var j=0;j<array[i].reply.length; j++){ %>
-            <div class="container replyShow">
+            <% for(var i=0; i<array.length; i++){ %>
+            <div class="com">
                 <% if(array[i].commentatorID==authorID){ %>
-                <h4 class="adminColor"><strong><%= array[i].reply[j].replier %></strong></h4>
-                <% }else{ %>
-                <h4><strong><%= array[i].reply[j].replier %></strong></h4>
+                <h2 class="adminColor"><strong> <%= array[i].commentator %></strong></h2>
+                <% } else{ %>
+                <h2><strong> <%= array[i].commentator %></strong></h2>
                 <% } %>
-                <span class="Time"><%= array[i].reply[j].comDate %>, <%= array[i].reply[j].comTime %></span>
+                <div class="d-t Time">
+                    <span><%= array[i].comDate %>, </span>
+                    <span><%= array[i].comTime %></span>
+                </div>
                 <hr>
-                <p class="repNew"><%= array[i].reply[j].reply %></p>
+                <div class="colComm">
+                    <p class="commNew"><%= array[i].comment %></p>
+                </div>
+                <% if(user){ %>
+                <form action="/reply" method="POST">
+                    <input type="hidden" name="commentID" value="<%= array[i].linkID %>">
+                    <input type="hidden" name="objID" value="<%= objID %>">
+                    <input type="hidden" name="repTime" class="timezone">
+                    <input type="hidden" name="title" value="<%= postHead %>">
+                    <div class="replyBlock">
+                        <textarea name="reply" id="reply" class="form-control form-control-sm"
+                            id="exampleFormControlTextarea1" placeholder="Reply here..." cols="1" rows="1"></textarea>
+                        <button type="submit" name="replyBtn" class="replyBtn" value="<%= array[i]._id %>"><i
+                                class="fas fa-reply"></i></button>
+                    </div>
+                </form>
+                <% } %>
+                <hr>
+                <% for(var j=0;j<array[i].reply.length; j++){ %>
+                <div class="container replyShow">
+                    <% if(array[i].commentatorID==authorID){ %>
+                    <h4 class="adminColor"><strong><%= array[i].reply[j].replier %></strong></h4>
+                    <% }else{ %>
+                    <h4><strong><%= array[i].reply[j].replier %></strong></h4>
+                    <% } %>
+                    <span class="Time"><%= array[i].reply[j].comDate %>, <%= array[i].reply[j].comTime %></span>
+                    <hr>
+                    <p class="repNew"><%= array[i].reply[j].reply %></p>
+                </div>
+                <hr>
+                <% } %>
             </div>
-            <hr>
             <% } %>
         </div>
-        <% } %>
-    </div>
     </div>
 </div>
 <script>
     var test = document.getElementById('imp').innerText;
     document.getElementById("newContent").innerHTML = test;
     var x = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    var y=document.getElementsByClassName('timezone')
-    for(var i=0;i<y.length;i++){
-        y[i].value=x;
+    var y = document.getElementsByClassName('timezone')
+    for (var i = 0; i < y.length; i++) {
+        y[i].value = x;
     }
 </script>
 <%- include('partials/footer'); -%>

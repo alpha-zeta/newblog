@@ -58,31 +58,6 @@ mongoose.connect(process.env.DB_LINK, {
 	useNewUrlParser: true
 });
 mongoose.set('useCreateIndex', true);
-// //change
-// conn.once('open', function() {
-// 	let gfs = Grid(conn.db, mongoose.mongo);
-// 	gfs.collection('uploads');
-// });
-// //storage engine
-// var storage = new GridFsStorage({
-// 	url  : process.env.DB_LINK,
-// 	file : (req, file) => {
-// 		return new Promise((resolve, reject) => {
-// 			crypto.randomBytes(16, (err, buf) => {
-// 				if (err) {
-// 					return reject(err);
-// 				}
-// 				const filename = buf.toString('hex') + path.extname(file.originalname);
-// 				const fileInfo = {
-// 					filename   : filename,
-// 					bucketName : 'uploads'
-// 				};
-// 				resolve(fileInfo);
-// 			});
-// 		});
-// 	}
-// });
-// const uploads = multer({ storage });
 
 //Users schema
 const usersSchema = new mongoose.Schema({
@@ -127,7 +102,6 @@ passport.use(
 				googleId: profile.id
 			}, function (err, user) {
 				if (!user.name) {
-					user.name = profile.displayName;
 					user.profilePicLink = profile._json.picture;
 					user.email = profile._json.email;
 					user.status = process.env.USER;
@@ -164,7 +138,6 @@ passport.use(
 					return done(err);
 				}
 				if (!user.name) {
-					user.name = profile.displayName;
 					user.profilePicLink = profile.photos[0].value;
 					user.status = process.env.USER;
 					user.block = false;
@@ -204,7 +177,7 @@ passport.use(
 					return done(err);
 				}
 				if (!user.name) {
-					user.name = profile.displayName;
+
 					user.profilePicLink = profile.photos[0].value;
 					user.status = process.env.USER;
 					user.block = false;
@@ -524,7 +497,10 @@ app
 			}
 			res.render('info', {
 				user: user,
-				status: v
+				status: v,
+				error: {
+					msg: null
+				}
 			});
 		} else {
 			res.redirect("/login");
@@ -537,19 +513,59 @@ app
 		const age = req.body.age;
 		const user = req.user;
 		let v = 0;
+		let error = {
+			msg: String
+		};
 		if (user && user.status == process.env.ADMIN) {
 			v = 1;
 		}
-		user.gender = gender;
-		user.info = info;
-		user.name = name;
-		user.age = age;
-		user.save();
-		if (v != 1) {
-			res.redirect('/users');
-		} else if (v == 1) {
-			res.redirect("/admin/" + user._id);
-		}
+		User.find({
+			name: name
+		}, function (err, doc) {
+			if (err) {
+				console.log(err);
+				res.redirect('userinfo/about');
+			} else if (doc.length != 0) {
+				error = {
+					msg: "username"
+				};
+				user.gender = gender;
+				user.info = info;
+				user.age = age;
+				user.save();
+				res.render('info', {
+					error: error,
+					user: user,
+					status: v
+				});
+			} else if (doc.length == 0) {
+				if (name.match(/([!,%,&,@,#,$,^,*,?,_, ,~])/)) {
+					error = {
+						msg: "Char"
+					};
+					user.gender = gender;
+					user.info = info;
+					user.age = age;
+					user.save();
+					res.render('info', {
+						error: error,
+						user: user,
+						status: v
+					});
+				} else {
+					user.gender = gender;
+					user.info = info;
+					user.name = name;
+					user.age = age;
+					user.save();
+					if (v != 1) {
+						res.redirect('/users');
+					} else if (v == 1) {
+						res.redirect("/admin/" + user._id);
+					}
+				}
+			}
+		});
 	});
 //profile pic change
 app.get('/upload/images', function (req, res) {
@@ -1020,22 +1036,50 @@ app
 		if (user && user.status == process.env.ADMIN) {
 			v = 1;
 		}
-		if (req.isAuthenticated() && user.block == false) {
-			Link.find({}, function (err, doc) {
-				if (err) {
-					console.log(err);
-				} else {
-					res.render('compose', {
-						user: user,
-						status: v
-					});
-				}
-			});
-		} else if (req.isAuthenticated() && user.block != false) {
-			res.render('block', {
-				user: user,
-				status: v
-			});
+		let error = {
+			msg: String
+		};
+		if (req.isAuthenticated()) {
+			if (user.block == false && user.name) {
+				Link.find({}, function (err, doc) {
+					if (err) {
+						console.log(err);
+					} else {
+						res.render('compose', {
+							user: user,
+							status: v
+						});
+					}
+				});
+			} else if (user.block != false && user.name) {
+				error = {
+					msg: "You have been blocked from composing by the administrators wait to get unblocked."
+				};
+				res.render('block', {
+					user: user,
+					status: v,
+					error: error
+				});
+			} else if (user.block == false && !user.name) {
+				error = {
+					msg: "Check your name first you cannot compose without a name."
+				};
+				res.render('block', {
+					user: user,
+					status: v,
+					error: error
+				});
+
+			} else if (user.block != false && !user.name) {
+				error = {
+					msg: "Check your name first you cannot compose without a name. You have been blocked from composing by the administrators wait to get unblocked."
+				};
+				res.render('block', {
+					user: user,
+					status: v,
+					error: error
+				});
+			}
 		} else {
 			res.redirect('/login');
 		}
