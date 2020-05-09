@@ -1244,8 +1244,9 @@ table button {
     top: 35%;
   }
   .mask1 .pageName {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     text-align: center;
+    font-weight: bold;
   }
   .mask1 .carousel-item p {
     font-size: 0.9rem;
