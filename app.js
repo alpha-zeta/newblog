@@ -705,6 +705,7 @@ app.get('/unfollow/:postID', function (req, res) {
 				}
 			});
 			res.redirect("/buffer/" + reqId + "+f");
+		} else {
 			res.redirect("/viewuser/" + req.params.postID);
 		}
 	}
