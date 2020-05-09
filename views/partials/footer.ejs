@@ -44,6 +44,16 @@
     interval: 100
   });
 </script>
+<script>
+  function noShrink() {
+    var yolo = document.getElementById("searchBar").value;
+    if (yolo != '') {
+      document.getElementById("searchBar").classList.add("noShrink");
+    } else if (yolo == '') {
+      document.getElementById("searchBar").classList.remove("noShrink");
+    }
+  }
+</script>
 </body>
 
 </html>

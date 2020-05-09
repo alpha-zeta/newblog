@@ -343,6 +343,11 @@ html.sr .reveal {
   transition: width 0.4s linear;
 }
 
+.noShrink {
+  width: 450px;
+  padding: 0 10px;
+}
+
 .searchbar:hover > .search_icon {
   background: white;
   color: #e74c3c;
