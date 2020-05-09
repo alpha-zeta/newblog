@@ -10,12 +10,12 @@
         <div>
             <div class="out">
                 <p>Recent uploads.....</p>
-                <form class="form-horizontal" class="search_input" onkeydown="noShrink()" role="form" action="/search"
-                    method="POST">
+                <form class="form-horizontal" role="form" action="/search" method="POST">
                     <div class="container">
                         <div class="d-flex">
                             <div class="searchbar">
-                                <input class="search_input" type="text" name="query" placeholder="Search...">
+                                <input class="search_input" id="searchBar" onkeydown="noShrink()" type="text"
+                                    name="query" placeholder="Search...">
                                 <button type="submit" class="search_icon"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
