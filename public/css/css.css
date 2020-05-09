@@ -1342,6 +1342,10 @@ table button {
   .details .btn-warning {
     position: relative;
     float: right;
+    margin-right: 15px;
+  }
+  .details .btn-danger {
+    margin-right: 15px;
   }
   .details .btn {
     width: 130px;
