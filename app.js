@@ -72,7 +72,10 @@ const usersSchema = new mongoose.Schema({
 	status: Number,
 	block: Boolean,
 	facebookId: String,
-	twitterId: String
+	twitterId: String,
+	subscribed: Array,
+	subscribers: Array,
+	subsCont: Array,
 });
 usersSchema.plugin(passportLocalMongoose); //passport-local-mongoose setup
 usersSchema.plugin(findOrCreate);
@@ -619,6 +622,167 @@ app.get('/viewuser/:postID', function (req, res) {
 		});
 	}
 });
+//subscribe
+app.get('/follow/:postID', function (req, res) {
+	const user = req.user;
+	if (req.isAuthenticated()) {
+		const reqId = req.params.postID;
+		req.user.subscribed.push(reqId);
+		req.user.save();
+		User.findOne({
+			_id: reqId
+		}, function (err, doc) {
+			if (err) {
+				console.log(err);
+				res.redirect("/buffer/" + reqId);
+			} else if (!doc) {
+				console.log("Oops! No such author found");
+				res.redirect("/buffer/" + reqId);
+			} else if (doc) {
+				doc.subscribers.push(user._id);
+				doc.save();
+				res.redirect("/buffer/" + reqId);
+			}
+		});
+	} else {
+		res.redirect("/viewuser/" + req.params.postID);
+	}
+});
+//unsubscribe
+app.get('/unfollow/:postID', function (req, res) {
+	let reqId = req.params.postID;
+	var x = reqId.split("+");
+	reqId = x[0];
+	if (x.length == 1) {
+		if (req.isAuthenticated()) {
+			req.user.subscribed.splice(req.user.subscribed.indexOf(reqId), 1);
+			req.save();
+			Note.find({
+				_id: {
+					$in: req.user.subsCont
+				}
+			}, function (err, docs) {
+				if (err) {
+					console.log(err);
+					res.redirect("/");
+				} else if (!docs) {
+					console.log("not found");
+					res.redirect("/");
+				} else if (docs) {
+					docs.forEach((obj) => {
+						if (obj.userID == reqId) {
+							req.user.subsCont.splice(req.user.subsCont.indexOf(obj._id), 1);
+						}
+					});
+					req.user.save();
+				}
+			});
+			res.redirect("/buffer/" + reqId);
+		} else {
+			res.redirect("/viewuser/" + req.params.postID);
+		}
+	} else if (x.length == 2) {
+		if (req.isAuthenticated()) {
+			req.user.subscribed.splice(req.user.subscribed.indexOf(reqId), 1);
+			Note.find({
+				_id: {
+					$in: req.user.subsCont
+				}
+			}, function (err, docs) {
+				if (err) {
+					console.log(err);
+					res.redirect("/");
+				} else if (!docs) {
+					console.log("not found");
+					res.redirect("/");
+				} else if (docs) {
+					docs.forEach((obj) => {
+						if (obj.userID == reqId) {
+							req.user.subsCont.splice(req.user.subsCont.indexOf(obj._id), 1);
+						}
+					});
+					req.user.save();
+				}
+			});
+			res.redirect("/buffer/" + reqId + "+f");
+		} else {
+			res.redirect("/viewuser/" + req.params.postID);
+		}
+	}
+});
+app.get("/buffer/:postID", function (req, res) {
+	let id = req.params.postID;
+	let x = id.split("+");
+	id = x[0];
+	if (x.length == 1) {
+		res.redirect("/viewuser/" + id);
+	} else if (x.length == 2) {
+		res.redirect("/followed/list");
+	}
+});
+
+//followers page
+app.get("/followers/info", function (req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	if (req.isAuthenticated()) {
+		res.render("followers", {
+			user: user,
+			status: v
+		});
+	} else {
+		res.redirect("/login");
+	}
+});
+//followed page
+app.get("/followed/list", function (req, res) {
+	const user = req.user;
+	let v = 0;
+	if (user && user.status == process.env.ADMIN) {
+		v = 1;
+	}
+	const arr = user.subscribed;
+	if (req.isAuthenticated()) {
+		User.find({
+			_id: {
+				$in: arr
+			}
+		}, function (err, doc) {
+			if (err) {
+				console.log(err);
+				res.redirect("/");
+			} else if (!doc) {
+				res.redirect("/");
+			} else if (doc) {
+				Note.find({
+					_id: {
+						$in: user.subsCont
+					}
+				}, function (err, docs) {
+					if (err) {
+						console.log(err);
+						res.redirect("/");
+					} else if (!docs) {
+						res.redirect("/");
+					} else if (docs) {
+						res.render("followed", {
+							user: user,
+							status: v,
+							Accounts: doc,
+							array: docs
+						});
+					}
+				});
+			}
+		});
+	} else {
+		res.redirect("/login");
+	}
+});
+
 //Admin page
 app.get('/admin/login', function (req, res) {
 	const user = req.user;
@@ -1148,6 +1312,24 @@ app
 					) {
 						if (err) {
 							console.log(err);
+						}
+					});
+					User.find({
+						_id: {
+							$in: user.subscribers
+						}
+					}, function (err, docs) {
+						if (err) {
+							console.log(err);
+							res.redirect("/");
+						} else if (!docs) {
+							console.log("could not find the docs");
+							res.redirect("/");
+						} else if (docs) {
+							docs.forEach((obj) => {
+								obj.subsCont.push(newNote._id);
+								obj.save();
+							});
 						}
 					});
 					newNote.save(function (err) {

@@ -3,24 +3,25 @@
     <div class="row dashboard">
         <div class="col-lg-3 col-sm-12 picture">
             <% if(!user.profilePicLink){ %>
-                <img src="https://mongoose-os.com/images/generic_user.png" alt="" class="userpic">
+            <img src="https://mongoose-os.com/images/generic_user.png" alt="" class="userpic">
             <% } else{ %>
-                <img class="userpic" src="<%= user.profilePicLink %>" alt="profile_pic">
+            <img class="userpic" src="<%= user.profilePicLink %>" alt="profile_pic">
             <% } %>
         </div>
         <div class="col-lg-9 col-sm-12 details">
             <h1><%= user.name %></h1>
-              <% if(user.block!=false){ %>
-                <p style="color:#ffc107;"><i class="fas fa-exclamation-triangle"></i>You have been blocked from posting by the Admins.</p>
+            <% if(user.block!=false){ %>
+            <p style="color:#ffc107;"><i class="fas fa-exclamation-triangle"></i>You have been blocked from posting by
+                the Admins.</p>
             <% } %>
             <hr>
             <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12">
-                <p><strong>Email: </strong><%= user.email %></p>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <p><strong>Gender: </strong><%= user.gender %></p>
-            </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <p><strong>Email: </strong><%= user.email %></p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <p><strong>Gender: </strong><%= user.gender %></p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-6">
@@ -30,10 +31,14 @@
                     <p><strong>About you: </strong></p>
                 </div>
             </div>
-            <textarea type="text" name="info" class="form-control about" readonly="readonly" rows="3" style="resize: none;"><%= user.info %></textarea>
+            <textarea type="text" name="info" class="form-control about" readonly="readonly" rows="3"
+                style="resize: none;"><%= user.info %></textarea>
             <a class="edit" href="/userinfo/about"><i class="fas fa-user-edit"> edit your about-info</i></a>
-            <button class="btn btn-primary"><a href="/compose"><i class="fas fa-feather-alt"></i> Compose</a></button>
-            <button class="btn btn-warning"><a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a></button><br>
+            <a href="/compose" class="btn btn-primary"><i class="fas fa-feather-alt"></i> Compose</a>
+            <a href="/logout" class="btn btn-warning"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="/followed/list" class="btn btn-success"><i class="fas fa-plus-circle"></i> Followed</a>
+            <a href="/followers/info" class="btn btn-danger"><i class="fab fa-canadian-maple-leaf"></i> Followers-count
+                [<%= user.subscribers.length %>]</a><br>
         </div>
     </div>
     <hr>
@@ -42,87 +47,89 @@
     <div class="creation">
         <table class="table table-hover mobileTab">
             <thead>
-              <tr>
-                <th width="40%">Header</th>
-                <th width="10%">Views</th>
-                <th class="padd">Edit/Delete</th>
-              </tr>
+                <tr>
+                    <th width="40%">Header</th>
+                    <th width="10%">Views</th>
+                    <th class="padd">Edit/Delete</th>
+                </tr>
             </thead>
             <tbody>
-            <% for(let k=array.length-1;k>=0;k--){ %>
+                <% for(let k=array.length-1;k>=0;k--){ %>
                 <% let obj=array[k] %>
-              <tr>
-                <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
-                <td>
-                    <%= obj.views_ip.length+obj.views_signed.length-1 %>
-                </td>
-                <td class="padd">
-                    <form action="/delete" method="POST">
-                        <input type="hidden" name="noteID" value="<%= obj.linkID %>">
-                        <input type="hidden" name="ID" value="<%= obj._id %>">
-                        <input type="hidden" name="comID" value="<%= obj.comments._id%>">
-                        <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                    </form>
-                    <a href="/edit/<%= obj._id %>"><button type="submit" class="btn btn-success"><i class="fas fa-edit"></i></button></a>
-                </td>
-              </tr>
-              <% } %>
+                <tr>
+                    <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
+                    <td>
+                        <%= obj.views_ip.length+obj.views_signed.length-1 %>
+                    </td>
+                    <td class="padd">
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="noteID" value="<%= obj.linkID %>">
+                            <input type="hidden" name="ID" value="<%= obj._id %>">
+                            <input type="hidden" name="comID" value="<%= obj.comments._id%>">
+                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                        <a href="/edit/<%= obj._id %>"><button type="submit" class="btn btn-success"><i
+                                    class="fas fa-edit"></i></button></a>
+                    </td>
+                </tr>
+                <% } %>
             </tbody>
-         </table>
-         <table class="table table-hover pcTab">
+        </table>
+        <table class="table table-hover pcTab">
             <thead>
-              <tr>
-                <th width="40%">Header</th>
-                <th width="10%">Type</th>
-                <th width="10%">Time</th>
-                <th width="7.5%">Views</th>
-                <th width="7.5%">Like/Dislike</th>
-                <th width="5%">View</th>
-                <th class="padd">Edit/Delete</th>
-              </tr>
+                <tr>
+                    <th width="40%">Header</th>
+                    <th width="10%">Type</th>
+                    <th width="10%">Time</th>
+                    <th width="7.5%">Views</th>
+                    <th width="7.5%">Like/Dislike</th>
+                    <th width="5%">View</th>
+                    <th class="padd">Edit/Delete</th>
+                </tr>
             </thead>
             <tbody>
-            <% for(let k=array.length-1;k>=0;k--){ %>
-              <% let obj=array[k] %>
-              <tr>
-                <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
-                <td><%= obj.type %></td>
-                <td>
-                    <span class="cronos"><%= obj.date %> </span>
-                    <span class="cronos"><%= obj.time %></span>
-                </td>
-                <td>
-                    <%= obj.views_ip.length+obj.views_signed.length-1 %>
-                </td>
-                <td>
-                    <%= obj.likes.length %>/<%= obj.dislikes.length %>
-                </td>
-                <td>
-                    <% if(obj.show==3){ %>
-                    <i class="fas fa-eye-slash" style="color:red;"></i>
-                <% } else if(obj.show==2) { %>
-                    <i class="fas fa-eye-slash" style="color:yellow;"></i>
-                <% }else if(obj.show==1){ %>
-                    <i class="fas fa-eye" style="color:green";></i>
-                    <% } %>
-                </td>
-                <td class="pad padd">
-                    <form action="/delete" method="POST">
-                        <input type="hidden" name="noteID" value="<%= obj.linkID %>">
-                        <input type="hidden" name="ID" value="<%= obj._id %>">
-                        <input type="hidden" name="comID" value="<%= obj.comments._id%>">
-                        <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
-                    </form>
-                    <a href="/edit/<%= obj._id %>"><button type="submit" class="btn btn-success"><i class="fas fa-edit"></i></button></a>
-                </td>
-              </tr>
-              <% } %>
+                <% for(let k=array.length-1;k>=0;k--){ %>
+                <% let obj=array[k] %>
+                <tr>
+                    <td class="header"><a href="/contents/<%= obj.heading %>"><%= obj.heading %></a></td>
+                    <td><%= obj.type %></td>
+                    <td>
+                        <span class="cronos"><%= obj.date %> </span>
+                        <span class="cronos"><%= obj.time %></span>
+                    </td>
+                    <td>
+                        <%= obj.views_ip.length+obj.views_signed.length-1 %>
+                    </td>
+                    <td>
+                        <%= obj.likes.length %>/<%= obj.dislikes.length %>
+                    </td>
+                    <td>
+                        <% if(obj.show==3){ %>
+                        <i class="fas fa-eye-slash" style="color:red;"></i>
+                        <% } else if(obj.show==2) { %>
+                        <i class="fas fa-eye-slash" style="color:yellow;"></i>
+                        <% }else if(obj.show==1){ %>
+                        <i class="fas fa-eye" style="color:green" ;></i>
+                        <% } %>
+                    </td>
+                    <td class="pad padd">
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="noteID" value="<%= obj.linkID %>">
+                            <input type="hidden" name="ID" value="<%= obj._id %>">
+                            <input type="hidden" name="comID" value="<%= obj.comments._id%>">
+                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                        <a href="/edit/<%= obj._id %>"><button type="submit" class="btn btn-success"><i
+                                    class="fas fa-edit"></i></button></a>
+                    </td>
+                </tr>
+                <% } %>
             </tbody>
-         </table>
-         <% if(array.length===0){ %>
-                <p>You haven't created anything yet. Move on to compose section to create new articles.</p>
-         <% }else{ %>
-            <hr>
-         <% } %>
+        </table>
+        <% if(array.length===0){ %>
+        <p>You haven't created anything yet. Move on to compose section to create new articles.</p>
+        <% }else{ %>
+        <hr>
+        <% } %>
     </div>
-<%- include('partials/footer'); -%>
+    <%- include('partials/footer'); -%>

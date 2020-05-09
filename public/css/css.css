@@ -928,6 +928,11 @@ h1,
   margin-left: 10px;
 }
 
+.details .btn-success {
+  margin: 0;
+  margin-left: 10px;
+}
+
 .details a {
   text-decoration: none;
   color: black;
@@ -935,6 +940,12 @@ h1,
 
 .details a:hover {
   color: #fff;
+}
+
+.details .btn-danger {
+  border: 2px solid orange;
+  position: relative;
+  float: right;
 }
 
 .details .edit {
@@ -1063,8 +1074,62 @@ table button {
   /* Firefox */
 }
 
+.tabed {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.followedPic {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  display: inline;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tabed button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  width: 50%;
+}
+
+/* Change background color of buttons on hover */
+.tabed button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabed button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
 .artEd {
   margin-top: 2rem;
+}
+
+.follow i {
+  color: Yellow;
+  text-shadow: 1px 1px 10px #000;
+}
+
+.unfollow i {
+  color: red;
+  text-shadow: 1px 1px 10px #f0f0f0;
 }
 
 /*//////////////////////////////////////////////// Admin ///////////////////////////////////////////////////*/
@@ -1249,7 +1314,7 @@ table button {
     margin-bottom: 1.3rem;
   }
   .details .edit,
-  .details button {
+  .details a {
     margin-left: 15px;
     margin-bottom: 1rem;
   }
@@ -1260,6 +1325,9 @@ table button {
   .details h1 {
     text-align: center;
     padding: 0;
+  }
+  .details .btn-info {
+    border: 1px solid yellow;
   }
   .userDiv .dashboard {
     height: unset;

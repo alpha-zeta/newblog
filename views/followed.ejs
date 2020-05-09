@@ -1,0 +1,106 @@
+<%- include('partials/header'); -%>
+<div class="tabed">
+    <button class="tablinks active" onclick="openCity(event, 'content')">Followed content</button>
+    <button class="tablinks" onclick="openCity(event, 'list')">Followed Authors' list</button>
+</div>
+
+<!-- Tab content -->
+<div id="content" class="tabcontent">
+    <div class="container">
+        <div>
+            <div class="out">
+                <p>Recent uploads.....</p>
+                <form class="form-horizontal" role="form" action="/search" method="POST">
+                    <div class="container">
+                        <div class="d-flex">
+                            <div class="searchbar">
+                                <input class="search_input" type="text" name="query" placeholder="Search...">
+                                <button type="submit" class="search_icon"><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <% for(var i=array.length-1; i>=0; i--){ %>
+        <% if(array[i].show==1){ %>
+        <div class="row tab reveal load-hidden">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="img">
+                    <img class="item" src="<%= array[i].thumbnailLink %>" alt="Card image cap">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card-body">
+                    <h2 class="card-title"><a class="head-link"
+                            href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a>
+                    </h2>
+                    <div class="d-t">
+                        <span class="cronos"><%= array[i].date %> </span>
+                        <span class="cronos"><%= array[i].time %> | </span>
+                        <span class="cronos">Type: <%= array[i].type %> | </span>
+                        <span class="cronos"><i class="fas fa-eye"></i>
+                            <%= array[i].views_ip.length+array[i].views_signed.length-1 %></span>
+                    </div>
+                    <hr>
+                    <p class="card-text"><%= array[i].about %></p>
+                </div>
+            </div>
+        </div>
+
+        <% } %>
+        <% } %>
+    </div>
+</div>
+
+<div id="list" class="tabcontent">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td width="60%"><strong>Sucribed to</strong></td>
+                <td style="text-align: right;"><strong>Unfollow</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            <% Accounts.forEach((obj)=>{ %>
+            <tr>
+                <td>
+                    <img class="followedPic" src="<%=obj.profilePicLink %>" alt="">&emsp;<%= obj.name %>
+                </td>
+                <td style="text-align: right;">
+                    <a href="/unfollow/<%= obj._id %>+f" class="unfollow btn btn-dark"><i class="fas fa-minus"></i>
+                        Unfollow</a>
+                </td>
+            </tr>
+        </tbody>
+        <% }); %>
+    </table>
+</div>
+</div>
+<script>
+    document.getElementById('content').style.display = "block";
+    // document.getElementsByClassName('tablinks')[0].className.add("active");
+
+    function openCity(evt, cityName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        } // Get all elements with
+        // and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i <
+            tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        } // Show the
+        // current tab, and add an "active"
+        // class to the button that opened the tab
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+<%- include('partials/footer'); -%>
