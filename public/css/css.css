@@ -936,6 +936,7 @@ h1,
 .details .btn-success {
   margin: 0;
   margin-left: 10px;
+  float: right;
 }
 
 .details a {
@@ -1339,6 +1340,7 @@ table button {
   }
   .details .btn-success {
     margin-left: 15px;
+    float: unset;
   }
   .details .btn-warning {
     position: relative;
@@ -1471,6 +1473,11 @@ table button {
   }
   #comment {
     width: 90%;
+  }
+  .details .btn-success {
+    margin: unset;
+    margin-left: 15px;
+    margin-bottom: 1rem;
   }
 }
 
