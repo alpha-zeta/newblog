@@ -943,7 +943,6 @@ h1,
 }
 
 .details .btn-danger {
-  border: 2px solid orange;
   position: relative;
   float: right;
 }
@@ -1326,8 +1325,15 @@ table button {
     text-align: center;
     padding: 0;
   }
-  .details .btn-info {
-    border: 1px solid yellow;
+  .details .btn-success {
+    margin-left: 15px;
+  }
+  .details .btn-warning {
+    position: relative;
+    float: right;
+  }
+  .details .btn {
+    width: 130px;
   }
   .userDiv .dashboard {
     height: unset;
