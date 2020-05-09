@@ -625,27 +625,54 @@ app.get('/viewuser/:postID', function (req, res) {
 //subscribe
 app.get('/follow/:postID', function (req, res) {
 	const user = req.user;
-	if (req.isAuthenticated()) {
-		const reqId = req.params.postID;
-		req.user.subscribed.push(reqId);
-		req.user.save();
-		User.findOne({
-			_id: reqId
-		}, function (err, doc) {
-			if (err) {
-				console.log(err);
-				res.redirect("/buffer/" + reqId);
-			} else if (!doc) {
-				console.log("Oops! No such author found");
-				res.redirect("/buffer/" + reqId);
-			} else if (doc) {
-				doc.subscribers.push(user._id);
-				doc.save();
-				res.redirect("/buffer/" + reqId);
-			}
-		});
-	} else {
-		res.redirect("/viewuser/" + req.params.postID);
+	let reqId = req.params.postID;
+	var x = reqId.split("+");
+	reqId = x[0];
+	if (x.length == 1) {
+		if (req.isAuthenticated()) {
+			req.user.subscribed.push(reqId);
+			req.user.save();
+			User.findOne({
+				_id: reqId
+			}, function (err, doc) {
+				if (err) {
+					console.log(err);
+					res.redirect("/buffer/" + reqId);
+				} else if (!doc) {
+					console.log("Oops! No such author found");
+					res.redirect("/buffer/" + reqId);
+				} else if (doc) {
+					doc.subscribers.push(user._id);
+					doc.save();
+					res.redirect("/buffer/" + reqId);
+				}
+			});
+		} else {
+			res.redirect("/viewuser/" + req.params.postID);
+		}
+	} else if (x.length == 3) {
+		const noteId = he.decode(x[1]);
+		if (req.isAuthenticated()) {
+			req.user.subscribed.push(reqId);
+			req.user.save();
+			User.findOne({
+				_id: reqId
+			}, function (err, doc) {
+				if (err) {
+					console.log(err);
+					res.redirect("/buffer/" + reqId);
+				} else if (!doc) {
+					console.log("Oops! No such author found");
+					res.redirect("/buffer/" + reqId);
+				} else if (doc) {
+					doc.subscribers.push(user._id);
+					doc.save();
+					res.redirect("/buffer/" + reqId + '+' + noteId + '+f');
+				}
+			});
+		} else {
+			res.redirect("/contents/" + noteId);
+		}
 	}
 });
 //unsubscribe
@@ -708,6 +735,35 @@ app.get('/unfollow/:postID', function (req, res) {
 		} else {
 			res.redirect("/viewuser/" + req.params.postID);
 		}
+	} else if (x.length == 3) {
+		var noteId = he.decode(x[1]);
+		if (req.isAuthenticated()) {
+			req.user.subscribed.splice(req.user.subscribed.indexOf(reqId), 1);
+			Note.find({
+				_id: {
+					$in: req.user.subsCont
+				}
+			}, function (err, docs) {
+				if (err) {
+					console.log(err);
+					res.redirect("/");
+				} else if (!docs) {
+					console.log("not found");
+					res.redirect("/");
+				} else if (docs) {
+					docs.forEach((obj) => {
+						if (obj.userID == reqId) {
+							req.user.subsCont.splice(req.user.subsCont.indexOf(obj._id), 1);
+						}
+					});
+					req.user.save();
+				}
+			});
+			res.redirect("/buffer/" + reqId + "+" + noteId + "+f");
+		} else {
+			res.redirect("/contents/" + noteId);
+		}
+
 	}
 });
 app.get("/buffer/:postID", function (req, res) {
@@ -718,6 +774,8 @@ app.get("/buffer/:postID", function (req, res) {
 		res.redirect("/viewuser/" + id);
 	} else if (x.length == 2) {
 		res.redirect("/followed/list");
+	} else if (x.length == 3) {
+		res.redirect("/contents/" + x[1]);
 	}
 });
 

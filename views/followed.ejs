@@ -24,6 +24,9 @@
             </div>
         </div>
         <hr>
+        <% if(array.length==0){ %>
+        <p class="center">You have no new followed content.</p>
+        <% } %>
         <% for(var i=array.length-1; i>=0; i--){ %>
         <% if(array[i].show==1){ %>
         <div class="row tab reveal load-hidden">
@@ -55,7 +58,7 @@
     </div>
 </div>
 
-<div id="list" class="tabcontent">
+<div id="list" class="tabcontent container">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -77,29 +80,25 @@
         </tbody>
         <% }); %>
     </table>
+    <% if(Accounts.length==0){ %>
+    <p class="center">You haven't followed anyone yet</p>
+    <% } %>
 </div>
 </div>
 <script>
     document.getElementById('content').style.display = "block";
-    // document.getElementsByClassName('tablinks')[0].className.add("active");
 
     function openCity(evt, cityName) {
-        // Declare all variables
         var i, tabcontent, tablinks;
-
-        // Get all elements with class="tabcontent" and hide them
         tabcontent = document.getElementsByClassName("tabcontent");
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
-        } // Get all elements with
-        // and remove the class "active"
+        }
         tablinks = document.getElementsByClassName("tablinks");
         for (i = 0; i <
             tablinks.length; i++) {
             tablinks[i].className = tablinks[i].className.replace(" active", "");
-        } // Show the
-        // current tab, and add an "active"
-        // class to the button that opened the tab
+        }
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
     }

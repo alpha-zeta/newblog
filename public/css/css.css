@@ -1,3 +1,7 @@
+.center {
+  text-align: center;
+}
+
 /* predefined attributes */
 html,
 body {
@@ -485,6 +489,16 @@ h1,
 
 .authorInfo .row a:hover {
   color: #99cb4a;
+}
+
+.col-3 {
+  float: right;
+}
+
+.col-3 .unfollow,
+.col-3 .follow {
+  float: right;
+  border-radius: 100%;
 }
 
 /* adding comment */
@@ -1120,6 +1134,10 @@ table button {
   display: none;
   padding: 6px 12px;
   border: none;
+}
+
+.tabcontent .center {
+  color: grey;
 }
 
 .artEd {
