@@ -1243,6 +1243,16 @@ table button {
     position: relative;
     top: 35%;
   }
+  .mask1 .pageName {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  .mask1 .carousel-item p {
+    font-size: 0.9rem;
+  }
+  .slide {
+    min-height: 8rem;
+  }
   .out p {
     font-size: 1.5rem;
     padding-bottom: 0.1rem;
