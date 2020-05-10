@@ -357,6 +357,7 @@ app
 	.post(function (req, res, next) {
 		const email = req.body.username;
 		const pass1 = req.body.password;
+		const check = req.body.checkBox;
 		let errors = [];
 		const user = new User({
 			username: req.body.username,
@@ -382,6 +383,10 @@ app
 									console.log(err);
 									res.redirect('/login');
 								} else {
+									// if(check=="on"){
+									// 	res.cookie('rememberme', '1',
+									// 		{ expires: new Date(Date.now() + 900000), httpOnly: true });
+									// }
 									res.redirect('/user');
 								}
 							});

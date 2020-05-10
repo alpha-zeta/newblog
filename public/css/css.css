@@ -882,6 +882,22 @@ h1,
   margin-top: 21%;
 }
 
+.bod .row {
+  margin-right: 0;
+}
+
+.bod .form-check {
+  text-align: center;
+}
+
+.bod .form-check input {
+  width: unset;
+}
+
+.bod .form-check label {
+  color: #007bff;
+}
+
 .btn-success {
   margin-bottom: 1rem;
 }
