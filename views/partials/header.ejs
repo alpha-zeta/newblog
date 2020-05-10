@@ -19,9 +19,25 @@
   <script>
     window.sr = ScrollReveal();
   </script>
+  <script>
+    // jQuery(window).load(function () {
+    //   document.getElementsByTagName("body").style.visibility = "none";
+    //   document.getElementById("loader").style.visibility = "visible";
+    // });
+    document.onreadystatechange = function () {
+      if (document.readyState !== "complete") {
+        document.querySelector("body").style.visibility = "hidden";
+        document.querySelector("#loader").style.visibility = "visible";
+      } else {
+        document.querySelector("#loader").style.display = "none";
+        document.querySelector("body").style.visibility = "visible";
+      }
+    };
+  </script>
 </head>
 
 <body>
+  <div id="loader" class="center"></div>
   <div class="contents">
     <nav class="navbar navbar-expand-lg navbar-light stroke">
       <div class="container mob">
