@@ -14,7 +14,7 @@
     }
 
     .reveal {
-      visibility: hidden;
+      display: none;
     }
   </style>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -37,7 +37,7 @@
       document.querySelector("#loader").style.display = "none";
       document.querySelector("body").style.visibility = "visible";
       document.getElementsByClassName("reveal").forEach((obj) => {
-        obj.style.visibility = "visible";
+        obj.style.display = "unset";
       });
     });
   </script>
