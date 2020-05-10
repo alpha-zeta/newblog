@@ -14,7 +14,13 @@
     }
 
     .reveal {
+      opacity: 100%;
       display: none;
+      visibility: hidden;
+    }
+
+    .html.sr .load-hidden {
+      visibility: hidden;
     }
   </style>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -30,14 +36,31 @@
   <script src="https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
   <script src="https://unpkg.com/scrollreveal"></script>
   <script>
-    window.sr = ScrollReveal();
-  </script>
-  <script>
     jQuery(window).load(function () {
       document.querySelector("#loader").style.display = "none";
       document.querySelector("body").style.visibility = "visible";
-      document.getElementsByClassName("reveal").forEach((obj) => {
-        obj.style.display = "unset";
+      var list = document.getElementsByClassName("tab");
+      console.log(list);
+      for (let j = 0; j < list.length; j++) {
+        document.getElementsByClassName("tab")[j].classList.add("reveal");
+      }
+      window.sr = ScrollReveal();
+      ScrollReveal().reveal('.reveal', {
+        duration: 400,
+        origin: "bottom",
+        distance: "50px",
+        opacity: 0,
+        scale: 0.5,
+        viewFactor: 0.2,
+        rotate: {
+          x: 0,
+          y: 0,
+          z: 0
+        },
+        easing: "ease",
+        reset: false,
+        mobile: true,
+        interval: 100
       });
     });
   </script>

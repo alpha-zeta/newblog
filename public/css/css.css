@@ -124,10 +124,6 @@ nav {
 }
 
 /*//////////////////////////////////////////////// footer /////////////////////////////////////////////////// */
-html.sr .reveal {
-  visibility: hidden;
-}
-
 .bgimg {
   background-image: url("https://wallpaperaccess.com/full/1508669.jpg");
   background-position: center;
