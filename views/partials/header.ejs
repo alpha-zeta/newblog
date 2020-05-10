@@ -12,6 +12,10 @@
     #loader {
       visibility: visible;
     }
+
+    .reveal {
+      visibility: hidden;
+    }
   </style>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://kit.fontawesome.com/3be6e54e38.js" crossorigin="anonymous"></script>
@@ -32,6 +36,9 @@
     jQuery(window).load(function () {
       document.querySelector("#loader").style.display = "none";
       document.querySelector("body").style.visibility = "visible";
+      document.getElementsByClassName("reveal").forEach((obj) => {
+        obj.style.visibility = "visible";
+      });
     });
   </script>
 </head>
