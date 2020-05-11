@@ -568,7 +568,8 @@ h1,
   background-color: #fff;
   border-radius: 30px;
   display: block;
-  border: 2px solid silver;
+  -webkit-box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
+          box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
 }
 
 .com:hover {
@@ -623,6 +624,23 @@ h1,
   display: inline;
   width: 90%;
   resize: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: none !important;
+}
+
+.replyBlock .form-control {
+  border-radius: 0;
+}
+
+#reply:focus {
+  outline: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 .replyBtn {
