@@ -427,6 +427,10 @@ nav {
   width: 2px;
 }
 
+.logReq {
+  text-align: center;
+}
+
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -641,10 +645,19 @@ h1,
   width: 45%;
   position: relative;
   left: 55%;
+  display: none;
 }
 
 .replyShow h4 {
   font-size: 1rem;
+}
+
+.fa-sort-up {
+  display: none;
+}
+
+.fa-sort-down {
+  display: block;
 }
 
 .repNew {

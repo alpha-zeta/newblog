@@ -1422,7 +1422,7 @@ app
 						if (!arr.includes(_.lowerCase(obj))) {
 							arr.push(_.lowerCase(obj));
 						}
-					})
+					});
 					doc.heading = heading;
 					doc.content = composed;
 					doc.date = date(timeZone);
