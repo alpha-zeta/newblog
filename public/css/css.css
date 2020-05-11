@@ -10,6 +10,10 @@ body {
   word-wrap: break-word;
 }
 
+body {
+  background-color: #f4f4f4;
+}
+
 * {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -71,9 +75,9 @@ button:focus {
 
 /* navbar */
 nav {
-  -webkit-box-shadow: 0 10px 40px -10px #ffbd69;
-          box-shadow: 0 10px 40px -10px #ffbd69;
-  border-bottom: 3px solid #ffbd69;
+  -webkit-box-shadow: 0 10px 40px -10px #d63447;
+          box-shadow: 0 10px 40px -10px #d63447;
+  border-bottom: 3px solid #d63447;
 }
 
 .nav {
@@ -87,7 +91,7 @@ nav {
   margin-bottom: 0;
   font-size: 12px;
   letter-spacing: 5px;
-  background-color: #dcedc1;
+  background-color: #ffd31d;
 }
 
 .navbar-brand {
@@ -158,7 +162,7 @@ nav {
 .footer {
   height: 50px;
   text-align: center;
-  background-color: #dcedc1;
+  background-color: #ffd31d;
   display: block;
 }
 
@@ -216,10 +220,6 @@ nav {
   margin-bottom: 2rem;
 }
 
-.out {
-  background-color: #fff;
-}
-
 .out p {
   color: #706c61;
   font-size: 3rem;
@@ -243,7 +243,7 @@ nav {
 }
 
 .mask1 {
-  background-color: #d4ff8f;
+  background-color: #ffd31d;
 }
 
 .fullcontent {
@@ -488,7 +488,9 @@ h1,
   background-color: #fff;
   border-radius: 30px;
   display: block;
-  border: 2px solid silver;
+  border: none;
+  -webkit-box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
+          box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
   margin: 1rem 0 2rem 0;
 }
 
@@ -541,7 +543,9 @@ h1,
   width: 90%;
   border-radius: 10px;
   resize: none;
-  background-color: #dcedc1;
+  background-color: #f9f9f9;
+  border: none;
+  font-size: 1.2rem;
 }
 
 .inter {
