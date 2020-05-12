@@ -1434,6 +1434,8 @@ table button {
   .userpic {
     height: 10rem;
     width: 10rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   .picture {
     text-align: center;
