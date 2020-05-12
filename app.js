@@ -93,6 +93,12 @@ passport.deserializeUser(function (id, done) {
 	});
 });
 app.use(flash());
+app.use(function (req, res, next) {
+	res.locals.currentUser = req.user;
+	res.locals.success = req.flash('success');
+	res.locals.error = req.flash('messages');
+	next();
+});
 passport.use(
 	new GoogleStrategy({
 			clientID: process.env.CLIENT_ID,
@@ -351,8 +357,7 @@ app
 		}
 		res.render('login', {
 			user: user,
-			status: v,
-			messages: req.flash('error')
+			status: v
 		});
 	})
 	.post(function (req, res, next) {
@@ -377,8 +382,7 @@ app
 						} else {
 							passport.authenticate('local', {
 								failureRedirect: '/login',
-								failureFlash: true,
-								failureMessage: 'wrong username or password'
+								failureFlash: true
 							})(req, res, function (err) {
 								if (err) {
 									console.log(err);
