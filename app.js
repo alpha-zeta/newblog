@@ -25,7 +25,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
-const flash = require('express-flash');
+const flash = require('connect-flash');
 let k = 1;
 let arr = [];
 

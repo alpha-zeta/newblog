@@ -1,7 +1,6 @@
 <%- include('partials/header'); -%>
 <div class="bod login">
     <div class="row">
-        <% console.log(err.message) %>
         <div class="col-lg-4 col-sm-12 mobileErr">
             <% if(messages.error){ %>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -68,4 +67,7 @@
 </div>
 </div>
 </div>
+<script>
+    console.log(err.message);
+</script>
 <%- include('partials/footer'); -%>
