@@ -75,9 +75,9 @@ button:focus {
 
 /* navbar */
 nav {
-  -webkit-box-shadow: 0 10px 40px -10px #d63447;
-          box-shadow: 0 10px 40px -10px #d63447;
-  border-bottom: 3px solid #d63447;
+  -webkit-box-shadow: 0 10px 40px -10px #ffa41b;
+          box-shadow: 0 10px 40px -10px #ffa41b;
+  border-bottom: 3px solid #ffa41b;
 }
 
 .nav {
@@ -91,7 +91,7 @@ nav {
   margin-bottom: 0;
   font-size: 12px;
   letter-spacing: 5px;
-  background-color: #ffd31d;
+  background-color: #f6f578;
 }
 
 .navbar-brand {
@@ -162,7 +162,7 @@ nav {
 .footer {
   height: 50px;
   text-align: center;
-  background-color: #ffd31d;
+  background-color: #f6f578;
   display: block;
 }
 
@@ -243,7 +243,7 @@ nav {
 }
 
 .mask1 {
-  background-color: #ffd31d;
+  background-color: #f6d743;
 }
 
 .fullcontent {
@@ -465,9 +465,41 @@ h1,
   word-wrap: break-word;
 }
 
+#newContent {
+  font-family: 'Baloo Chettan 2', cursive;
+}
+
 #newContent img {
   max-width: 100%;
   height: inherit;
+}
+
+#newContent p {
+  font-size: 1.2rem !important;
+}
+
+#newContent h1 {
+  font-size: 2rem;
+}
+
+#newContent h2 {
+  font-size: 1.8rem;
+}
+
+#newContent h3 {
+  font-size: 1.6rem;
+}
+
+#newContent h4 {
+  font-size: 1.5rem;
+}
+
+#newContent h5 {
+  font-size: 1.3rem;
+}
+
+#newContent h6 {
+  font-size: 1.2rem;
 }
 
 #imp {
@@ -485,26 +517,32 @@ h1,
 
 .authorInfo {
   padding: 1.5rem;
-  background-color: #fff;
+  background-color: #f6f578;
   border-radius: 30px;
   display: block;
   border: none;
   -webkit-box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
           box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
   margin: 1rem 0 2rem 0;
+  text-align: justify;
 }
 
 .authorInfo p {
   margin: 0;
+  font-size: 1.2rem;
 }
 
 .authorInfo .row a {
   text-decoration: none;
-  color: #afd672;
+  color: #649d66;
 }
 
 .authorInfo .row a:hover {
-  color: #99cb4a;
+  color: #06623b;
+}
+
+.authorInfo h2 {
+  font-size: 1.5rem;
 }
 
 .col-3 {
@@ -543,7 +581,7 @@ h1,
   width: 90%;
   border-radius: 10px;
   resize: none;
-  background-color: #f9f9f9;
+  background-color: #f6f578;
   border: none;
   font-size: 1.2rem;
 }
@@ -554,11 +592,12 @@ h1,
 
 .send {
   border: none;
-  background-color: #fff;
+  background-color: transparent;
 }
 
 .send:hover {
   color: #baf1a1;
+  background-color: transparent;
 }
 
 .fa-paper-plane {
@@ -597,8 +636,8 @@ h1,
 .like {
   font-size: 2.5rem;
   border: none;
-  background-color: #fff;
   margin-bottom: 0.25rem;
+  background-color: transparent;
 }
 
 .fa-thumbs-down:hover {
@@ -657,7 +696,7 @@ h1,
 .replyShow {
   margin: 0.2rem;
   padding: 0.4rem;
-  background-color: #dcedc1;
+  background-color: #f6f578;
   border-radius: 10px;
   width: 45%;
   position: relative;
@@ -974,6 +1013,9 @@ h1,
 .picture {
   padding-left: 0;
   padding-right: 3.3rem;
+  -webkit-box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
+          box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
+  border-radius: 30px;
 }
 
 .picture i {
@@ -986,8 +1028,10 @@ h1,
 }
 
 .details {
-  border-left: 2px solid #d2c6b2;
+  border-radius: 30px;
   padding-left: 3.3rem;
+  -webkit-box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
+          box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
 }
 
 .details .btn-primary {
@@ -1226,6 +1270,7 @@ table button {
   }
   .socio {
     margin: auto;
+    background-color: transparent;
   }
   .profilePC {
     display: none;
@@ -1235,6 +1280,9 @@ table button {
   }
   .image {
     height: 200px;
+  }
+  .postHead {
+    font-size: 2rem;
   }
   .bgimg h1 {
     text-align: center;
@@ -1434,6 +1482,33 @@ table button {
   .mobileTab {
     display: unset;
   }
+  #newContent h1 {
+    font-size: 1.5rem;
+  }
+  #newContent h2 {
+    font-size: 1.4rem;
+  }
+  #newContent h3 {
+    font-size: 1.3rem;
+  }
+  #newContent h4 {
+    font-size: 1.2rem;
+  }
+  #newContent h5 {
+    font-size: 1.1rem;
+  }
+  #newContent h6 {
+    font-size: 1rem;
+  }
+  #newContent p {
+    font-size: 0.8rem;
+  }
+  .col-7 h3 {
+    font-size: 1.5rem;
+  }
+  .col-2 img {
+    max-height: 2rem;
+  }
   .pcTab {
     display: none;
   }
@@ -1568,6 +1643,9 @@ table button {
 
 /*//////////////////////////////////////////////// animations ///////////////////////////////////////////////////*/
 @media (min-width: 992px) {
+  .details {
+    padding-right: 3.3rem;
+  }
   .col-2 {
     max-width: 3.3rem;
   }

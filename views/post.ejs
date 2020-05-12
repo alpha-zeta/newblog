@@ -2,7 +2,7 @@
 <img class="image mobileTab" src="<%= imgL %>" alt="">
 <div class="container">
     <img class="image pcTab" src="<%= imgL %>" alt="">
-    <h1><%= postHead %></h1>
+    <h1 class="postHead"><%= postHead %></h1>
     <div class="d-t">
         <span><%= date %></span>
         <span><%= time %></span>
@@ -31,10 +31,10 @@
             <div class="col-3">
                 <% if(user){ %>
                 <% if(!user.subscribed.includes(authorID)){ %>
-                <a href="/follow/<%= authorID %>+<%= postHead %>+f"><button class="follow btn btn-outline-success"><i
+                <a href="/follow/<%= authorID %>+<%= postHead %>+f"><button class="follow btn btn-secondary"><i
                             class="fas fa-plus"></i></button></a>
                 <% }else if(user.subscribed.includes(authorID)){ %>
-                <a href="/unfollow/<%= authorID %>+<%= postHead %>+f" class="unfollow btn btn-outline-dark"><i
+                <a href="/unfollow/<%= authorID %>+<%= postHead %>+f" class="unfollow btn btn-dark"><i
                         class="fas fa-minus"></i></a>
                 <% } %>
                 <% } %>
@@ -79,7 +79,8 @@
         </div>
     </form>
     <% } else{ %>
-    <p class="logReq">Sign in to comment and reply or to interact using like and dislike. <a href="/login">Click here to
+    <p class="logReq">Sign in to comment and reply or to interact using like and dislike. <a href="/login"
+            class="btn btn-info">Click here to
             login</a></p>
     <% } %>
     <hr>

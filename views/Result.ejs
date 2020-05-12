@@ -1,52 +1,42 @@
 <%- include('partials/header'); -%>
-    <div class="container">
-            <div>
-                <d class="out">
-                     <p>Search results.....</p>
-                    <hr>
-                </div>
-                <% var array=result %>
-               <% for(var i=array.length-1; i>=0; i--){ %>
-                <% if(array[i].show==1){ %>
-                          <div class="row tab reveal load-hidden">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="img">
-                                        <img class="item"  src= "<%= array[i].thumbnailLink %>" alt="Card image cap">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="card-body">
-                                            <h2 class="card-title"><a class="head-link" href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a></h2>
-                                            <div class="d-t">
-                                                <span class="cronos"><%= array[i].date %> </span>
-                                                <span class="cronos"><%= array[i].time %> | </span>
-                                                <span class="cronos">Type: <%= array[i].type %> | </span>
-                                                <span class="cronos"><i class="fas fa-eye"></i> <%= array[i].views_ip.length+array[i].views_signed.length-1 %></span>
-                                            </div>
-                                            <hr>
-                                            <p class="card-text"><%= array[i].about %></p> 
-                                    </div>
-                                </div>   
-                          </div>
-                                         
-                        <% } %>
-                      <% } %>
-                 </div>
-            </div>
+<div class="container">
+  <div>
+    <d class="out">
+      <p>Search results.....</p>
+      <hr>
+  </div>
+  <% var array=result %>
+  <%= if(array.length==0){ %>
+  <p style="color:grey;">No result found maching your query</p>
+  <%= } %>
+  <% for(var i=array.length-1; i>=0; i--){ %>
+  <% if(array[i].show==1){ %>
+  <div class="row tab reveal load-hidden">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="img">
+        <img class="item" src="<%= array[i].thumbnailLink %>" alt="Card image cap">
+      </div>
     </div>
-    <script>
-      ScrollReveal().reveal('.reveal',{
-        duration:700,
-        origin:"bottom",
-        distance:"50px",
-        opacity:0,
-        scale:0.5,
-        viewFactor:0.2,
-        rotate:{x:0,y:0,z:0},
-        easing:"ease",
-        reset:false,
-        mobile:true,
-        interval:100
-      });
-    </script>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card-body">
+        <h2 class="card-title"><a class="head-link" href="/contents/<%= array[i].heading %>"><%= array[i].heading %></a>
+        </h2>
+        <div class="d-t">
+          <span class="cronos"><%= array[i].date %> </span>
+          <span class="cronos"><%= array[i].time %> | </span>
+          <span class="cronos">Type: <%= array[i].type %> | </span>
+          <span class="cronos"><i class="fas fa-eye"></i>
+            <%= array[i].views_ip.length+array[i].views_signed.length-1 %></span>
+        </div>
+        <hr>
+        <p class="card-text"><%= array[i].about %></p>
+      </div>
+    </div>
+  </div>
+
+  <% } %>
+  <% } %>
+</div>
+</div>
+</div>
 <%- include('partials/footer'); -%>
