@@ -25,7 +25,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
-const flash = require('connect-flash');
+const flash = require('express-flash');
 let k = 1;
 let arr = [];
 
@@ -351,7 +351,8 @@ app
 		}
 		res.render('login', {
 			user: user,
-			status: v
+			status: v,
+			messages: req.flash('error')
 		});
 	})
 	.post(function (req, res, next) {
