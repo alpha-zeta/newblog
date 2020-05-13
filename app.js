@@ -357,7 +357,8 @@ app
 		res.render('login', {
 			user: user,
 			status: v,
-			messages: req.flash("error", "")
+			messages: [],
+			fail: 0
 		});
 	})
 	.post(function (req, res, next) {
@@ -376,48 +377,56 @@ app
 				console.log(err);
 			} else if (doc) {
 				if (doc.status != process.env.ADMIN) {
-					req.login(user, function (err) {
+					passport.authenticate('local', function (err, user, info) {
+						console.log(info.name);
 						if (err) {
-							console.log(err);
-						} else {
-							passport.authenticate('local', {
-								failureRedirect: '/login',
-								failWithError: true,
-								failureFlash: true,
-								failureMessage: "Wrong"
-							})(req, res, function (err) {
-								if (req.autherror) {
-									res.render('login', {
-										user: user,
-										status: v,
-										messages: req.flash("error", "authorization failed try again")
-									});
-								}
-								if (!req.user) {
-									res.render("login", {
-										user: req.user,
-										status: v,
-										messages: req.flash("error", "Wrong credentials")
-									});
-								}
-								if (err) {
-									console.log(err);
-									res.redirect('/login');
-								} else {
-									// if(check=="on"){
-									// 	res.cookie('rememberme', '1',
-									// 		{ expires: new Date(Date.now() + 900000), httpOnly: true });
-									// }
-									res.redirect('/user');
-								}
+							return next(err);
+						}
+						let v = 0;
+						if (user && user.status == process.env.ADMIN) {
+							v = 1;
+						}
+						if (!user) {
+							return res.render('login', {
+								user: req.user,
+								status: v,
+								messages: [_.upperFirst(_.lowerCase(info.name)), info.message]
 							});
 						}
-					});
+						req.logIn(user, function (err) {
+							if (err) {
+								return next(err);
+							}
+							return res.redirect('/user');
+						});
+					})(req, res, next);
 				} else {
 					res.redirect('/login');
 				}
 			} else if (!doc) {
-				res.redirect('/login');
+				passport.authenticate('local', function (err, user, info) {
+					console.log(info.name);
+					if (err) {
+						return next(err);
+					}
+					let v = 0;
+					if (user && user.status == process.env.ADMIN) {
+						v = 1;
+					}
+					if (!user) {
+						return res.render('login', {
+							user: req.user,
+							status: v,
+							messages: [_.upperFirst(_.lowerCase(info.name)), info.message]
+						});
+					}
+					req.logIn(user, function (err) {
+						if (err) {
+							return next(err);
+						}
+						return res.redirect('/user');
+					});
+				})(req, res, next);
 			}
 		});
 	});
