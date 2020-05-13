@@ -377,47 +377,6 @@ app
 				console.log(err);
 			} else if (doc) {
 				if (doc.status != process.env.ADMIN) {
-					// req.login(user, function (err) {
-					// 	if (err) {
-					// 		console.log(err);
-					// 	} else {
-					// 			passport.authenticate('local', {
-					// 				failureRedirect: '/login',
-					// 				failWithError: true,
-					// 				failureFlash: true,
-					// 				failureMessage: "Wrong"
-					// 			})(req, res, function (err) {
-					// 				if (req.autherror) {
-					// 					res.render('login', {
-					// 						user: user,
-					// 						status: v,
-					// 						messages: ["error"],
-					// 						fail: 1
-					// 					});
-					// 				}
-					// 				if (!req.user) {
-					// 					res.render("login", {
-					// 						user: req.user,
-					// 						status: v,
-					// 						messages: ["error"],
-					// 						fail: 1
-					// 					});
-					// 				}
-					// 				if (err) {
-					// 					console.log(err);
-					// 					res.redirect('/login');
-					// 				} else {
-					// 					// if(check=="on"){
-					// 					// 	res.cookie('rememberme', '1',
-					// 					// 		{ expires: new Date(Date.now() + 900000), httpOnly: true });
-					// 					// }
-					// 					res.redirect('/user');
-					// 				}
-					// 			});
-					// 		}
-					// 	});
-
-					// }
 					passport.authenticate('local', function (err, user, info) {
 						if (err) {
 							return next(err);
@@ -441,7 +400,11 @@ app
 						});
 					})(req, res, next);
 				} else {
-					res.redirect('/login');
+					res.render('login', {
+						user: req.user,
+						status: v,
+						messages: ["This is an Administrative account, try login from Admin login page"]
+					});
 				}
 
 			} else if (!doc) {
@@ -926,10 +889,11 @@ app.get('/admin/login', function (req, res) {
 	}
 	res.render('Adminlogin', {
 		user: user,
-		status: v
+		status: v,
+		messages: []
 	});
 });
-app.post('/admin/login', function (req, res) {
+app.post('/admin/login', function (req, res, next) {
 	const email = req.body.username;
 	const pass1 = req.body.password;
 	let errors = [];
@@ -947,27 +911,69 @@ app.post('/admin/login', function (req, res) {
 		} else if (doc) {
 			y = parseInt(doc.status);
 			if (x === '' + process.env.CHABI && y == process.env.ADMIN) {
-				req.login(user, function (err) {
+				passport.authenticate('local', function (err, user, info) {
+					let v = 0;
+					if (user && user.status == process.env.ADMIN) {
+						v = 1;
+					}
 					if (err) {
-						console.log(err);
-					} else {
-						passport.authenticate('local', {
-							failureFlash: true,
-							failureMessage: 'Incorrect email or password.',
-							failureRedirect: '/admin/login'
-						})(req, res, function (err) {
-							if (err) {
-								console.log(err);
-								res.redirect('/admin/login');
-							} else {
-								res.redirect('/admin/' + user._id);
-							}
+						return next(err);
+					}
+					if (!user) {
+						return res.render('Adminlogin', {
+							user: req.user,
+							status: v,
+							messages: [_.upperFirst(_.lowerCase(info.name)), info.message]
 						});
 					}
+					req.logIn(user, function (err) {
+						if (err) {
+							return next(err);
+						}
+						return res.redirect('/admin/' + user._id);
+					});
+				})(req, res, next);
+			} else if (x === '' + process.env.CHABI && y != process.env.ADMIN) {
+				let v = 0;
+				if (user && user.status == process.env.ADMIN) {
+					v = 1;
+				}
+				res.render("Adminlogin", {
+					user: req.user,
+					status: v,
+					messages: ["user is not admin"]
+				});
+			} else if (x != '' + process.env.CHABI && y == process.env.ADMIN) {
+				let v = 0;
+				if (user && user.status == process.env.ADMIN) {
+					v = 1;
+				}
+				res.render("Adminlogin", {
+					user: req.user,
+					status: v,
+					messages: ["Key does not match"]
 				});
 			} else {
-				res.redirect('/admin/login');
+				let v = 0;
+				if (user && user.status == process.env.ADMIN) {
+					v = 1;
+				}
+				res.render("Adminlogin", {
+					user: req.user,
+					status: v,
+					messages: ["Key does not match", "user is not admin"]
+				});
 			}
+		} else if (!doc) {
+			let v = 0;
+			if (user && user.status == process.env.ADMIN) {
+				v = 1;
+			}
+			res.render("Adminlogin", {
+				user: req.user,
+				status: v,
+				messages: ["username does not exists"]
+			});
 		}
 	});
 });
