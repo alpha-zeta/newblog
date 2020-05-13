@@ -2,9 +2,11 @@
 <div class="bod login">
     <div class="row">
         <div class="col-lg-4 col-sm-12 mobileErr">
-            <% if(messages.error){ %>
+            <% console.log(messages) %>
+            <% if(messages.length!=0){ %>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong><%= messages.error %></strong>
+                <% console.log(messages[0]) %>
+                <strong><%= messages[0] %></strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -53,9 +55,9 @@
             </div>
         </div>
         <div class="col-lg-4 col-sm-12 pcErr">
-            <% if(messages.error){ %>
+            <% if(messages.length!=0){ %>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <strong><%= messages.error %></strong>
+                <strong><%= messages[0] %></strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -25,7 +25,7 @@ const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
-const flash = require('express-flash');
+const flash = require('connect-flash');
 let k = 1;
 let arr = [];
 
@@ -47,7 +47,7 @@ app.use(
 		saveUninitialized: false
 	})
 );
-
+app.use(flash());
 //setting up passport.js
 app.use(passport.initialize());
 app.use(passport.session());
@@ -92,7 +92,6 @@ passport.deserializeUser(function (id, done) {
 		done(err, user);
 	});
 });
-app.use(flash());
 app.use(function (req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.success = req.flash('success');
@@ -357,7 +356,8 @@ app
 		}
 		res.render('login', {
 			user: user,
-			status: v
+			status: v,
+			messages: req.flash("error", "")
 		});
 	})
 	.post(function (req, res, next) {
@@ -382,14 +382,22 @@ app
 						} else {
 							passport.authenticate('local', {
 								failureRedirect: '/login',
+								failWithError: true,
 								failureFlash: true,
-								failWithError: true
+								failureMessage: "Wrong"
 							})(req, res, function (err) {
 								if (req.autherror) {
 									res.render('login', {
 										user: user,
 										status: v,
 										messages: req.flash("error", "authorization failed try again")
+									});
+								}
+								if (!req.user) {
+									res.render("login", {
+										user: req.user,
+										status: v,
+										messages: req.flash("error", "Wrong credentials")
 									});
 								}
 								if (err) {
