@@ -1011,11 +1011,11 @@ h1,
 }
 
 .picture {
-  padding-left: 0;
-  padding-right: 3.3rem;
   -webkit-box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
           box-shadow: 0 10px 40px -10px rgba(0, 64, 128, 0.2);
   border-radius: 30px;
+  padding: 2rem;
+  margin: auto;
 }
 
 .picture i {
