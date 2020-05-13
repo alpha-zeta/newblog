@@ -382,8 +382,16 @@ app
 						} else {
 							passport.authenticate('local', {
 								failureRedirect: '/login',
-								failureFlash: true
+								failureFlash: true,
+								failWithError: true
 							})(req, res, function (err) {
+								if (req.autherror) {
+									res.render('login', {
+										user: user,
+										status: v,
+										messages: req.flash("error", "authorization failed try again")
+									});
+								}
 								if (err) {
 									console.log(err);
 									res.redirect('/login');
