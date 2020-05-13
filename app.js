@@ -419,7 +419,6 @@ app
 
 					// }
 					passport.authenticate('local', function (err, user, info) {
-						console.log(info.name);
 						if (err) {
 							return next(err);
 						}

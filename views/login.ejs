@@ -5,7 +5,6 @@
             <% if(messages.length!=0){ %>
             <%for(let g=0;g<messages.length;g++){ %>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <% console.log(messages[g]) %>
                 <strong><%= messages[g] %></strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -56,11 +55,9 @@
             </div>
         </div>
         <div class="col-lg-4 col-sm-12 pcErr">
-            <% console.log(messages) %>
             <% if(messages.length!=0){ %>
             <%for(let g=0;g<messages.length;g++){ %>
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <% console.log(messages[g]) %>
                 <strong><%= messages[g] %></strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
