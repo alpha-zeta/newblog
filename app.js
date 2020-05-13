@@ -381,68 +381,72 @@ app
 						if (err) {
 							console.log(err);
 						} else {
-							passport.authenticate('local', {
-								failWithError: true,
-								failureFlash: true,
-								failureMessage: "Wrong"
-							})(req, res, function (err) {
-								if (req.autherror) {
-									res.render('login', {
-										user: user,
-										status: v,
-										messages: req.flash("error", "authorization failed try again"),
-										fail: 1
-									});
+							// 			passport.authenticate('local', {
+							// 				failureRedirect: '/login',
+							// 				failWithError: true,
+							// 				failureFlash: true,
+							// 				failureMessage: "Wrong"
+							// 			})(req, res, function (err) {
+							// 				if (req.autherror) {
+							// 					res.render('login', {
+							// 						user: user,
+							// 						status: v,
+							// 						messages: ["error"],
+							// 						fail: 1
+							// 					});
+							// 				}
+							// 				if (!req.user) {
+							// 					res.render("login", {
+							// 						user: req.user,
+							// 						status: v,
+							// 						messages: ["error"],
+							// 						fail: 1
+							// 					});
+							// 				}
+							// 				if (err) {
+							// 					console.log(err);
+							// 					res.redirect('/login');
+							// 				} else {
+							// 					// if(check=="on"){
+							// 					// 	res.cookie('rememberme', '1',
+							// 					// 		{ expires: new Date(Date.now() + 900000), httpOnly: true });
+							// 					// }
+							// 					res.redirect('/user');
+							// 				}
+							// 			});
+							// 		}
+							// 	});
+
+							// }
+							passport.authenticate('local', function (err, user, info) {
+								console.log(info.name);
+								if (err) {
+									return next(err);
 								}
-								if (!req.user) {
-									res.render("login", {
+								let v = 0;
+								if (user && user.status == process.env.ADMIN) {
+									v = 1;
+								}
+								if (!user) {
+									return res.render('login', {
 										user: req.user,
 										status: v,
-										messages: req.flash("error", "Wrong credentials"),
-										fail: 1
+										messages: [_.upperFirst(_.lowerCase(info.name)), info.message]
 									});
 								}
-								if (err) {
-									console.log(err);
-									res.redirect('/login');
-								} else {
-									// if(check=="on"){
-									// 	res.cookie('rememberme', '1',
-									// 		{ expires: new Date(Date.now() + 900000), httpOnly: true });
-									// }
-									res.redirect('/user');
-								}
-							});
+								req.logIn(user, function (err) {
+									if (err) {
+										return next(err);
+									}
+									return res.redirect('/user');
+								});
+							})(req, res, next);
 						}
 					});
-
+				} else {
+					res.redirect('/login');
 				}
-				// 	passport.authenticate('local', function (err, user, info) {
-				// 		console.log(info.name);
-				// 		if (err) {
-				// 			return next(err);
-				// 		}
-				// 		let v = 0;
-				// 		if (user && user.status == process.env.ADMIN) {
-				// 			v = 1;
-				// 		}
-				// 		if (!user) {
-				// 			return res.render('login', {
-				// 				user: req.user,
-				// 				status: v,
-				// 				messages: [_.upperFirst(_.lowerCase(info.name)), info.message]
-				// 			});
-				// 		}
-				// 		req.logIn(user, function (err) {
-				// 			if (err) {
-				// 				return next(err);
-				// 			}
-				// 			return res.redirect('/user');
-				// 		});
-				// 	})(req, res, next);
-				// } else {
-				// 	res.redirect('/login');
-				// }
+
 			} else if (!doc) {
 				passport.authenticate('local', function (err, user, info) {
 					console.log(info.name);
