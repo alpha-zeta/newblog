@@ -6,7 +6,9 @@
     <p>As is the mind, so is the speech; as is the speech so is the action.</p>
   </div>
   <div class="container">
-    <h1 class="pageName" style="text-align: center;">Home</h1>
+    <h1 class="pageName" id="animatedText" style="text-align: center;">This can be your <span class="typed-text"
+        id="typed-text"></span><span class="cursor" id="cursor">&nbsp;</span>
+    </h1>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-touch="true" data-wrap="true"
       data-keyboard="true">
       <ol class="carousel-indicators">
@@ -83,4 +85,51 @@
 </div>
 </div>
 </div>
+<script>
+  const typearr = ["Home", "Blog", "Diary", "Log", "Intro", "jOB"];
+  const tDel = 150;
+  const eDel = 75;
+  const nDel = 2000;
+  let typeIndex = 0;
+  let charIndex = 0;
+  const x = document.getElementById("typed-text");
+  const y = document.getElementById("cursor");
+
+  function type() {
+    if (charIndex < typearr[typeIndex].length) {
+      if (!cursor.classList.contains("typing")) {
+        cursor.classList.add("typing");
+      }
+      x.textContent += typearr[typeIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(type, tDel);
+    } else {
+      cursor.classList.remove("typing");
+      setTimeout(erase, nDel);
+    }
+  }
+
+  function erase() {
+    if (charIndex > 0) {
+      if (!cursor.classList.contains("typing")) {
+        cursor.classList.add("typing");
+      }
+      x.textContent = typearr[typeIndex].substring(0, charIndex - 1);
+      charIndex--;
+      setTimeout(erase, eDel);
+    } else {
+      cursor.classList.remove("typing");
+      typeIndex++;
+      if (typeIndex >= typearr.length) {
+        typeIndex = 0;
+      }
+      setTimeout(type, tDel + 1100);
+    }
+  }
+  window.addEventListener("load", function () {
+    if (typearr.length) {
+      setTimeout(type, nDel + 250);
+    }
+  });
+</script>
 <%- include('partials/footer'); -%>
