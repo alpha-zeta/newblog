@@ -400,6 +400,10 @@ app
 						});
 					})(req, res, next);
 				} else {
+					let v = 0;
+					if (user && user.status == process.env.ADMIN) {
+						v = 1;
+					}
 					res.render('login', {
 						user: req.user,
 						status: v,
