@@ -16,14 +16,14 @@
     <div class="col-3">
       <a href="/compose"><i class="fas fa-feather-alt"></i></a>
     </div>
-    <div class="col-3 nPad">
+    <div class="col-3" id="toolPic">
       <% if(!user){ %>
       <a href="/login"><i class="fas fa-sign-in-alt"></i></a>
       <% }else if(user){ %>
       <% if(!user.profilePicLink){ %>
       <a href="/user"><i class="profilePicSocial far fa-user-circle"></i></a>
       <% }else if(user.profilePicLink){ %>
-      <a href="/user"><img class="profilePicSocial" src="<%= user.profilePicLink %>" alt=""></a>
+      <a href="/user"><img class="profilePicSocial identify" src="<%= user.profilePicLink %>" alt=""></a>
       <% } %>
       <% } %>
     </div>
@@ -59,6 +59,10 @@
       } else if (yolo == '') {
         document.getElementById("searchBar").classList.remove("noShrink");
       }
+    }
+    const x = document.getElementsByClassName("profilePicLink").classList;
+    if (x.contains("identify")) {
+      document.getElementById("toolPic").classList.add("nPad");
     }
   </script>
   </body>
