@@ -7,65 +7,66 @@
 </footer>
 <div class="toolbar">
   <div class="row">
-    <div class="col-3">
-      <a href="/"><i class="fas fa-home"></i></a>
-    </div>
-    <div class="col-3">
-      <a href="/followed/list"><i class="fas fa-plus"></i></a>
-    </div>
-    <div class="col-3">
-      <a href="/compose"><i class="fas fa-feather-alt"></i></a>
-    </div>
-    <div class="col-3" id="toolPic">
-      <% if(!user){ %>
-      <a href="/login"><i class="fas fa-sign-in-alt"></i></a>
-      <% }else if(user){ %>
-      <% if(!user.profilePicLink){ %>
-      <a href="/user"><i class="profilePicSocial far fa-user-circle"></i></a>
-      <% }else if(user.profilePicLink){ %>
-      <a href="/user"><img class="profilePicSocial" id="identify" src="<%= user.profilePicLink %>" alt=""></a>
-      <% } %>
-      <% } %>
-    </div>
+    <a class="col-3" href="/">
+      <i class="fas fa-home"></i>
+    </a>
+    </a>
+    <a class="col-3" href="/followed/list">
+      <i class="fas fa-plus"></i>
+    </a>
+    <a class="col-3" href="/compose">
+      <i class="fas fa-feather-alt"></i>
+    </a>
+    <% if(!user){ %>
+    <a class="col-3" id="toolPic" href="/login"><i class="fas fa-sign-in-alt"></i></a>
+    <% }else if(user){ %>
+    <% if(!user.profilePicLink){ %>
+    <a href="/user" class="col-3" id="toolPic"><i class="profilePicSocial far fa-user-circle"></i></a>
+    <% }else if(user.profilePicLink){ %>
+    <a href="/user" class="col-3" id="toolPic"><img class="profilePicSocial" id="identify"
+        src="<%= user.profilePicLink %>" alt=""></a>
+    <% } %>
+    <% } %>
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
-  </script>
-  <script src='https://cdn.tiny.cloud/1/f4bcys8mlespwt6669dopu2hdlnsmk7bnp2rkk4gpby5w9se/tinymce/5/tinymce.min.js'
-    referrerpolicy="origin"></script>
-  <script>
-    tinymce.init({
-      selector: '#cmp',
-      'toolbar': 'undo redo | styleselect | forecolor bold italic bullist numlist link alignleft | aligncenter alignright alignjustify | outdent indent emoticons hr code image',
-      'plugins': 'link emoticons hr code wordcount table lists advlist textcolor image',
-      icons_url: 'https://www.example.com/icons/material/icons.js',
-      icons: 'material',
-      mobile: {
-        menubar: true
-      },
-      content_css: ['//fonts.googleapis.com/css?family=Acme|Baloo+Chettan+2&display=swap'],
-      font_formats: 'Arial Black=arial black,avant garde;Baloo Chettan=baloo chettan 2;Times New Roman=times newroman,times;'
-    });
-  </script>
-  <script>
-    function noShrink() {
-      var yolo = document.getElementById("searchBar").value;
-      if (yolo != '') {
-        document.getElementById("searchBar").classList.add("noShrink");
-      } else if (yolo == '') {
-        document.getElementById("searchBar").classList.remove("noShrink");
-      }
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+</script>
+<script src='https://cdn.tiny.cloud/1/f4bcys8mlespwt6669dopu2hdlnsmk7bnp2rkk4gpby5w9se/tinymce/5/tinymce.min.js'
+  referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#cmp',
+    'toolbar': 'undo redo | styleselect | forecolor bold italic bullist numlist link alignleft | aligncenter alignright alignjustify | outdent indent emoticons hr code image',
+    'plugins': 'link emoticons hr code wordcount table lists advlist textcolor image',
+    icons_url: 'https://www.example.com/icons/material/icons.js',
+    icons: 'material',
+    mobile: {
+      menubar: true
+    },
+    content_css: ['//fonts.googleapis.com/css?family=Acme|Baloo+Chettan+2&display=swap'],
+    font_formats: 'Arial Black=arial black,avant garde;Baloo Chettan=baloo chettan 2;Times New Roman=times newroman,times;'
+  });
+</script>
+<script>
+  function noShrink() {
+    var yolo = document.getElementById("searchBar").value;
+    if (yolo != '') {
+      document.getElementById("searchBar").classList.add("noShrink");
+    } else if (yolo == '') {
+      document.getElementById("searchBar").classList.remove("noShrink");
     }
-    const identity = document.getElementById("identify");
-    console.log(identity);
-    if (identity) {
-      document.getElementById("toolPic").classList.add("nPad");
-    }
-  </script>
-  </body>
+  }
+  const identity = document.getElementById("identify");
+  console.log(identity);
+  if (identity) {
+    document.getElementById("toolPic").classList.add("nPad");
+  }
+</script>
+</body>
 
-  </html>
+</html>
