@@ -1452,7 +1452,14 @@ table button {
     font-weight: bold;
   }
   .mask1 .carousel-item p {
-    font-size: 1rem;
+    font-size: 1.1rem;
+  }
+  .slide {
+    min-height: 8.5rem;
+  }
+  .carousel-inner {
+    position: relative;
+    bottom: 35px;
   }
   .out p {
     font-size: 1.5rem;
