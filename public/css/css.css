@@ -226,6 +226,11 @@ nav {
   height: 3rem;
 }
 
+.curved {
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+}
+
 /*//////////////////////////////////////////////// home /////////////////////////////////////////////////// */
 .image {
   height: 50vh;

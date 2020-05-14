@@ -5,7 +5,7 @@
 <footer class="footer hide" id="footer">
   <p>Made with ❤️ by Solvents</p>
 </footer>
-<div class="toolbar">
+<div class="toolbar curved">
   <div class="row">
     <a class="col-3" href="/">
       <i class="fas fa-home"></i>
@@ -66,6 +66,15 @@
   if (identity) {
     document.getElementById("toolPic").classList.add("nPad");
   }
+  $(window).scroll(function () {
+    if ($(window).scrollTop() + $(window).height() > $(document).height() - 40) {
+      document.getElementsByClassName("toolbar")[0].classList.remove("curved");
+    } else {
+      if (!document.getElementsByClassName("toolbar")[0].classList.contains("curved")) {
+        document.getElementsByClassName("toolbar")[0].classList.add("curved");
+      }
+    }
+  });
 </script>
 </body>
 
