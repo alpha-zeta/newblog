@@ -845,8 +845,8 @@ app.get("/followed/list", function (req, res) {
 	if (user && user.status == process.env.ADMIN) {
 		v = 1;
 	}
-	const arr = user.subscribed;
 	if (req.isAuthenticated()) {
+		const arr = user.subscribed;
 		User.find({
 			_id: {
 				$in: arr
