@@ -23,7 +23,7 @@
       <% if(!user.profilePicLink){ %>
       <a href="/user"><i class="profilePicSocial far fa-user-circle"></i></a>
       <% }else if(user.profilePicLink){ %>
-      <a href="/user"><img class="profilePicSocial identify" src="<%= user.profilePicLink %>" alt=""></a>
+      <a href="/user"><img class="profilePicSocial" id="identify" src="<%= user.profilePicLink %>" alt=""></a>
       <% } %>
       <% } %>
     </div>
@@ -60,8 +60,8 @@
         document.getElementById("searchBar").classList.remove("noShrink");
       }
     }
-    const x = document.getElementsByClassName("profilePicLink").classList;
-    if (x.contains("identify")) {
+    const x = document.getElementsById("identify").classList.add("nPad");
+    if (x) {
       document.getElementById("toolPic").classList.add("nPad");
     }
   </script>
