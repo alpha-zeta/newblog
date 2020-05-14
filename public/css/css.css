@@ -1383,9 +1383,12 @@ table button {
     margin: auto;
     font-size: 1rem;
   }
+  .toolbar .nPad {
+    padding-top: 0.35rem;
+  }
   .toolbar .profilePicSocial {
-    height: 1rem;
-    width: 1rem;
+    height: 1.3rem;
+    width: 1.3rem;
   }
   .toolbar .row {
     height: 2rem;
