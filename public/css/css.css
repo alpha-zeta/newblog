@@ -1372,27 +1372,27 @@ table button {
 /*mobile phone*/
 @media (max-width: 992px) {
   .toolbar {
-    height: 2rem;
+    height: 2.5rem;
     z-index: 1000;
   }
   .toolbar .col-3 {
     border-right: 1px solid #f6d743;
-    height: 2rem;
-    padding-top: 0.5rem;
+    height: 2.5rem;
+    padding-top: 0.75rem;
   }
   .toolbar .col-3 i {
     margin: auto;
     font-size: 1rem;
   }
   .toolbar .nPad {
-    padding-top: 0.35rem;
+    padding-top: 0.6rem;
   }
   .toolbar .profilePicSocial {
     height: 1.3rem;
     width: 1.3rem;
   }
   .toolbar .row {
-    height: 2rem;
+    height: 2.5rem;
   }
   .mobpad {
     padding-left: 1rem;
