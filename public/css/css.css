@@ -1383,6 +1383,10 @@ table button {
     margin: auto;
     font-size: 1rem;
   }
+  .toolbar .profilePicSocial {
+    height: 1rem;
+    width: 1rem;
+  }
   .toolbar .row {
     height: 2rem;
   }
